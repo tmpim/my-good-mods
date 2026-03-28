@@ -20,7 +20,7 @@ slf4j = "1.8.0-beta4"
 stationapi = "2.0.0-alpha.5.4"
 glassconfigapi = "3.2.5"
 modmenu = "1.1.1"
-datagen = "0.0.2"
+datagen = "0.0.2-tmpim.1"
 
 [libraries]
 fabric-loader = { module = "net.fabricmc:fabric-loader", version.ref = "fabric_loader" }
