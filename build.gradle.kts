@@ -82,8 +82,8 @@ repositories {
     content {
       includeGroupAndSubgroups("net.modificationstation") // StationAPI
       includeGroupAndSubgroups("net.glasslauncher") // Biny (remapper), Glass Config
-      includeGroup("net.danygames2014") // modmenu
-      includeGroup("me.carleslc") // Glass Config dependencies
+      includeGroupAndSubgroups("net.danygames2014") // modmenu
+      includeGroupAndSubgroups("me.carleslc") // Glass Config dependencies
     }
   }
 
@@ -141,7 +141,6 @@ dependencies {
 	modImplementation(libs.modmenu) // https://github.com/DanyGames2014/modmenu-babric
   modImplementation(libs.datagen) // https://github.com/EmmaTheMartian/stapi-datagen
 
-	val kotlinVersion: String by System.getProperties()
 	modImplementation(libs.fabric.language.kotlin) {
 		exclude("net.fabricmc", "fabric-loader")
 	}
