@@ -1,0 +1,42 @@
+[versions]
+java = "21"
+kotlin = "2.0.0"
+fabric_language_kotlin = "1.11.0+kotlin.2.0.0"
+
+# minecraft
+minecraft = "b1.7.3"
+yarn = "b1.7.3+e1fe071"
+fabric_loader = "0.18.4"
+
+# plugins
+loom = "1.15.3"
+modrinth_minotaur = "2.+"
+
+# libraries
+log4j = "2.17.2"
+slf4j = "1.8.0-beta4"
+
+# dependencies
+stationapi = "2.0.0-alpha.5.4"
+glassconfigapi = "3.2.5"
+modmenu = "1.1.1"
+datagen = "0.0.2"
+
+[libraries]
+fabric-loader = { module = "net.fabricmc:fabric-loader", version.ref = "fabric_loader" }
+fabric-language-kotlin = { module = "net.fabricmc:fabric-language-kotlin", version.ref = "fabric_language_kotlin" }
+
+log4j-core = { module = "org.apache.logging.log4j:log4j-core", version.ref = "log4j" }
+log4j-slf4j-impl = { module = "org.apache.logging.log4j:log4j-slf4j18-impl", version.ref = "log4j" }
+slf4j-api = { module = "org.slf4j:slf4j-api", version.ref = "slf4j" }
+
+stationapi = { module = "net.modificationstation:StationAPI", version.ref = "stationapi" }
+glassconfigapi = { module = "net.glasslauncher.mods:GlassConfigAPI", version.ref = "glassconfigapi" }
+modmenu = { module = "net.danygames2014:modmenu", version.ref = "modmenu" }
+datagen = { module = "emmathemartian:stapi-datagen", version.ref = "datagen" }
+
+[plugins]
+fabric-loom = { id = "fabric-loom", version.ref = "loom" }
+babric-loom-extension = { id = "babric-loom-extension", version.ref = "loom" }
+kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+modrinth-minotaur = { id = "com.modrinth.minotaur", version.ref = "modrinth_minotaur" }
