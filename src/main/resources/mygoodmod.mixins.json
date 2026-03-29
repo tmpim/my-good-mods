@@ -4,7 +4,16 @@
   "package": "pw.tmpim.mygoodmod.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
-    "ResourcePackManagerMixin"
+    "AxeItemAccessor",
+    "AxeItemMixin",
+    "FlowingLiquidBlockMixin",
+    "PickaxeItemAccessor",
+    "PickaxeItemMixin",
+    "ResourcePackManagerMixin",
+    "ShovelItemAccessor",
+    "ShovelItemMixin",
+    "SignBlockMixin",
+    "WorldMixin"
   ],
   "server": [
   ],

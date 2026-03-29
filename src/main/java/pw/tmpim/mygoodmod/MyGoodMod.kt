@@ -4,6 +4,8 @@ import net.fabricmc.api.ModInitializer
 import net.fabricmc.loader.api.FabricLoader
 import net.glasslauncher.mods.gcapi3.api.ConfigRoot
 import net.mine_diver.unsafeevents.listener.EventListener
+import net.minecraft.block.Block
+import net.modificationstation.stationapi.api.event.entity.player.IsPlayerUsingEffectiveToolEvent
 import net.modificationstation.stationapi.api.event.mod.InitEvent
 import net.modificationstation.stationapi.api.event.registry.BlockRegistryEvent
 import net.modificationstation.stationapi.api.mod.entrypoint.Entrypoint
@@ -29,7 +31,7 @@ object MyGoodMod: ModInitializer {
   val config = MyGoodModConfig()
 
   // blocks (todo: move to another class)
-  lateinit var redstoneBlock: RedstoneBlock
+  lateinit var redstoneBlock: Block
 
   override fun onInitialize() {}
 
@@ -45,6 +47,6 @@ object MyGoodMod: ModInitializer {
 
   @EventListener
   fun onRegisterBlocks(event: BlockRegistryEvent) {
-    redstoneBlock = RedstoneBlock()
+    redstoneBlock = RedstoneBlock().setHardness(5.0F).setResistance(6.0F).setSoundGroup(Block.STONE_SOUND_GROUP)
   }
 }
