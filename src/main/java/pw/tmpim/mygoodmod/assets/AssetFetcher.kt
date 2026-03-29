@@ -42,13 +42,12 @@ object AssetFetcher {
   @Synchronized
   fun fetchVersionManifest() {
     log.info("Fetching version manifest...")
-    val balls = fetchCached(
+    val manifest = fetchCached(
       VERSION_MANIFEST_URL,
       "versionManifest-$MOD_VERSION.json" /* refetch on mod update */,
       VersionManifestV2::class.java
     )
-    log.info("look at my balls: ${balls}")
-    versionManifest = balls
+    versionManifest = manifest
     log.info("Got ${versionManifest.versions.size} versions")
   }
 
@@ -111,17 +110,18 @@ object AssetFetcher {
     check(gotSha1.equals(sha1, ignoreCase = true)) { "sha1 mismatch for $version client.jar" }
 
     // extract the files we need and write to disk
-    val sourceFileLut = files.mapTo(mutableSetOf()) { it.sourcePath }
+    val sourceFileLut = files.associateBy { it.sourcePath }
 
     ByteArrayInputStream(jarBytes.toByteArray()).use { bais ->
       JarInputStream(bais).use { jizz ->
         var entry = jizz.nextEntry
 
         while (entry != null) {
-          if (entry.name in sourceFileLut) {
+          val fileMapping = sourceFileLut[entry.name]
+          if (fileMapping != null) {
             log.info("extracting ${entry.name}")
 
-            val outFile = cacheDir.resolve(entry.name).toFile()
+            val outFile = cacheDir.resolve(fileMapping.destPath).toFile()
             outFile.parentFile.mkdirs()
             outFile.outputStream().use { jizz.copyTo(it) }
           }

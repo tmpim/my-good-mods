@@ -15,11 +15,15 @@ class GoodResourcePackProvider : ResourcePackProvider {
       pack.name,
       true,
       { pack },
-      ResourcePackProfile.Metadata("My rather fantastic resource pack", 6),
+      goodMcMeta,
       ResourceType.CLIENT_RESOURCES,
       ResourcePackProfile.InsertionPosition.TOP,
       true,
       ResourcePackSource.BUILTIN
     ))
+  }
+
+  companion object {
+    val goodMcMeta = ResourcePackProfile.Metadata("My rather fantastic resource pack", 6)
   }
 }

@@ -1,5 +1,7 @@
 package pw.tmpim.mygoodmod.assets
 
+import pw.tmpim.mygoodmod.MyGoodMod.namespace
+
 object GoodResources {
   private val _files = mutableSetOf<ResourceDef>()
   val files: Set<ResourceDef> = _files // make immutable
@@ -26,6 +28,11 @@ object GoodResources {
   data class ResourceDef(
     val version: String,
     val sourcePath: String,
-    val destPath: String,
-  )
+    var destPath: String,
+  ) {
+    // apply stationapi-compatible replacements to the destination path
+    init {
+      destPath = destPath.replace("assets/minecraft/textures/blocks", "assets/${namespace}/stationapi/textures/block")
+    }
+  }
 }
