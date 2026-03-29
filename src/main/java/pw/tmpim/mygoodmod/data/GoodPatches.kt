@@ -13,6 +13,7 @@ object GoodPatches {
     add(Block.CRAFTING_TABLE)
     add(Block.SPAWNER)
   }
+
   @JvmStatic
   val axeEffective: List<Block> = mutableListOf<Block>().apply {
     add(Block.LOCKED_CHEST)
@@ -28,5 +29,4 @@ object GoodPatches {
   val shovelEffective: List<Block> = mutableListOf<Block>().apply {
     add(Block.SOUL_SAND)
   }
-
 }

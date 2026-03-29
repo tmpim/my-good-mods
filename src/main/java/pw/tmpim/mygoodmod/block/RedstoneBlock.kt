@@ -23,20 +23,19 @@ class RedstoneBlock : TemplateBlock(
     world.notifyNeighbors(x, y, z + 1, this.id)
   }
 
-  override fun neighborUpdate(world: World?, x: Int, y: Int, z: Int, id: Int) {
+  override fun neighborUpdate(world: World, x: Int, y: Int, z: Int, id: Int) {
     super.neighborUpdate(world, x, y, z, id)
-    world?.scheduleBlockUpdate(x, y, z, id, 1)
+    world.scheduleBlockUpdate(x, y, z, id, 1)
   }
 
-  override fun onPlaced(world: World?, x: Int, y: Int, z: Int) {
+  override fun onPlaced(world: World, x: Int, y: Int, z: Int) {
     super.onPlaced(world, x, y, z)
-
-    if (world != null) update(world, x, y, z)
+    update(world, x, y, z)
   }
 
-  override fun onBreak(world: World?, x: Int, y: Int, z: Int) {
+  override fun onBreak(world: World, x: Int, y: Int, z: Int) {
     super.onBreak(world, x, y, z)
-    if (world != null) update(world, x, y, z)
+    update(world, x, y, z)
   }
 
   override fun canEmitRedstonePower() = true
@@ -50,7 +49,7 @@ class RedstoneBlock : TemplateBlock(
   ) = true
 
   override fun canTransferPowerInDirection(
-    world: World?,
+    world: World,
     x: Int,
     y: Int,
     z: Int,

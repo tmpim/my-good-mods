@@ -6,7 +6,6 @@ import pw.tmpim.mygoodmod.MyGoodMod
 
 class MinecraftTagProvider(ctx: DataGenContext) : BlockTagProvider(ctx) {
   override fun run(ctx: DataGenContext) {
-
     tag()
       .add(MyGoodMod.redstoneBlock)
       .save("mineable/pickaxe", this, ctx)

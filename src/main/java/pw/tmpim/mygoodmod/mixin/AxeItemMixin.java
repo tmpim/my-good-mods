@@ -15,7 +15,6 @@ import java.util.List;
 
 @Mixin(AxeItem.class)
 public class AxeItemMixin {
-
   @Shadow
   private static Block[] axeEffectiveBlocks;
 

@@ -11,8 +11,17 @@ import java.util.Random;
 
 @Mixin(FlowingLiquidBlock.class)
 public class FlowingLiquidBlockMixin {
-  @Inject(method = "onTick", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/World;setBlock(IIIII)Z"))
+  @Inject(
+    method = "onTick",
+    at = @At(
+      value = "INVOKE",
+      target = "Lnet/minecraft/world/World;setBlock(IIIII)Z"
+    )
+  )
   public void goodmod$convertToSource(World world, int x, int y, int z, Random random, CallbackInfo ci) {
-    world.getBlockState(x, y-1, z).getBlock().dropStacks(world, x, y-1, z, world.getBlockMeta(x, y-1, z));
+    world
+      .getBlockState(x, y - 1, z)
+      .getBlock()
+      .dropStacks(world, x, y - 1, z, world.getBlockMeta(x, y - 1, z));
   }
 }

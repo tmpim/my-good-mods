@@ -17,8 +17,8 @@ import java.util.List;
 
 @Mixin(PickaxeItem.class)
 public abstract class PickaxeItemMixin extends ToolItem {
-
-  @Shadow private static Block[] pickaxeEffectiveBlocks;
+  @Shadow
+  private static Block[] pickaxeEffectiveBlocks;
 
   public PickaxeItemMixin(int id, int damageBoost, ToolMaterial toolMaterial, Block[] effectiveOn) {
     super(id, damageBoost, toolMaterial, effectiveOn);

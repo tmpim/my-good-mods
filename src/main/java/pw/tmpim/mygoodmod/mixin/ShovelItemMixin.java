@@ -15,7 +15,6 @@ import java.util.List;
 
 @Mixin(ShovelItem.class)
 public class ShovelItemMixin {
-
   @Shadow
   private static Block[] shovelEffectiveBlocks;
 

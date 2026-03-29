@@ -10,7 +10,6 @@ import org.spongepowered.asm.mixin.Mixin;
 
 @Mixin(SignBlock.class)
 public abstract class SignBlockMixin extends Block {
-
   public SignBlockMixin(int id, Material material) {
     super(id, material);
   }
