@@ -17,7 +17,7 @@ log4j = "2.17.2"
 slf4j = "1.8.0-beta4"
 
 # dependencies
-stationapi = "2.0.0-alpha.5.4"
+stationapi = "2.0.0-alpha.5.4.tmpim.1"
 glassconfigapi = "3.2.5"
 modmenu = "1.1.1"
 datagen = "0.0.2-tmpim.1"

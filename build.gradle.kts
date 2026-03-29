@@ -98,6 +98,7 @@ repositories {
     name = "Lemmmy Repo"
     content {
       includeModule("emmathemartian", "stapi-datagen")
+      includeGroupAndSubgroups("net.modificationstation") // StationAPI
     }
   }
 
