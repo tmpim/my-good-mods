@@ -5,10 +5,12 @@ import net.fabricmc.loader.api.FabricLoader
 import net.glasslauncher.mods.gcapi3.api.ConfigRoot
 import net.mine_diver.unsafeevents.listener.EventListener
 import net.minecraft.block.Block
+import net.minecraft.block.material.Material
 import net.modificationstation.stationapi.api.event.entity.player.IsPlayerUsingEffectiveToolEvent
 import net.modificationstation.stationapi.api.event.mod.InitEvent
 import net.modificationstation.stationapi.api.event.registry.BlockRegistryEvent
 import net.modificationstation.stationapi.api.mod.entrypoint.Entrypoint
+import net.modificationstation.stationapi.api.template.block.TemplateBlock
 import net.modificationstation.stationapi.api.util.Namespace
 import net.modificationstation.stationapi.api.util.Null
 import org.slf4j.Logger
@@ -32,6 +34,7 @@ object MyGoodMod: ModInitializer {
 
   // blocks (todo: move to another class)
   lateinit var redstoneBlock: Block
+  lateinit var stoneBricksBlock: Block
 
   override fun onInitialize() {}
 
@@ -43,10 +46,13 @@ object MyGoodMod: ModInitializer {
 
     // TODO: temporary. resources should be registered in the individual thingies or something
     GoodResources.addBlock("1.12.2", "redstone_block")
+    GoodResources.addBlock("1.12.2", "stonebrick")
   }
 
   @EventListener
   fun onRegisterBlocks(event: BlockRegistryEvent) {
     redstoneBlock = RedstoneBlock().setHardness(5.0F).setResistance(6.0F).setSoundGroup(Block.STONE_SOUND_GROUP)
+    stoneBricksBlock = TemplateBlock(namespace.id("stone_bricks"), Material.STONE).setHardness(1.5F)
+      .setResistance(6.0F).setSoundGroup(Block.STONE_SOUND_GROUP).setTranslationKey(namespace, "stone_bricks")
   }
 }

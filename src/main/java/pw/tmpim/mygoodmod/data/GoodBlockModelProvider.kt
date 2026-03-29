@@ -9,5 +9,9 @@ class GoodBlockModelProvider(ctx: DataGenContext) : BlockModelProvider(ctx) {
     cubeAll()
       .texture("all", namespace.id("block/redstone_block"))
       .save("redstone_block", this, ctx)
+
+    cubeAll()
+      .texture("all", namespace.id("block/stonebrick"))
+      .save("stone_bricks", this, ctx)
   }
 }

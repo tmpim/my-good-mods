@@ -15,6 +15,6 @@ object MyGoodModData : DataEntrypoint {
     ctx.run(MinecraftTagProvider(DataGenContext(Namespace.MINECRAFT)))
     ctx.run(GoodCraftingRecipeProvider(ctx))
     ctx.run(GoodItemModelProvider(ctx))
-    ctx.run(GoodLangaugeProvider(ctx))
+    ctx.run(GoodLanguageProvider(ctx))
   }
 }

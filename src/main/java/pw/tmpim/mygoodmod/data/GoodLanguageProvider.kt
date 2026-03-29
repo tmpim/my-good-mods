@@ -7,11 +7,12 @@ import pw.tmpim.mygoodmod.MyGoodMod
 import pw.tmpim.mygoodmod.MyGoodMod.MOD_ID
 import pw.tmpim.mygoodmod.MyGoodMod.MOD_NAME
 
-class GoodLangaugeProvider(ctx: DataGenContext) : LanguageProvider(ctx) {
+class GoodLanguageProvider(ctx: DataGenContext) : LanguageProvider(ctx) {
   override fun run(ctx: DataGenContext) {
     LangBuilder()
       .add("gui.$MOD_ID.config.name", MOD_NAME)
       .add(MyGoodMod.redstoneBlock, "Redstone Block")
+      .add(MyGoodMod.stoneBricksBlock, "Stone Bricks")
       .save("en_US", this, ctx)
   }
 }
