@@ -124,10 +124,19 @@ object AssetFetcher {
             val outFile = cacheDir.resolve(fileMapping.destPath).toFile()
             outFile.parentFile.mkdirs()
             outFile.outputStream().use { jizz.copyTo(it) }
+
+            fileMapping.fetched = true
           }
 
           entry = jizz.nextEntry
         }
+      }
+    }
+
+    // error for any files that weren't found
+    files.forEach {
+      if (!it.fetched) {
+        log.error("file ${it.sourcePath} not found in ${it.version}")
       }
     }
 

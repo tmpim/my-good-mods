@@ -30,6 +30,8 @@ object GoodResources {
     val sourcePath: String,
     var destPath: String,
   ) {
+    var fetched = false
+
     // apply stationapi-compatible replacements to the destination path
     init {
       destPath = destPath.replace("assets/minecraft/textures/blocks", "assets/${namespace}/stationapi/textures/block")
