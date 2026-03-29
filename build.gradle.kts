@@ -171,6 +171,8 @@ java {
 }
 
 tasks.withType<Jar> {
+  duplicatesStrategy = DuplicatesStrategy.INCLUDE
+
 	from("LICENSE") {
 		rename { "${it}_${project.properties["archivesBaseName"]}" }
 	}
