@@ -19,6 +19,7 @@
   "server": [
   ],
   "client": [
+    "sign.SignEditScreenMixin"
   ],
   "injectors": {
     "defaultRequire": 1
