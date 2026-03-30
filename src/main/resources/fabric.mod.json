@@ -17,11 +17,16 @@
 
   "environment": "*",
   "entrypoints": {
-    "stationapi:event_bus": [],
-    "stationapi:event_bus_client": [
+    "stationapi:event_bus": [
       {
         "adapter": "kotlin",
         "value": "pw.tmpim.mygoodmod.MyGoodMod"
+      }
+    ],
+    "stationapi:event_bus_client": [
+      {
+        "adapter": "kotlin",
+        "value": "pw.tmpim.mygoodmod.MyGoodModClient"
       }
     ],
     "stationapi:event_bus_server": [],

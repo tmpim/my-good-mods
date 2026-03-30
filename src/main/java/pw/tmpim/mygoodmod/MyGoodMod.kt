@@ -19,7 +19,7 @@ import pw.tmpim.mygoodmod.assets.AssetFetcher
 import pw.tmpim.mygoodmod.assets.GoodResources
 import pw.tmpim.mygoodmod.block.RedstoneBlock
 
-object MyGoodMod: ModInitializer {
+object MyGoodMod : ModInitializer {
   const val MOD_ID: String = "mygoodmod"
   const val MOD_NAME: String = "My good mod"
   val MOD_VERSION: String = FabricLoader.getInstance().getModContainer(MOD_ID).get().metadata.version.toString()
@@ -41,16 +41,12 @@ object MyGoodMod: ModInitializer {
   @EventListener
   fun onInit(event: InitEvent) {
     log.info("$MOD_NAME initializing")
-
-    AssetFetcher.init()
-
-    // TODO: temporary. resources should be registered in the individual thingies or something
-    GoodResources.addBlock("1.12.2", "redstone_block")
-    GoodResources.addBlock("1.12.2", "stonebrick")
   }
 
   @EventListener
   fun onRegisterBlocks(event: BlockRegistryEvent) {
+    log.info("$MOD_NAME registering blocks")
+
     redstoneBlock = RedstoneBlock().setHardness(5.0F).setResistance(6.0F).setSoundGroup(Block.STONE_SOUND_GROUP)
     stoneBricksBlock = TemplateBlock(namespace.id("stone_bricks"), Material.STONE).setHardness(1.5F)
       .setResistance(6.0F).setSoundGroup(Block.STONE_SOUND_GROUP).setTranslationKey(namespace, "stone_bricks")

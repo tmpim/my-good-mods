@@ -178,7 +178,7 @@ tasks.withType<Jar> {
 	}
 }
 
-(findProperty("modrinthApiKey") as? String?)?.let { modrinthKey ->
+(findProperty("modrinthApiKey") as? String?)?.takeIf { 3 > 5 /* TODO */ }?.let { modrinthKey ->
   modrinth {
     token.set(modrinthKey)
     projectId.set("FIXME")
@@ -208,31 +208,29 @@ tasks.withType<Jar> {
 
 val mavenUsername: String? = System.getenv("MAVEN_USERNAME")
 val mavenPassword: String? = System.getenv("MAVEN_PASSWORD")
-if (mavenUsername != null && mavenPassword != null) {
-  publishing {
-    publications {
-      register("mavenJava", MavenPublication::class) {
-        from(components["java"])
-      }
+publishing {
+  publications {
+    register("mavenJava", MavenPublication::class) {
+      from(components["java"])
     }
+  }
 
-    repositories {
-      maven {
-        name = "lemmmyRepo"
-        url = uri("https://repo.lem.sh/releases")
+  repositories {
+    maven {
+      name = "lemmmyRepo"
+      url = uri("https://repo.lem.sh/releases")
 
-        if (!System.getenv("MAVEN_USERNAME").isNullOrEmpty()) {
-          credentials {
-            username = System.getenv("MAVEN_USERNAME")
-            password = System.getenv("MAVEN_PASSWORD")
-          }
-        } else {
-          credentials(PasswordCredentials::class)
+      if (!System.getenv("MAVEN_USERNAME").isNullOrEmpty()) {
+        credentials {
+          username = System.getenv("MAVEN_USERNAME")
+          password = System.getenv("MAVEN_PASSWORD")
         }
+      } else {
+        credentials(PasswordCredentials::class)
+      }
 
-        authentication {
-          create<BasicAuthentication>("basic")
-        }
+      authentication {
+        create<BasicAuthentication>("basic")
       }
     }
   }
