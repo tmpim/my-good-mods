@@ -12,8 +12,9 @@
     "ResourcePackManagerMixin",
     "ShovelItemAccessor",
     "ShovelItemMixin",
-    "SignBlockMixin",
-    "WorldMixin"
+    "WorldMixin",
+    "sign.SignBlockEntityMixin",
+    "sign.SignBlockMixin"
   ],
   "server": [
   ],

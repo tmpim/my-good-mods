@@ -1,4 +1,4 @@
-package pw.tmpim.mygoodmod.mixin;
+package pw.tmpim.mygoodmod.mixin.sign;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.SignBlock;
