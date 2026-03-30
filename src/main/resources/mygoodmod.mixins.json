@@ -6,6 +6,7 @@
   "mixins": [
     "AxeItemAccessor",
     "AxeItemMixin",
+    "BoatEntityMixin",
     "FlowingLiquidBlockMixin",
     "PickaxeItemAccessor",
     "PickaxeItemMixin",
