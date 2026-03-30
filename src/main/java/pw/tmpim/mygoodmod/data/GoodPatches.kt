@@ -10,12 +10,12 @@ object GoodPatches {
     add(Block.FURNACE)
     add(Block.LIT_FURNACE)
     add(Block.COBBLESTONE_STAIRS)
-    add(Block.CRAFTING_TABLE)
     add(Block.SPAWNER)
   }
 
   @JvmStatic
   val axeEffective: List<Block> = mutableListOf<Block>().apply {
+    add(Block.CRAFTING_TABLE)
     add(Block.LOCKED_CHEST)
     add(Block.TRAPDOOR)
     add(Block.WOODEN_STAIRS)
