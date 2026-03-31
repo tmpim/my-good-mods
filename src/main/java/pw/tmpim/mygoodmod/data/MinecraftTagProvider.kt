@@ -8,7 +8,12 @@ class MinecraftTagProvider(ctx: DataGenContext) : BlockTagProvider(ctx) {
   override fun run(ctx: DataGenContext) {
     tag()
       .add(MyGoodMod.redstoneBlock)
+      .add(MyGoodMod.coalBlock)
       .add(MyGoodMod.stoneBricksBlock)
       .save("mineable/pickaxe", this, ctx)
+
+    tag()
+      .add(MyGoodMod.hayBlock)
+      .save("mineable/hoe", this, ctx)
   }
 }

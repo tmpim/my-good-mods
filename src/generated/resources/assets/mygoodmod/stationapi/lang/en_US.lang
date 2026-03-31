@@ -1,4 +1,6 @@
 tile.mygoodmod.stone_bricks.name=Stone Bricks
 gui.mygoodmod.config.name=My good mod
-tile.mygoodmod.redstone_block.name=Redstone Block
+tile.mygoodmod.coal_block.name=Block of Coal
+tile.mygoodmod.redstone_block.name=Block of Redstone
+tile.mygoodmod.hay_block.name=Hay Bale
 
