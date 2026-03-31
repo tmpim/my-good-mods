@@ -1,0 +1,27 @@
+package pw.tmpim.mygoodmod.mixin.death;
+
+import com.llamalad7.mixinextras.sugar.Local;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.projectile.ArrowEntity;
+import net.minecraft.util.hit.HitResult;
+import org.objectweb.asm.Opcodes;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import pw.tmpim.mygoodmod.death.Victim;
+
+@Mixin(ArrowEntity.class)
+public class ArrowEntityMixin {
+  @Inject(method = "tick", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/Entity;damage(Lnet/minecraft/entity/Entity;I)Z"))
+  private void tickShot(CallbackInfo ci, @Local(ordinal = 0) HitResult hit) {
+    if (hit.entity instanceof PlayerEntity) ((Victim) hit.entity).goodmod_setShot();
+  }
+
+  @Inject(method = "tick", at = {@At(value = "INVOKE", target = "Lnet/minecraft/world/World;playSound(Lnet/minecraft/entity/Entity;Ljava/lang/String;FF)V"), @At(value = "FIELD", target = "Lnet/minecraft/entity/projectile/ArrowEntity;inAirTime:I", opcode = Opcodes.PUTFIELD, ordinal = 2)})
+  private void resetShot(CallbackInfo ci, @Local(ordinal = 0) HitResult hit) {
+    if (hit.entity instanceof PlayerEntity) ((Victim) hit.entity).goodmod_resetShot();
+  }
+
+
+}
