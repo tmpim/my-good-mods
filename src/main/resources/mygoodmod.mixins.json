@@ -27,6 +27,7 @@
     "sign.SignBlockMixin"
   ],
   "server": [
+    "ServerPlayNetworkHandlerMixin",
     "death.ServerPlayerEntityMixin"
   ],
   "client": [
