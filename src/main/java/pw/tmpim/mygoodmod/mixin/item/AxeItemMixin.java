@@ -1,4 +1,4 @@
-package pw.tmpim.mygoodmod.mixin;
+package pw.tmpim.mygoodmod.mixin.item;
 
 import net.minecraft.block.Block;
 import net.minecraft.item.AxeItem;
