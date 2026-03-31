@@ -27,14 +27,14 @@ public abstract class BoatEntityMixin extends Entity {
     )
   )
   public void goodmod$dropBoatItem(Entity damageSource, int amount, CallbackInfoReturnable<Boolean> cir) {
-    if (MyGoodMod.getConfig().boatsDropBoatItem) {
+    if (Boolean.TRUE.equals(MyGoodMod.getConfig().boatsDropBoatItem)) {
       dropItem(Item.BOAT.id, 1, 0.0f);
     }
   }
 
   @Override
   public ItemEntity dropItem(ItemStack itemStack, float yOffset) {
-    if (MyGoodMod.getConfig().boatsDropBoatItem) {
+    if (Boolean.TRUE.equals(MyGoodMod.getConfig().boatsDropBoatItem)) {
       var id = itemStack.getItem().id;
 
       if (id == Block.PLANKS.id || id == Item.STICK.id) {
