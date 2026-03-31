@@ -9,5 +9,6 @@ class GoodItemModelProvider(ctx: DataGenContext) : ItemModelProvider(ctx) {
     blockItem(MyGoodMod.redstoneBlock).save("redstone_block", this, ctx)
     blockItem(MyGoodMod.stoneBricksBlock).save("stone_bricks", this, ctx)
     blockItem(MyGoodMod.hayBlock).save("hay_block", this, ctx)
+    blockItem(MyGoodMod.coalBlock).save("coal_block", this, ctx)
   }
 }

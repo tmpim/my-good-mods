@@ -31,6 +31,7 @@ object MyGoodMod : ModInitializer {
   lateinit var redstoneBlock: Block
   lateinit var stoneBricksBlock: Block
   lateinit var hayBlock: Block
+  lateinit var coalBlock: Block
 
   override fun onInitialize() {}
 
@@ -44,9 +45,11 @@ object MyGoodMod : ModInitializer {
     log.info("$MOD_NAME registering blocks")
 
     redstoneBlock = RedstoneBlock().setHardness(5.0F).setResistance(6.0F).setSoundGroup(Block.STONE_SOUND_GROUP)
-    stoneBricksBlock = TemplateBlock(namespace.id("stone_bricks"), Material.STONE).setHardness(1.5F)
-      .setResistance(6.0F).setSoundGroup(Block.STONE_SOUND_GROUP).setTranslationKey(namespace, "stone_bricks")
+    stoneBricksBlock = TemplateBlock(namespace.id("stone_bricks"), Material.STONE)
+      .setHardness(1.5F).setResistance(6.0F).setSoundGroup(Block.STONE_SOUND_GROUP).setTranslationKey(namespace, "stone_bricks")
     hayBlock = TemplateBlock(namespace.id("hay_block"), Material.SAND)
       .setHardness(0.5F).setResistance(0.5F).setSoundGroup(Block.DIRT_SOUND_GROUP).setTranslationKey(namespace, "hay_block")
+    coalBlock = TemplateBlock(namespace.id("coal_block"), Material.STONE)
+      .setHardness(5.0F).setResistance(6.0F).setSoundGroup(Block.STONE_SOUND_GROUP).setTranslationKey(namespace, "coal_block")
   }
 }

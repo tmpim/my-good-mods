@@ -22,5 +22,6 @@ object MyGoodModClient : ModInitializer {
     GoodResources.addBlock("1.12.2", "stonebrick")
     GoodResources.addBlock("1.12.2", "hay_block_top")
     GoodResources.addBlock("1.12.2", "hay_block_side")
+    GoodResources.addBlock("1.12.2", "coal_block")
   }
 }
