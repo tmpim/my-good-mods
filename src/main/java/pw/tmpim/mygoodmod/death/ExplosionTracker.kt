@@ -2,9 +2,8 @@ package pw.tmpim.mygoodmod.death
 
 import net.minecraft.entity.Entity
 
-
 object ExplosionTracker {
-  private val sourceQueue: ArrayDeque<BlastSource> = ArrayDeque<BlastSource>()
+  private val sourceQueue = ArrayDeque<BlastSource>()
 
   @JvmStatic
   fun pushBlast(source: BlastSource) {

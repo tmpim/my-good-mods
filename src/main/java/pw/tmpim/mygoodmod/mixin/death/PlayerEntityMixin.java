@@ -8,7 +8,6 @@ import pw.tmpim.mygoodmod.death.Victim;
 
 @Mixin(PlayerEntity.class)
 public class PlayerEntityMixin implements Victim {
-
   @Unique
   private boolean shot = false;
 
@@ -55,17 +54,17 @@ public class PlayerEntityMixin implements Victim {
   }
 
   @Override
-  public void goodmod_setBlasted(ExplosionTracker.BlastSource source) {
+  public void goodmod_setBlastSource(ExplosionTracker.BlastSource source) {
     blastSource = source;
   }
 
   @Override
-  public void goodmod_resetBlasted() {
+  public void goodmod_resetBlastSource() {
     blastSource = null;
   }
 
   @Override
-  public ExplosionTracker.BlastSource goodmod_isBlasted() {
+  public ExplosionTracker.BlastSource goodmod_getBlastSource() {
     return blastSource;
   }
 

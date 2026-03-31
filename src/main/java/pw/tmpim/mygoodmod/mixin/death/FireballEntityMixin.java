@@ -11,12 +11,17 @@ import pw.tmpim.mygoodmod.death.ExplosionTracker;
 
 @Mixin(FireballEntity.class)
 public abstract class FireballEntityMixin extends Entity {
-
   public FireballEntityMixin(World world) {
     super(world);
   }
 
-  @Inject(method = "tick", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/World;createExplosion(Lnet/minecraft/entity/Entity;DDDFZ)Lnet/minecraft/world/explosion/Explosion;"))
+  @Inject(
+    method = "tick",
+    at = @At(
+      value = "INVOKE",
+      target = "Lnet/minecraft/world/World;createExplosion(Lnet/minecraft/entity/Entity;DDDFZ)Lnet/minecraft/world/explosion/Explosion;"
+    )
+  )
   private void tick(CallbackInfo ci) {
     ExplosionTracker.pushBlast(new ExplosionTracker.EntityBlast(this));
   }

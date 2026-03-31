@@ -13,7 +13,8 @@ object PlayerEntityDeathHandler {
     var cause: String = findCause(victim, provoker)
     val killer: Entity?
     val blastResult = resolveBlast(victim)
-    if (provoker == null && blastResult != null)  {
+
+    if (provoker == null && blastResult != null) {
       blastResult.apply {
         killer = first
         cause = second
@@ -21,70 +22,58 @@ object PlayerEntityDeathHandler {
     } else {
       killer = provoker
     }
-    val name = (if (cause.endsWith(" ")) getName(killer) else "")
+
+    val name = if (cause.endsWith(" ")) getName(killer) else ""
     return victim.name + cause + name
   }
 
-  fun resolveBlast(victim: PlayerEntity): Pair<Entity?, String>? {
-    val blast: ExplosionTracker.BlastSource? = (victim as Victim).goodmod_isBlasted()
-    if (blast is ExplosionTracker.EntityBlast) {
-      return if (blast.entity is FireballEntity) {
-        Pair(blast.entity.owner, " was fireballed by ")
-      } else {
-        Pair(null, " blew up")
-      }
-    } else if (blast is ExplosionTracker.BedBlast) {
-      return Pair(null, " was killed by [Intentional Game Design]")
+  fun resolveBlast(victim: PlayerEntity): Pair<Entity?, String>? =
+    when (val blast: ExplosionTracker.BlastSource? = victim.goodmod_getBlastSource()) {
+      is ExplosionTracker.EntityBlast ->
+        if (blast.entity is FireballEntity)
+          blast.entity.owner to " was fireballed by "
+        else
+          null to " blew up"
+
+      is ExplosionTracker.BedBlast ->
+        null to " was killed by [Intentional Game Design]"
+
+      else -> null
     }
-    return null
-  }
 
   fun findCause(victim: PlayerEntity, killer: Entity?): String {
     val drowning = victim.air <= 0
-    val lit = victim.fireTicks > 0 || (victim as Victim).goodmod_isLit()
-    if (killer is CreeperEntity) {
-      return " was blown up by "
-    } else if ((victim as Victim).goodmod_isShot()) {
-      if (killer == null) return " was shot by a Dispenser"
-      return " was shot by "
-    } else if ((victim as Victim).goodmod_isPricked()) {
-      return " was pricked to death"
-    } else if (killer is WolfEntity) {
-      return " was mauled to bits by "
-    } else if ((victim as Victim).goodmod_isStruck()) {
-      return " was struck by lightning"
-    } else if (killer != null) {
-      return " was slain by "
-    } else if (drowning && lit) {
-      return " drowned to a crisp"
-    } else if (drowning) {
-      return " drowned"
-    } else if (lit) {
-      return " burned to a crisp"
-    } else if (victim.isInsideWall) {
-      return " suffocated in a wall"
-    } else if ((victim as EntityAccessor).fallDistance - 3.0f > 0) {
-      return " hit the ground too hard"
-    } else if (victim.y < 0) {
-      return " fell out of the world"
-    } else {
-      return " died"
+    val lit = victim.fireTicks > 0 || victim.goodmod_isLit()
+
+    return when {
+      victim.goodmod_isShot()    -> if (killer == null) " was shot by a Dispenser" else " was shot by "
+      killer is CreeperEntity    -> " was blown up by "
+      killer is WolfEntity       -> " was mauled to bits by "
+      killer != null             -> " was slain by "
+      victim.goodmod_isPricked() -> " was pricked to death"
+      victim.goodmod_isStruck()  -> " was struck by lightning"
+      drowning && lit            -> " drowned to a crisp"
+      drowning                   -> " drowned"
+      lit                        -> " burned to a crisp"
+      victim.isInsideWall        -> " suffocated in a wall"
+      (victim as EntityAccessor).fallDistance - 3.0f > 0
+        -> " hit the ground too hard"
+      victim.y < 0               -> " fell out of the world"
+      else                       -> " died"
     }
   }
 
-  fun getName(entity: Entity?): String {
-    return when (entity) {
-      is PlayerEntity -> entity.name
-      is FireballEntity -> if (entity.owner == null) "Fireball" else getName(entity.owner)
-      is PigZombieEntity -> "Zombie Pigman"
-      is ZombieEntity -> "Zombie"
-      is SkeletonEntity -> "Skeleton"
-      is SpiderEntity -> "Spider"
-      is CreeperEntity -> "Creeper"
-      is GhastEntity -> "Ghast"
-      is SlimeEntity -> "Slime"
-      is WolfEntity -> if (entity.isTamed) entity.ownerName + "'s Wolf" else "Wolf"
-      else -> "Unknown"
-    }
+  fun getName(entity: Entity?): String = when (entity) {
+    is PlayerEntity    -> entity.name
+    is FireballEntity  -> if (entity.owner == null) "Fireball" else getName(entity.owner)
+    is PigZombieEntity -> "Zombie Pigman"
+    is ZombieEntity    -> "Zombie"
+    is SkeletonEntity  -> "Skeleton"
+    is SpiderEntity    -> "Spider"
+    is CreeperEntity   -> "Creeper"
+    is GhastEntity     -> "Ghast"
+    is SlimeEntity     -> "Slime"
+    is WolfEntity      -> if (entity.isTamed) entity.ownerName + "'s Wolf" else "Wolf"
+    else               -> "Unknown"
   }
 }

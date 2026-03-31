@@ -9,7 +9,6 @@ import pw.tmpim.mygoodmod.death.ExplosionTracker;
 
 @Mixin(TntEntity.class)
 public class TntEntityMixin {
-
   @Inject(method = "explode", at = @At("HEAD"))
   private void explode(CallbackInfo ci) {
     ExplosionTracker.pushBlast(new ExplosionTracker.EntityBlast((TntEntity) (Object) this));

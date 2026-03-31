@@ -13,15 +13,36 @@ import pw.tmpim.mygoodmod.death.Victim;
 
 @Mixin(ArrowEntity.class)
 public class ArrowEntityMixin {
-  @Inject(method = "tick", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/Entity;damage(Lnet/minecraft/entity/Entity;I)Z"))
+  @Inject(
+    method = "tick",
+    at = @At(
+      value = "INVOKE",
+      target = "Lnet/minecraft/entity/Entity;damage(Lnet/minecraft/entity/Entity;I)Z"
+    )
+  )
   private void tickShot(CallbackInfo ci, @Local(ordinal = 0) HitResult hit) {
-    if (hit.entity instanceof PlayerEntity) ((Victim) hit.entity).goodmod_setShot();
+    if (hit.entity instanceof PlayerEntity) {
+      ((Victim) hit.entity).goodmod_setShot();
+    }
   }
 
-  @Inject(method = "tick", at = {@At(value = "INVOKE", target = "Lnet/minecraft/world/World;playSound(Lnet/minecraft/entity/Entity;Ljava/lang/String;FF)V"), @At(value = "FIELD", target = "Lnet/minecraft/entity/projectile/ArrowEntity;inAirTime:I", opcode = Opcodes.PUTFIELD, ordinal = 2)})
+  @Inject(
+    method = "tick", at = {
+      @At(
+        value = "INVOKE",
+        target = "Lnet/minecraft/world/World;playSound(Lnet/minecraft/entity/Entity;Ljava/lang/String;FF)V"
+      ),
+      @At(
+        value = "FIELD",
+        target = "Lnet/minecraft/entity/projectile/ArrowEntity;inAirTime:I",
+        opcode = Opcodes.PUTFIELD,
+        ordinal = 2
+      )
+    }
+  )
   private void resetShot(CallbackInfo ci, @Local(ordinal = 0) HitResult hit) {
-    if (hit.entity instanceof PlayerEntity) ((Victim) hit.entity).goodmod_resetShot();
+    if (hit.entity instanceof PlayerEntity) {
+      ((Victim) hit.entity).goodmod_resetShot();
+    }
   }
-
-
 }

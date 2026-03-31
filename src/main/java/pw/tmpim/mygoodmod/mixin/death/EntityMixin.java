@@ -10,34 +10,71 @@ import pw.tmpim.mygoodmod.death.Victim;
 
 @Mixin(Entity.class)
 public class EntityMixin {
-
-  @Inject(method = "move", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/Entity;damage(I)V"))
+  @Inject(
+    method = "move",
+    at = @At(
+      value = "INVOKE",
+      target = "Lnet/minecraft/entity/Entity;damage(I)V"
+    )
+  )
   private void onLitBefore(double dx, double dy, double dz, CallbackInfo ci) {
-    if (this instanceof Victim victim) victim.goodmod_setLit();
+    if (this instanceof Victim victim) {
+      victim.goodmod_setLit();
+    }
   }
 
-  @Inject(method = "move", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/Entity;damage(I)V", shift = At.Shift.AFTER))
+  @Inject(
+    method = "move",
+    at = @At(
+      value = "INVOKE",
+      target = "Lnet/minecraft/entity/Entity;damage(I)V",
+      shift = At.Shift.AFTER
+    )
+  )
   private void onLitAfter(double dx, double dy, double dz, CallbackInfo ci) {
-    if (this instanceof Victim victim) victim.goodmod_resetLit();
+    if (this instanceof Victim victim) {
+      victim.goodmod_resetLit();
+    }
   }
 
-  @Inject(method = "setOnFire", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/Entity;damage(Lnet/minecraft/entity/Entity;I)Z"))
+  @Inject(
+    method = "setOnFire",
+    at = @At(
+      value = "INVOKE",
+      target = "Lnet/minecraft/entity/Entity;damage(Lnet/minecraft/entity/Entity;I)Z"
+    )
+  )
   private void inLavaBefore(CallbackInfo ci) {
-    if (this instanceof Victim victim) victim.goodmod_setLit();
+    if (this instanceof Victim victim) {
+      victim.goodmod_setLit();
+    }
   }
 
-  @Inject(method = "setOnFire", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/Entity;damage(Lnet/minecraft/entity/Entity;I)Z", shift = At.Shift.AFTER))
+  @Inject(
+    method = "setOnFire",
+    at = @At(
+      value = "INVOKE",
+      target = "Lnet/minecraft/entity/Entity;damage(Lnet/minecraft/entity/Entity;I)Z",
+      shift = At.Shift.AFTER
+    )
+  )
   private void inLavaAfter(CallbackInfo ci) {
-    if (this instanceof Victim victim) victim.goodmod_resetLit();
+    if (this instanceof Victim victim) {
+      victim.goodmod_resetLit();
+    }
   }
 
   @Inject(method = "onStruckByLightning", at = @At("HEAD"))
   private void onStruckByLightningHead(LightningEntity lightningEntity, CallbackInfo ci) {
-    if (this instanceof Victim victim) victim.goodmod_setStruck();
+    if (this instanceof Victim victim) {
+      victim.goodmod_setStruck();
+    }
   }
 
   @Inject(method = "onStruckByLightning", at = @At("TAIL"))
   private void onStruckByLightningTail(LightningEntity lightningEntity, CallbackInfo ci) {
-    if (this instanceof Victim victim) victim.goodmod_resetStruck();
+    if (this instanceof Victim victim) {
+      victim.goodmod_resetStruck();
+    }
   }
 }

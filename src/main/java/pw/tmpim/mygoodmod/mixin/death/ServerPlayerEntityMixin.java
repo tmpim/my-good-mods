@@ -14,7 +14,6 @@ import pw.tmpim.mygoodmod.death.PlayerEntityDeathHandler;
 
 @Mixin(ServerPlayerEntity.class)
 public abstract class ServerPlayerEntityMixin extends PlayerEntity {
-
   @Shadow
   public MinecraftServer server;
 

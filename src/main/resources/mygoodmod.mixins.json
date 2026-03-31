@@ -7,15 +7,6 @@
     "ResourcePackManagerMixin",
     "WorldMixin",
     "block.FlowingLiquidBlockMixin",
-    "entity.BoatEntityMixin",
-    "item.AxeItemAccessor",
-    "item.AxeItemMixin",
-    "item.PickaxeItemAccessor",
-    "item.PickaxeItemMixin",
-    "item.ShovelItemAccessor",
-    "item.ShovelItemMixin",
-    "ResourcePackManagerMixin",
-    "WorldMixin",
     "death.ArrowEntityMixin",
     "death.BedBlockMixin",
     "death.CactusBlockMixin",
@@ -25,12 +16,21 @@
     "death.FireballEntityMixin",
     "death.PlayerEntityMixin",
     "death.TntEntityMixin",
+    "entity.BoatEntityMixin",
+    "item.AxeItemAccessor",
+    "item.AxeItemMixin",
+    "item.PickaxeItemAccessor",
+    "item.PickaxeItemMixin",
+    "item.ShovelItemAccessor",
+    "item.ShovelItemMixin",
     "sign.SignBlockEntityMixin",
     "sign.SignBlockMixin"
   ],
   "server": [
+    "death.ServerPlayerEntityMixin"
   ],
   "client": [
+    "death.ClientPlayerEntityMixin",
     "sign.SignEditScreenMixin"
   ],
   "injectors": {

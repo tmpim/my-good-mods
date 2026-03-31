@@ -48,7 +48,7 @@
     "mygoodmod.mixins.json"
   ],
 
-  "accessWidener": "mygoodmod.accesswidener",
+  "accessWidener": "mygoodmod.classtweaker",
 
   "depends": {
     "minecraft": "1.0.0-beta.7.3",

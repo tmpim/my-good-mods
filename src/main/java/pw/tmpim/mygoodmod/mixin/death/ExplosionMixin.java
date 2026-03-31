@@ -14,21 +14,47 @@ import pw.tmpim.mygoodmod.death.Victim;
 
 @Mixin(Explosion.class)
 public class ExplosionMixin {
-
   @Inject(method = "explode", at = @At("HEAD"))
-  private void explodeHead(CallbackInfo ci, @Share("blast") LocalRef<ExplosionTracker.BlastSource> blastSource) {
+  private void explodeHead(
+    CallbackInfo ci,
+    @Share("blast") LocalRef<ExplosionTracker.BlastSource> blastSource
+  ) {
     blastSource.set(ExplosionTracker.popBlast());
   }
 
-  @Inject(method = "explode", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/Entity;damage(Lnet/minecraft/entity/Entity;I)Z"))
-  private void explodeDamage(CallbackInfo ci, @Local Entity entity, @Share("blast") LocalRef<ExplosionTracker.BlastSource> blastSource) {
+  @Inject(
+    method = "explode",
+    at = @At(
+      value = "INVOKE",
+      target = "Lnet/minecraft/entity/Entity;damage(Lnet/minecraft/entity/Entity;I)Z"
+    )
+  )
+  private void explodeDamage(
+    CallbackInfo ci,
+    @Local Entity entity,
+    @Share("blast") LocalRef<ExplosionTracker.BlastSource> blastSource
+  ) {
     ExplosionTracker.BlastSource source = blastSource.get();
-    if (entity instanceof Victim victim && source != null) victim.goodmod_setBlasted(source);
+    if (entity instanceof Victim victim && source != null) {
+      victim.goodmod_setBlastSource(source);
+    }
   }
 
-  @Inject(method = "explode", at = @At(value = "INVOKE_ASSIGN", target = "Lnet/minecraft/entity/Entity;damage(Lnet/minecraft/entity/Entity;I)Z"))
-  private void explodePostDamage(CallbackInfo ci, @Local Entity entity, @Share("blast") LocalRef<ExplosionTracker.BlastSource> blastSource) {
+  @Inject(
+    method = "explode",
+    at = @At(
+      value = "INVOKE_ASSIGN",
+      target = "Lnet/minecraft/entity/Entity;damage(Lnet/minecraft/entity/Entity;I)Z"
+    )
+  )
+  private void explodePostDamage(
+    CallbackInfo ci,
+    @Local Entity entity,
+    @Share("blast") LocalRef<ExplosionTracker.BlastSource> blastSource
+  ) {
     ExplosionTracker.BlastSource source = blastSource.get();
-    if (entity instanceof Victim victim && source != null) victim.goodmod_resetBlasted();
+    if (entity instanceof Victim victim && source != null) {
+      victim.goodmod_resetBlastSource();
+    }
   }
 }
