@@ -20,5 +20,7 @@ object MyGoodModClient : ModInitializer {
     // TODO: temporary. resources should be registered in the individual thingies or something
     GoodResources.addBlock("1.12.2", "redstone_block")
     GoodResources.addBlock("1.12.2", "stonebrick")
+    GoodResources.addBlock("1.12.2", "hay_block_top")
+    GoodResources.addBlock("1.12.2", "hay_block_side")
   }
 }

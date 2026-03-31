@@ -13,5 +13,9 @@ class GoodBlockStateProvider(ctx: DataGenContext) : BlockStateProvider(ctx) {
     variant()
       .variant<String>("", namespace.id("block/stone_bricks"))
       .save("stone_bricks", this, ctx)
+
+    variant()
+      .variant<String>("", namespace.id("block/hay_block"))
+      .save("hay_block", this, ctx)
   }
 }

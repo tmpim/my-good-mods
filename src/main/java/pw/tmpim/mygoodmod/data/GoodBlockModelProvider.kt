@@ -13,5 +13,9 @@ class GoodBlockModelProvider(ctx: DataGenContext) : BlockModelProvider(ctx) {
     cubeAll()
       .texture("all", namespace.id("block/stonebrick"))
       .save("stone_bricks", this, ctx)
+    cubeColumn()
+      .texture("end", namespace.id("block/hay_block_top"))
+      .texture("side", namespace.id("block/hay_block_side"))
+      .save("hay_block", this, ctx)
   }
 }

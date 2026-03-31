@@ -10,5 +10,9 @@ class MinecraftTagProvider(ctx: DataGenContext) : BlockTagProvider(ctx) {
       .add(MyGoodMod.redstoneBlock)
       .add(MyGoodMod.stoneBricksBlock)
       .save("mineable/pickaxe", this, ctx)
+
+    tag()
+      .add(MyGoodMod.hayBlock)
+      .save("mineable/hoe", this, ctx)
   }
 }

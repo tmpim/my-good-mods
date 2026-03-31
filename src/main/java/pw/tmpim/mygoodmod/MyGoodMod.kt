@@ -6,17 +6,12 @@ import net.glasslauncher.mods.gcapi3.api.ConfigRoot
 import net.mine_diver.unsafeevents.listener.EventListener
 import net.minecraft.block.Block
 import net.minecraft.block.material.Material
-import net.modificationstation.stationapi.api.event.entity.player.IsPlayerUsingEffectiveToolEvent
 import net.modificationstation.stationapi.api.event.mod.InitEvent
 import net.modificationstation.stationapi.api.event.registry.BlockRegistryEvent
-import net.modificationstation.stationapi.api.mod.entrypoint.Entrypoint
 import net.modificationstation.stationapi.api.template.block.TemplateBlock
 import net.modificationstation.stationapi.api.util.Namespace
-import net.modificationstation.stationapi.api.util.Null
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-import pw.tmpim.mygoodmod.assets.AssetFetcher
-import pw.tmpim.mygoodmod.assets.GoodResources
 import pw.tmpim.mygoodmod.block.RedstoneBlock
 
 object MyGoodMod : ModInitializer {
@@ -35,6 +30,7 @@ object MyGoodMod : ModInitializer {
   // blocks (todo: move to another class)
   lateinit var redstoneBlock: Block
   lateinit var stoneBricksBlock: Block
+  lateinit var hayBlock: Block
 
   override fun onInitialize() {}
 
@@ -50,5 +46,7 @@ object MyGoodMod : ModInitializer {
     redstoneBlock = RedstoneBlock().setHardness(5.0F).setResistance(6.0F).setSoundGroup(Block.STONE_SOUND_GROUP)
     stoneBricksBlock = TemplateBlock(namespace.id("stone_bricks"), Material.STONE).setHardness(1.5F)
       .setResistance(6.0F).setSoundGroup(Block.STONE_SOUND_GROUP).setTranslationKey(namespace, "stone_bricks")
+    hayBlock = TemplateBlock(namespace.id("hay_block"), Material.SAND)
+      .setHardness(0.5F).setResistance(0.5F).setSoundGroup(Block.DIRT_SOUND_GROUP).setTranslationKey(namespace, "hay_block")
   }
 }

@@ -13,6 +13,7 @@ class GoodLanguageProvider(ctx: DataGenContext) : LanguageProvider(ctx) {
       .add("gui.$MOD_ID.config.name", MOD_NAME)
       .add(MyGoodMod.redstoneBlock, "Redstone Block")
       .add(MyGoodMod.stoneBricksBlock, "Stone Bricks")
+      .add(MyGoodMod.hayBlock, "Hay Bale")
       .save("en_US", this, ctx)
   }
 }
