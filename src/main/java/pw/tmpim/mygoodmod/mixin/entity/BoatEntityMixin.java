@@ -1,4 +1,4 @@
-package pw.tmpim.mygoodmod.mixin;
+package pw.tmpim.mygoodmod.mixin.entity;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
@@ -19,6 +19,9 @@ public abstract class BoatEntityMixin extends Entity {
     super(world);
   }
 
+  /**
+   * Drops the boat item when breaking a boat, instead of sticks and planks. May conflict with UniTweaks.
+   */
   @Inject(
     method = "damage",
     at = @At(
@@ -26,7 +29,7 @@ public abstract class BoatEntityMixin extends Entity {
       target = "Lnet/minecraft/entity/vehicle/BoatEntity;markDead()V"
     )
   )
-  public void goodmod$dropBoatItem(Entity damageSource, int amount, CallbackInfoReturnable<Boolean> cir) {
+  public void dropBoatItem(Entity damageSource, int amount, CallbackInfoReturnable<Boolean> cir) {
     if (Boolean.TRUE.equals(MyGoodMod.getConfig().boatsDropBoatItem)) {
       dropItem(Item.BOAT.id, 1, 0.0f);
     }

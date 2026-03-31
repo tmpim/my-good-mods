@@ -18,11 +18,15 @@ public class AxeItemMixin {
   @Shadow
   private static Block[] axeEffectiveBlocks;
 
+  /**
+   * Adds extra blocks that axes are allowed to break.
+   * @see GoodPatches
+   */
   @Inject(
     method = "<clinit>()V",
     at = @At("TAIL")
   )
-  private static void goodmod$addEffectiveBlocks(CallbackInfo ci) {
+  private static void addEffectiveBlocks(CallbackInfo ci) {
     List<Block> blocks = new ArrayList<>(Arrays.asList(axeEffectiveBlocks));
     blocks.addAll(GoodPatches.getAxeEffective());
     AxeItemAccessor.setAxeEffectiveBlocks(blocks.toArray(Block[]::new));

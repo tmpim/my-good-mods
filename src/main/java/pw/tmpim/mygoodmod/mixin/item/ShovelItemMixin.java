@@ -18,11 +18,15 @@ public class ShovelItemMixin {
   @Shadow
   private static Block[] shovelEffectiveBlocks;
 
+  /**
+   * Adds extra blocks that shovels are allowed to break.
+   * @see GoodPatches
+   */
   @Inject(
     method = "<clinit>()V",
     at = @At("TAIL")
   )
-  private static void goodmod$addEffectiveBlocks(CallbackInfo ci) {
+  private static void addEffectiveBlocks(CallbackInfo ci) {
     List<Block> blocks = new ArrayList<>(Arrays.asList(shovelEffectiveBlocks));
     blocks.addAll(GoodPatches.getShovelEffective());
     ShovelItemAccessor.setShovelEffectiveBlocks(blocks.toArray(Block[]::new));
