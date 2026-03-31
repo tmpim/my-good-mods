@@ -24,6 +24,8 @@ public abstract class ServerPlayerEntityMixin extends PlayerEntity {
 
   @Inject(method = "onKilledBy", at = @At("TAIL"))
   private void onKilledBy(Entity killer, CallbackInfo ci) {
-    server.sendMessage(PlayerEntityDeathHandler.createMessage(this, killer));
+    String message = PlayerEntityDeathHandler.createMessage(this, killer);
+    server.sendMessage(message);
+    server.playerManager.broadcast(message);
   }
 }
