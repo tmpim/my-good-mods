@@ -10,6 +10,7 @@ import pw.tmpim.mygoodmod.MyGoodMod
 
 class GoodCraftingRecipeProvider(ctx: DataGenContext) : CraftingRecipeProvider(ctx) {
   override fun run(ctx: DataGenContext) {
+    // Redstone Block
     shaped()
       .pattern("RRR")
       .pattern("RRR")
@@ -21,6 +22,8 @@ class GoodCraftingRecipeProvider(ctx: DataGenContext) : CraftingRecipeProvider(c
       .ingredient(DataIngredient.of(MyGoodMod.redstoneBlock.asItem()))
       .result(ItemStack(Item.REDSTONE, 9))
       .save("redstone", this, ctx)
+
+    // Hay Bale
     shaped()
       .pattern("WWW")
       .pattern("WWW")
@@ -32,6 +35,8 @@ class GoodCraftingRecipeProvider(ctx: DataGenContext) : CraftingRecipeProvider(c
       .ingredient(DataIngredient.of(MyGoodMod.hayBlock.asItem()))
       .result(ItemStack(Item.WHEAT, 9))
       .save("wheat", this, ctx)
+
+    // Coal Block
     shaped()
       .pattern("CCC")
       .pattern("CCC")
@@ -43,6 +48,8 @@ class GoodCraftingRecipeProvider(ctx: DataGenContext) : CraftingRecipeProvider(c
       .ingredient(DataIngredient.of(MyGoodMod.coalBlock.asItem()))
       .result(ItemStack(Item.COAL, 9))
       .save("coal", this, ctx)
+
+    // Stone Bricks
     shaped()
       .pattern("SS")
       .pattern("SS")
