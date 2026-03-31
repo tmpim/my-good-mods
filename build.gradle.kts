@@ -53,7 +53,7 @@ sourceSets {
 }
 
 loom {
-	accessWidenerPath = file("src/main/resources/mygoodmod.accesswidener")
+	accessWidenerPath = file("src/main/resources/mygoodmod.classtweaker")
 
 	runs {
 		register("testClient") {
