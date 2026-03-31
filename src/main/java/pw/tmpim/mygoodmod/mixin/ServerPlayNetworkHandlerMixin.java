@@ -2,6 +2,7 @@ package pw.tmpim.mygoodmod.mixin;
 
 import com.llamalad7.mixinextras.sugar.Local;
 import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayNetworkHandler;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -15,6 +16,8 @@ import pw.tmpim.mygoodmod.MyGoodMod;
 public class ServerPlayNetworkHandlerMixin {
   @Shadow
   private ServerPlayerEntity player;
+  @Shadow
+  private MinecraftServer server;
 
   @Unique
   private String initialCommand;
@@ -55,6 +58,33 @@ public class ServerPlayNetworkHandlerMixin {
       player.sendMessage(newMessage);
     } catch (Exception e) {
       MyGoodMod.log.error("failed to forward /tell to sender", e);
+    }
+  }
+
+  /**
+   * Allows running /list without operator permissions. May conflict with mods like Glass-Brigadier.
+   */
+  @Inject(
+    method = "handleCommand",
+    at = @At(
+      // Target the first startsWith (should be /me) in case any other mods inject a cancellation at HEAD
+      value = "INVOKE",
+      target = "Ljava/lang/String;startsWith(Ljava/lang/String;)Z",
+      ordinal = 0
+    ),
+    cancellable = true
+  )
+  public void addListCommand(
+    String command,
+    CallbackInfo ci
+  ) {
+    try {
+      if (command.toLowerCase().startsWith("/list")) {
+        player.sendMessage("Connected players: " + server.playerManager.getPlayerList());
+        ci.cancel();
+      }
+    } catch (Exception e) {
+      MyGoodMod.log.error("failed to inject /list command", e);
     }
   }
 }
