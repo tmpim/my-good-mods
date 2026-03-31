@@ -12,6 +12,9 @@ import net.modificationstation.stationapi.api.event.mod.InitEvent
 import net.modificationstation.stationapi.api.event.registry.BlockRegistryEvent
 import net.modificationstation.stationapi.api.event.registry.ItemRegistryEvent
 import net.modificationstation.stationapi.api.mod.entrypoint.Entrypoint
+import net.modificationstation.stationapi.api.registry.BlockRegistry
+import net.modificationstation.stationapi.api.tag.TagEntry
+import net.modificationstation.stationapi.api.tag.TagKey
 import net.modificationstation.stationapi.api.template.block.TemplateBlock
 import net.modificationstation.stationapi.api.template.item.TemplateStackableFoodItem
 import net.modificationstation.stationapi.api.util.Namespace
@@ -40,6 +43,10 @@ object MyGoodMod : ModInitializer {
 
   // items
   lateinit var bagelItem: Item
+
+  // tags
+  @JvmField val redstoneDustPlaceable: TagKey<Block> =
+    TagKey.of(BlockRegistry.KEY, namespace.id("redstone_dust_placeable"))
 
   override fun onInitialize() {}
 

@@ -8,7 +8,14 @@ import pw.tmpim.mygoodmod.MyGoodMod.namespace
 
 class RedstoneBlock : TemplateBlock(
   namespace.id("redstone_block"),
-  Material.METAL
+  /**
+   * The glass material is transparent, which allows redstone behaviour in Beta 1.7.3 to work correctly for the block,
+   * as World.isPoweringSide calls World.shouldSuffocate.
+   *
+   * The downside of this is that redstone dust can't be placed on top of the block, which RedstoneWireBlockMixin works
+   * around with a `mygoodmod:redstone_dust_placeable` tag.
+   */
+  Material.GLASS
 ) {
   init {
     setTranslationKey(namespace, "redstone_block")
@@ -40,16 +47,8 @@ class RedstoneBlock : TemplateBlock(
 
   override fun canEmitRedstonePower() = true
 
-  override fun isEmittingRedstonePowerInDirection(
+  override fun isPoweringSide(
     blockView: BlockView,
-    x: Int,
-    y: Int,
-    z: Int,
-    direction: Int
-  ) = true
-
-  override fun canTransferPowerInDirection(
-    world: World,
     x: Int,
     y: Int,
     z: Int,

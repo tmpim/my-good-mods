@@ -16,5 +16,6 @@ object MyGoodModData : DataEntrypoint {
     ctx.run(GoodCraftingRecipeProvider(ctx))
     ctx.run(GoodItemModelProvider(ctx))
     ctx.run(GoodLanguageProvider(ctx))
+    ctx.run(GoodTagProvider(ctx))
   }
 }
