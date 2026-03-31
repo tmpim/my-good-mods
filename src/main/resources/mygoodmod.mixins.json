@@ -4,7 +4,16 @@
   "package": "pw.tmpim.mygoodmod.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
-    "FlowingLiquidBlockMixin",
+    "ResourcePackManagerMixin",
+    "WorldMixin",
+    "block.FlowingLiquidBlockMixin",
+    "entity.BoatEntityMixin",
+    "item.AxeItemAccessor",
+    "item.AxeItemMixin",
+    "item.PickaxeItemAccessor",
+    "item.PickaxeItemMixin",
+    "item.ShovelItemAccessor",
+    "item.ShovelItemMixin",
     "ResourcePackManagerMixin",
     "WorldMixin",
     "death.ArrowEntityMixin",
@@ -16,20 +25,12 @@
     "death.FireballEntityMixin",
     "death.PlayerEntityMixin",
     "death.TntEntityMixin",
-    "AxeItemAccessor",
-    "AxeItemMixin",
-    "PickaxeItemAccessor",
-    "PickaxeItemMixin",
-    "ShovelItemAccessor",
-    "ShovelItemMixin",
     "sign.SignBlockEntityMixin",
     "sign.SignBlockMixin"
   ],
   "server": [
-    "death.ServerPlayerEntityMixin"
   ],
   "client": [
-    "death.ClientPlayerEntityMixin",
     "sign.SignEditScreenMixin"
   ],
   "injectors": {

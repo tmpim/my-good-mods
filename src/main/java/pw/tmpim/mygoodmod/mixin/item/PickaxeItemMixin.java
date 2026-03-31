@@ -1,4 +1,4 @@
-package pw.tmpim.mygoodmod.mixin;
+package pw.tmpim.mygoodmod.mixin.item;
 
 import net.minecraft.block.Block;
 import net.minecraft.item.PickaxeItem;
@@ -24,11 +24,15 @@ public abstract class PickaxeItemMixin extends ToolItem {
     super(id, damageBoost, toolMaterial, effectiveOn);
   }
 
+  /**
+   * Adds extra blocks that pickaxes are allowed to break.
+   * @see GoodPatches
+   */
   @Inject(
     method = "<clinit>()V",
     at = @At("TAIL")
   )
-  private static void goodmod$addEffectiveBlocks(CallbackInfo ci) {
+  private static void addEffectiveBlocks(CallbackInfo ci) {
     List<Block> blocks = new ArrayList<>(Arrays.asList(pickaxeEffectiveBlocks));
     blocks.addAll(GoodPatches.getPickaxeEffective());
     PickaxeItemAccessor.setPickaxeEffectiveBlocks(blocks.toArray(Block[]::new));

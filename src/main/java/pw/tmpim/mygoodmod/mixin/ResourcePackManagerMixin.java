@@ -10,6 +10,9 @@ import pw.tmpim.mygoodmod.assets.GoodResourcePackProvider;
 
 @Mixin(ResourcePackManager.class)
 public class ResourcePackManagerMixin {
+  /**
+   * Loads mygoodmod's auto-generated resources at runtime.
+   */
   @Redirect(
     method = "<init>",
     remap = false,

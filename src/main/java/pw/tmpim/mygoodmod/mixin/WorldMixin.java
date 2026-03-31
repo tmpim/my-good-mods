@@ -11,8 +11,13 @@ import pw.tmpim.mygoodmod.block.RedstoneBlock;
 
 @Mixin(World.class)
 public class WorldMixin {
+  /**
+   * Allows redstone blocks to transmit redstone.
+   * NB: StationAPI currently does not override this for all StationBlock implementations, but when it does, this will
+   *     become redundant. We currently don't target all StationBlocks here to err on the side of caution.
+   */
   @Inject(method = "canTransferPowerInDirection", at = @At("HEAD"), cancellable = true)
-  private void goodmod$canTransferPowerInDirection(
+  private void canTransferPowerInDirection(
     int x,
     int y,
     int z,
@@ -26,8 +31,13 @@ public class WorldMixin {
     }
   }
 
+  /**
+   * Allows redstone blocks to transmit redstone.
+   * NB: StationAPI currently does not override this for all StationBlock implementations, but when it does, this will
+   *     become redundant. We currently don't target all StationBlocks here to err on the side of caution.
+   */
   @Inject(method = "isEmittingRedstonePowerInDirection", at = @At("HEAD"), cancellable = true)
-  private void goodmod$isEmittingRedstonePowerInDirection(
+  private void isEmittingRedstonePowerInDirection(
     int x,
     int y,
     int z,

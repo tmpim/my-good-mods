@@ -14,8 +14,14 @@ public class SignBlockEntityMixin extends BlockEntity {
   @Shadow
   private boolean editable;
 
-  @Inject(method = "readNbt", at = @At(value = "INVOKE", target = "Lnet/minecraft/block/entity/BlockEntity;readNbt(Lnet/minecraft/nbt/NbtCompound;)V"))
-  private void readNbt(NbtCompound par1, CallbackInfo ci) {
+  @Inject(
+    method = "readNbt",
+    at = @At(
+      value = "INVOKE",
+      target = "Lnet/minecraft/block/entity/BlockEntity;readNbt(Lnet/minecraft/nbt/NbtCompound;)V"
+    )
+  )
+  private void readNbt(NbtCompound nbt, CallbackInfo ci) {
     this.editable = true;
   }
 
@@ -24,5 +30,4 @@ public class SignBlockEntityMixin extends BlockEntity {
     this.editable = true;
     super.markDirty();
   }
-
 }
