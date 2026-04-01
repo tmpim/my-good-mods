@@ -7,33 +7,44 @@ fabric_language_kotlin = "1.13.10+kotlin.2.3.20"
 minecraft = "b1.7.3"
 yarn = "b1.7.3+e0778a3"
 fabric_loader = "0.18.4"
+fabric_loader_min = "0.18.4" # minimum supported version, used in fabric.mod.json
 
 # plugins
 loom = "1.15.3"
 modrinth_minotaur = "2.+"
 
 # libraries
-log4j = "2.17.2"
+log4j = "2.25.4"
+log4j_slf4j = "2.18.0"
 slf4j = "1.8.0-beta4"
+
+nbt = "6.2+mcb1.7.3"
 
 # dependencies
 stationapi = "2.0.0-alpha.5.4+tmpim.1"
+stationapi_min = "2.0.0-alpha.5.4" # minimum supported version, used in fabric.mod.json
 glassconfigapi = "3.2.5"
 modmenu = "1.1.1"
 datagen = "0.0.2-tmpim.2"
+bhcreative = "0.4.9"
+alwaysmoreitems = "1.9.0"
 
 [libraries]
 fabric-loader = { module = "net.fabricmc:fabric-loader", version.ref = "fabric_loader" }
 fabric-language-kotlin = { module = "net.fabricmc:fabric-language-kotlin", version.ref = "fabric_language_kotlin" }
 
 log4j-core = { module = "org.apache.logging.log4j:log4j-core", version.ref = "log4j" }
-log4j-slf4j-impl = { module = "org.apache.logging.log4j:log4j-slf4j18-impl", version.ref = "log4j" }
+log4j-slf4j-impl = { module = "org.apache.logging.log4j:log4j-slf4j18-impl", version.ref = "log4j_slf4j" }
 slf4j-api = { module = "org.slf4j:slf4j-api", version.ref = "slf4j" }
+
+nbt = { module = "net.querz.nbt:NBT", version.ref = "nbt" }
 
 stationapi = { module = "net.modificationstation:StationAPI", version.ref = "stationapi" }
 glassconfigapi = { module = "net.glasslauncher.mods:GlassConfigAPI", version.ref = "glassconfigapi" }
 modmenu = { module = "net.danygames2014:modmenu", version.ref = "modmenu" }
 datagen = { module = "emmathemartian:stapi-datagen", version.ref = "datagen" }
+bhcreative = { module = "com.github.paulevsGitch:BHCreative", version.ref = "bhcreative" }
+alwaysmoreitems = { module = "net.glasslauncher.mods:AlwaysMoreItems", version.ref = "alwaysmoreitems" }
 
 [plugins]
 fabric-loom = { id = "fabric-loom", version.ref = "loom" }

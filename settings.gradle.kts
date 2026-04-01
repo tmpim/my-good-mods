@@ -20,3 +20,11 @@ pluginManagement {
     gradlePluginPortal()
   }
 }
+
+rootProject.name = "my-good-mods"
+
+// mods
+include("good-mod")
+
+// non-mods
+include("tool-nbt-upgrader")

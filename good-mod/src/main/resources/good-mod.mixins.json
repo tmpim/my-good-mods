@@ -1,0 +1,40 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "pw.tmpim.goodmod.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "mixins": [
+    "ResourcePackManagerMixin",
+    "block.FlowingLiquidBlockMixin",
+    "block.RedstoneWireBlockMixin",
+    "death.ArrowEntityMixin",
+    "death.BedBlockMixin",
+    "death.CactusBlockMixin",
+    "death.EntityAccessor",
+    "death.EntityMixin",
+    "death.ExplosionMixin",
+    "death.FireballEntityMixin",
+    "death.PlayerEntityMixin",
+    "death.TntEntityMixin",
+    "entity.BoatEntityMixin",
+    "item.AxeItemAccessor",
+    "item.AxeItemMixin",
+    "item.PickaxeItemAccessor",
+    "item.PickaxeItemMixin",
+    "item.ShovelItemAccessor",
+    "item.ShovelItemMixin",
+    "sign.SignBlockEntityMixin",
+    "sign.SignBlockMixin"
+  ],
+  "server": [
+    "ServerPlayNetworkHandlerMixin",
+    "death.ServerPlayerEntityMixin"
+  ],
+  "client": [
+    "death.ClientPlayerEntityMixin",
+    "sign.SignEditScreenMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

@@ -1,0 +1,63 @@
+{
+  "schemaVersion": 1,
+  "id": "good-mod",
+  "version": "${version}",
+
+  "name": "My good mod",
+  "description": "great",
+  "authors": [
+    "Lemmmy"
+  ],
+  "contact": {
+    "sources": "https://github.com/tmpim/MyGoodMods"
+  },
+
+  "license": "MIT",
+  "icon": "assets/good-mod/icon.png",
+
+  "environment": "*",
+  "entrypoints": {
+    "stationapi:event_bus": [
+      {
+        "adapter": "kotlin",
+        "value": "pw.tmpim.goodmod.GoodMod"
+      }
+    ],
+    "stationapi:event_bus_client": [
+      {
+        "adapter": "kotlin",
+        "value": "pw.tmpim.goodmod.GoodModClient"
+      }
+    ],
+    "stationapi:event_bus_server": [],
+    "gcapi3": [
+      {
+        "adapter": "kotlin",
+        "value": "pw.tmpim.goodmod.GoodMod"
+      }
+    ],
+    "data": [
+      {
+        "adapter": "kotlin",
+        "value": "pw.tmpim.goodmod.data.GoodModData"
+      }
+    ]
+  },
+
+  "mixins": [
+    "good-mod.mixins.json"
+  ],
+
+  "accessWidener": "good-mod.classtweaker",
+
+  "depends": {
+    "minecraft": "1.0.0-beta.7.3",
+    "stationapi": ">=${stationApiMin}",
+    "fabricloader": ">=${fabricLoaderMin}",
+    "fabric-language-kotlin": "*"
+  },
+  "suggests": {
+    "modmenu": "*",
+    "bhcreative": "*"
+  }
+}

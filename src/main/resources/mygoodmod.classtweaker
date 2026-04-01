@@ -1,3 +1,0 @@
-classTweaker v1 named
-
-inject-interface net/minecraft/entity/player/PlayerEntity pw/tmpim/mygoodmod/death/Victim
