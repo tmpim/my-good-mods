@@ -43,6 +43,7 @@ kotlin {
 
 allprojects {
   val libs = rootProject.libs // https://github.com/gradle/gradle/issues/16634#issuecomment-809345790
+
   project.properties["modVersion"]?.let { version = it }
 
   apply(plugin = "kotlin")
@@ -228,6 +229,9 @@ allprojects {
 subprojects {
   val libs = rootProject.libs
 
+  project.properties["mavenGroup"]?.let { group = it }
+  (project.properties["archivesBaseName"] as String?)?.let { base.archivesName = it }
+
   // minecraft-specific
   if (!name.startsWith("tool-")) {
     apply(plugin = "com.modrinth.minotaur")
@@ -261,42 +265,39 @@ subprojects {
       }
     }
 
-    // modrinth publishing if the project has extra["modrinthProjectId"] defined
-    afterEvaluate {
-      val modrinthProjectId: String? by extra
-      val modrinthKey = findProperty("modrinthApiKey") as? String?
+    val modrinthProjectId = project.properties["modrinthProjectId"] as String?
+    val modrinthKey = findProperty("modrinthApiKey") as? String?
 
-      if (modrinthProjectId == null) {
-        println("no extra[\"modrinthProjectId\"] for $name, skipping modrinth configuration")
-      } else if (modrinthKey == null) {
-        println("no modrinthApiKey in ~/.gradle/gradle.properties, skipping modrinth configuration")
-      } else {
-        modrinth {
-          token.set(modrinthKey)
-          projectId.set(modrinthProjectId)
-          versionNumber.set("${libs.versions.minecraft.get()}-$version")
-          versionName.set(version as String)
-          versionType.set("release")
-          uploadFile.set(tasks.jar)
-          changelog.set("Release notes can be found on the [GitHub repository](https://github.com/${gitRepo}/commits/master).")
-          gameVersions.add(libs.versions.minecraft.get())
-          loaders.add("babric")
+    if (modrinthProjectId == null) {
+      println("no extra[\"modrinthProjectId\"] for $name, skipping modrinth configuration")
+    } else if (modrinthKey == null) {
+      println("no modrinthApiKey in ~/.gradle/gradle.properties, skipping modrinth configuration")
+    } else {
+      modrinth {
+        token.set(modrinthKey)
+        projectId.set(modrinthProjectId)
+        versionNumber.set("${libs.versions.minecraft.get()}-$version")
+        versionName.set(version as String)
+        versionType.set("release")
+        uploadFile.set(tasks.jar)
+        changelog.set("Release notes can be found on the [GitHub repository](https://github.com/${gitRepo}/commits/master).")
+        gameVersions.add(libs.versions.minecraft.get())
+        loaders.add("babric")
 
-          syncBodyFrom.set(provider {
-            file("README.md").readText()
-              .replace(Regex("/(images/.+?\\.png)"), "https://raw.githubusercontent.com/${gitRepo}/HEAD/$1")
-          })
+        syncBodyFrom.set(provider {
+          file("README.md").readText()
+            .replace(Regex("/(images/.+?\\.png)"), "https://raw.githubusercontent.com/${gitRepo}/HEAD/$1")
+        })
 
-          dependencies {
-            required.project("stationapi")
-            required.project("fabric-language-kotlin")
-            optional.project("modmenu")
-          }
+        dependencies {
+          required.project("stationapi")
+          required.project("fabric-language-kotlin")
+          optional.project("modmenu")
         }
-
-        tasks.modrinth { dependsOn(tasks.modrinthSyncBody) }
-        tasks.publish { dependsOn(tasks.modrinth) }
       }
+
+      tasks.modrinth { dependsOn(tasks.modrinthSyncBody) }
+      tasks.publish { dependsOn(tasks.modrinth) }
     }
   }
 }
