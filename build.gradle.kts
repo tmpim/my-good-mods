@@ -58,7 +58,7 @@ allprojects {
       content {
         includeGroupAndSubgroups("net.modificationstation") // StationAPI
         includeGroupAndSubgroups("net.glasslauncher") // Biny (remapper), Glass Config, Always More Items
-        includeGroupAndSubgroups("net.danygames2014") // modmenu
+        includeGroupAndSubgroups("net.danygames2014") // modmenu, UniTweaks
         includeGroupAndSubgroups("me.carleslc") // Glass Config dependencies
       }
     }

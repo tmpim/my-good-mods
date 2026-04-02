@@ -6,6 +6,7 @@
   "name": "Good Sign Editing",
   "description": "Enables editing signs by right-clicking, and exiting the sign menu with Escape.",
   "authors": [
+    "tmpim",
     "hugeblank"
   ],
   "contact": {

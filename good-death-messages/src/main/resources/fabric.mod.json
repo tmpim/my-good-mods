@@ -6,6 +6,7 @@
   "name": "Good Death Messages",
   "description": "Implements death messages faithful to newer versions of vanilla Minecraft.",
   "authors": [
+    "tmpim",
     "hugeblank"
   ],
   "contact": {

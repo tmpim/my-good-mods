@@ -6,6 +6,7 @@
   "name": "Good Asset Fetcher",
   "description": "Provides assets from any version of Minecraft to other mods.",
   "authors": [
+    "tmpim",
     "Lemmmy",
     "hugeblank"
   ],

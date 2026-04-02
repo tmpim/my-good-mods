@@ -28,6 +28,7 @@ modmenu = "1.1.1"
 datagen = "0.0.2-tmpim.2"
 bhcreative = "0.4.9"
 alwaysmoreitems = "1.9.0"
+unitweaks = "0.27.0"
 
 [libraries]
 fabric-loader = { module = "net.fabricmc:fabric-loader", version.ref = "fabric_loader" }
@@ -45,6 +46,7 @@ modmenu = { module = "net.danygames2014:modmenu", version.ref = "modmenu" }
 datagen = { module = "emmathemartian:stapi-datagen", version.ref = "datagen" }
 bhcreative = { module = "com.github.paulevsGitch:BHCreative", version.ref = "bhcreative" }
 alwaysmoreitems = { module = "net.glasslauncher.mods:AlwaysMoreItems", version.ref = "alwaysmoreitems" }
+unitweaks = { module = "net.danygames2014:UniTweaks", version.ref = "unitweaks" }
 
 [plugins]
 fabric-loom = { id = "fabric-loom", version.ref = "loom" }

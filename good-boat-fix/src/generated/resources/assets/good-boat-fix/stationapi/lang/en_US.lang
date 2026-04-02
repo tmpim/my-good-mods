@@ -1,0 +1,4 @@
+gui.good-boat-fix.config.name=Good Boat Fix
+gui.good-boat-fix.config.drop_item_enabled.desc=Boats drop the boat item instead of planks and sticks
+gui.good-boat-fix.config.drop_item_enabled=Boats drop boat item
+

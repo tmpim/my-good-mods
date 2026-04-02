@@ -6,6 +6,7 @@
   "name": "Good Boat Fix",
   "description": "Boats drop boats instead of sticks and planks when broken.",
   "authors": [
+    "tmpim",
     "Lignum"
   ],
   "contact": {
@@ -17,9 +18,26 @@
 
   "environment": "*",
   "entrypoints": {
-    "stationapi:event_bus": [],
+    "stationapi:event_bus": [
+      {
+        "adapter": "kotlin",
+        "value": "pw.tmpim.goodboatfix.GoodBoatFix"
+      }
+    ],
     "stationapi:event_bus_client": [],
-    "stationapi:event_bus_server": []
+    "stationapi:event_bus_server": [],
+    "gcapi3": [
+      {
+        "adapter": "kotlin",
+        "value": "pw.tmpim.goodboatfix.GoodBoatFix"
+      }
+    ],
+    "data": [
+      {
+        "adapter": "kotlin",
+        "value": "pw.tmpim.goodboatfix.data.GoodBoatFixData"
+      }
+    ]
   },
 
   "mixins": [

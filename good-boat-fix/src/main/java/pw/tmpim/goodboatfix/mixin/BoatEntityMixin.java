@@ -30,14 +30,14 @@ public abstract class BoatEntityMixin extends Entity {
     )
   )
   public void dropBoatItem(Entity damageSource, int amount, CallbackInfoReturnable<Boolean> cir) {
-    if (Boolean.TRUE.equals(GoodBoatFix.getConfig().boatsDropBoatItem)) {
+    if (GoodBoatFix.shouldApplyMixin()) {
       dropItem(Item.BOAT.id, 1, 0.0f);
     }
   }
 
   @Override
   public ItemEntity dropItem(ItemStack itemStack, float yOffset) {
-    if (Boolean.TRUE.equals(GoodBoatFix.getConfig().boatsDropBoatItem)) {
+    if (GoodBoatFix.shouldApplyMixin()) {
       var id = itemStack.getItem().id;
 
       if (id == Block.PLANKS.id || id == Item.STICK.id) {
