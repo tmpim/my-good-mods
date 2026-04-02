@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "id": "good-sign-editing",
+  "version": "${version}",
+
+  "name": "Good Sign Editing",
+  "description": "Enables editing signs by right-clicking, and exiting the sign menu with Escape.",
+  "authors": [
+    "hugeblank"
+  ],
+  "contact": {
+    "sources": "https://github.com/tmpim/my-good-mods"
+  },
+
+  "license": "MIT",
+  "icon": "assets/good-sign-editing/icon.png",
+
+  "environment": "*",
+  "entrypoints": {
+    "stationapi:event_bus": [],
+    "stationapi:event_bus_client": [],
+    "stationapi:event_bus_server": []
+  },
+
+  "mixins": [
+    "good-sign-editing.mixins.json"
+  ],
+
+  "depends": {
+    "minecraft": "1.0.0-beta.7.3",
+    "stationapi": ">=${stationApiMin}",
+    "fabricloader": ">=${fabricLoaderMin}",
+    "fabric-language-kotlin": "*"
+  }
+}

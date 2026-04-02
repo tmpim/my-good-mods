@@ -26,6 +26,8 @@ rootProject.name = "my-good-mods"
 // mods
 include("good-asset-fetcher")
 include("good-death-messages")
+include("good-sign-editing")
+
 include("good-mod")
 
 // non-mods
