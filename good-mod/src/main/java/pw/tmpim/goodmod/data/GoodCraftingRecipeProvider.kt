@@ -56,14 +56,5 @@ class GoodCraftingRecipeProvider(ctx: DataGenContext) : CraftingRecipeProvider(c
       .define('S', DataIngredient.of(Block.STONE.asItem()))
       .result(ItemStack(GoodMod.stoneBricksBlock, 4))
       .save("stone_bricks", this, ctx)
-
-    // Bagel
-    shaped()
-      .pattern("WWW")
-      .pattern("W W")
-      .pattern("WWW")
-      .define('W', DataIngredient.of(Item.WHEAT))
-      .result(ItemStack(GoodMod.bagelItem, 2))
-      .save("bagel", this, ctx)
   }
 }

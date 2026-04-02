@@ -18,7 +18,6 @@ class GoodLanguageProvider(ctx: DataGenContext) : LanguageProvider(ctx) {
       .add(GoodMod.stoneBricksBlock, "Stone Bricks")
       .add(GoodMod.hayBlock, "Hay Bale")
       .add(GoodMod.coalBlock, "Block of Coal")
-      .add(GoodMod.bagelItem, "Bagel")
       .save("en_US", this, ctx)
   }
 }

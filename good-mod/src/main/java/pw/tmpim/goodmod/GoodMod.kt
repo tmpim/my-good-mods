@@ -38,9 +38,6 @@ object GoodMod : ModInitializer {
   lateinit var hayBlock: Block
   lateinit var coalBlock: Block
 
-  // items
-  lateinit var bagelItem: Item
-
   // tags
   @JvmField val redstoneDustPlaceable: TagKey<Block> =
     TagKey.of(BlockRegistry.KEY, namespace.id("redstone_dust_placeable"))
@@ -75,11 +72,5 @@ object GoodMod : ModInitializer {
       .setResistance(6.0F)
       .setSoundGroup(Block.STONE_SOUND_GROUP)
       .setTranslationKey(namespace, "coal_block")
-  }
-
-  @EventListener
-  fun onRegisterItems(event: ItemRegistryEvent) {
-    bagelItem = TemplateStackableFoodItem(namespace.id("bagel"), 5, false, 8)
-      .setTranslationKey(namespace, "bagel")
   }
 }

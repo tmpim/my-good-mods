@@ -6,5 +6,5 @@ val stringReplacements = mapOf(
   "mygoodmod:hay_block"      to "good-compression:hay_block",
   "mygoodmod:coal_block"     to "good-compression:coal_block",
 
-  "mygoodmod:bagel"          to "good-bagel:bagel",
+  "mygoodmod:bagel"          to "good-food:bagel",
 )

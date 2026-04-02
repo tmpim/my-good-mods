@@ -30,6 +30,7 @@ include("good-asset-fetcher")
 include("good-boat-fix")
 include("good-command-fixes")
 include("good-death-messages")
+include("good-food")
 include("good-sign-editing")
 
 // everything else mod/incubator
