@@ -20,7 +20,7 @@ Currently only supports clientside assets (not datapacks).
     }
     
     dependencies {
-      modImplementation("pw.tmpim.mygoodmods:good-asset-fetcher:1.0.2")
+      modImplementation("pw.tmpim.mygoodmods:good-asset-fetcher:1.0.3")
     }
     ```
 

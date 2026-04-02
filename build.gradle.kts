@@ -1,5 +1,8 @@
 @file:Suppress("UnstableApiUsage")
 
+import groovy.namespace.QName
+import groovy.util.Node
+import groovy.util.NodeList
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
 import kotlin.text.replace
@@ -241,6 +244,20 @@ subprojects {
       publications {
         register("mavenJava", MavenPublication::class) {
           from(components["java"])
+
+          pom.withXml {
+            (asNode().get("dependencies") as? NodeList)?.getAt("dependency")?.forEach {
+              val node = it as Node
+              val artifactId = (node.get("artifactId") as? NodeList)?.text() ?: ""
+
+              // exclude these artifact ids from the published pom
+              val excluded = listOf("StationAPI")
+
+              if (artifactId in excluded) {
+                node.parent().remove(node)
+              }
+            }
+          }
         }
       }
 
