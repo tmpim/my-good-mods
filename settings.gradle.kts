@@ -23,11 +23,15 @@ pluginManagement {
 
 rootProject.name = "my-good-mods"
 
-// mods
+// library mods
 include("good-asset-fetcher")
+
+// standalone mods
+include("good-boat-fix")
 include("good-death-messages")
 include("good-sign-editing")
 
+// everything else mod/incubator
 include("good-mod")
 
 // non-mods

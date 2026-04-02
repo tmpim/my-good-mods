@@ -29,7 +29,7 @@ object GoodMod : ModInitializer {
   @JvmField val log: Logger = LoggerFactory.getLogger(MOD_ID)
 
   @JvmStatic
-  @ConfigRoot(value = MOD_ID, visibleName = MOD_NAME, nameKey = "gui.$MOD_ID.config.name")
+  @ConfigRoot(value = MOD_ID, visibleName = MOD_NAME, nameKey = "$CONFIG_KEY.name")
   val config = GoodModConfig()
 
   // blocks (todo: move to another class)

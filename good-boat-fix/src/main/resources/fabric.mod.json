@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "id": "good-boat-fix",
+  "version": "${version}",
+
+  "name": "Good Boat Fix",
+  "description": "Boats drop boats instead of sticks and planks when broken.",
+  "authors": [
+    "Lignum"
+  ],
+  "contact": {
+    "sources": "https://github.com/tmpim/my-good-mods"
+  },
+
+  "license": "MIT",
+  "icon": "assets/good-boat-fix/icon.png",
+
+  "environment": "*",
+  "entrypoints": {
+    "stationapi:event_bus": [],
+    "stationapi:event_bus_client": [],
+    "stationapi:event_bus_server": []
+  },
+
+  "mixins": [
+    "good-boat-fix.mixins.json"
+  ],
+
+  "depends": {
+    "minecraft": "1.0.0-beta.7.3",
+    "stationapi": ">=${stationApiMin}",
+    "fabricloader": ">=${fabricLoaderMin}",
+    "fabric-language-kotlin": "*"
+  }
+}

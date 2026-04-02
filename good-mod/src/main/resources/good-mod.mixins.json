@@ -6,7 +6,6 @@
   "mixins": [
     "block.FlowingLiquidBlockMixin",
     "block.RedstoneWireBlockMixin",
-    "entity.BoatEntityMixin",
     "item.AxeItemAccessor",
     "item.AxeItemMixin",
     "item.PickaxeItemAccessor",
