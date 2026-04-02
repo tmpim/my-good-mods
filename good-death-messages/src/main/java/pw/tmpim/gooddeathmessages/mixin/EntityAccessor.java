@@ -1,4 +1,4 @@
-package pw.tmpim.goodmod.mixin.death;
+package pw.tmpim.gooddeathmessages.mixin;
 
 import net.minecraft.entity.Entity;
 import org.spongepowered.asm.mixin.Mixin;

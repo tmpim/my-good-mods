@@ -1,4 +1,4 @@
-package pw.tmpim.goodmod.mixin.death;
+package pw.tmpim.gooddeathmessages.mixin;
 
 import com.llamalad7.mixinextras.sugar.Local;
 import com.llamalad7.mixinextras.sugar.Share;
@@ -9,8 +9,8 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import pw.tmpim.goodmod.death.ExplosionTracker;
-import pw.tmpim.goodmod.death.Victim;
+import pw.tmpim.gooddeathmessages.ExplosionTracker;
+import pw.tmpim.gooddeathmessages.Victim;
 
 @Mixin(Explosion.class)
 public class ExplosionMixin {

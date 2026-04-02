@@ -1,12 +1,11 @@
 {
   "schemaVersion": 1,
-  "id": "good-asset-fetcher",
+  "id": "good-death-messages",
   "version": "${version}",
 
-  "name": "Good Asset Fetcher",
-  "description": "Provides assets from any version of Minecraft to other mods.",
+  "name": "Good Death Messages",
+  "description": "Implements death messages faithful to newer versions of vanilla Minecraft.",
   "authors": [
-    "Lemmmy",
     "hugeblank"
   ],
   "contact": {
@@ -14,22 +13,17 @@
   },
 
   "license": "MIT",
-  "icon": "assets/good-asset-fetcher/icon.png",
+  "icon": "assets/good-death-messages/icon.png",
 
-  "environment": "client",
+  "environment": "*",
   "entrypoints": {
     "stationapi:event_bus": [],
-    "stationapi:event_bus_client": [
-      {
-        "adapter": "kotlin",
-        "value": "pw.tmpim.goodassetfetcher.GoodAssetFetcher"
-      }
-    ],
+    "stationapi:event_bus_client": [],
     "stationapi:event_bus_server": []
   },
 
   "mixins": [
-    "good-asset-fetcher.mixins.json"
+    "good-death-messages.mixins.json"
   ],
 
   "depends": {

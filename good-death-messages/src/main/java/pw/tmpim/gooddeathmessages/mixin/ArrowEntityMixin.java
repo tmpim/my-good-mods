@@ -1,4 +1,4 @@
-package pw.tmpim.goodmod.mixin.death;
+package pw.tmpim.gooddeathmessages.mixin;
 
 import com.llamalad7.mixinextras.sugar.Local;
 import net.minecraft.entity.player.PlayerEntity;
@@ -9,7 +9,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import pw.tmpim.goodmod.death.Victim;
+import pw.tmpim.gooddeathmessages.Victim;
 
 @Mixin(ArrowEntity.class)
 public class ArrowEntityMixin {

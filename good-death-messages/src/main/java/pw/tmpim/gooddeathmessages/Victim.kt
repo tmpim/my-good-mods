@@ -1,6 +1,6 @@
-package pw.tmpim.goodmod.death
+package pw.tmpim.gooddeathmessages
 
-import pw.tmpim.goodmod.death.ExplosionTracker.BlastSource
+import pw.tmpim.gooddeathmessages.ExplosionTracker.BlastSource
 
 @Suppress("FunctionName")
 interface Victim {

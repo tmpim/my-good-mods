@@ -1,10 +1,10 @@
-package pw.tmpim.goodmod.mixin.death;
+package pw.tmpim.gooddeathmessages.mixin;
 
 import net.minecraft.entity.player.PlayerEntity;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
-import pw.tmpim.goodmod.death.ExplosionTracker;
-import pw.tmpim.goodmod.death.Victim;
+import pw.tmpim.gooddeathmessages.ExplosionTracker;
+import pw.tmpim.gooddeathmessages.Victim;
 
 @Mixin(PlayerEntity.class)
 public class PlayerEntityMixin implements Victim {

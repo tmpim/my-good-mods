@@ -6,15 +6,6 @@
   "mixins": [
     "block.FlowingLiquidBlockMixin",
     "block.RedstoneWireBlockMixin",
-    "death.ArrowEntityMixin",
-    "death.BedBlockMixin",
-    "death.CactusBlockMixin",
-    "death.EntityAccessor",
-    "death.EntityMixin",
-    "death.ExplosionMixin",
-    "death.FireballEntityMixin",
-    "death.PlayerEntityMixin",
-    "death.TntEntityMixin",
     "entity.BoatEntityMixin",
     "item.AxeItemAccessor",
     "item.AxeItemMixin",
@@ -26,11 +17,9 @@
     "sign.SignBlockMixin"
   ],
   "server": [
-    "ServerPlayNetworkHandlerMixin",
-    "death.ServerPlayerEntityMixin"
+    "ServerPlayNetworkHandlerMixin"
   ],
   "client": [
-    "death.ClientPlayerEntityMixin",
     "sign.SignEditScreenMixin"
   ],
   "injectors": {

@@ -1,4 +1,4 @@
-package pw.tmpim.goodmod.mixin.death;
+package pw.tmpim.gooddeathmessages.mixin;
 
 import net.minecraft.block.BedBlock;
 import net.minecraft.entity.player.PlayerEntity;
@@ -7,7 +7,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import pw.tmpim.goodmod.death.ExplosionTracker;
+import pw.tmpim.gooddeathmessages.ExplosionTracker;
 
 @Mixin(BedBlock.class)
 public class BedBlockMixin {

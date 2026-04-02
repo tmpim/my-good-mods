@@ -1,4 +1,4 @@
-package pw.tmpim.goodmod.mixin.death;
+package pw.tmpim.gooddeathmessages.mixin;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
@@ -7,7 +7,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
-import pw.tmpim.goodmod.death.PlayerEntityDeathHandler;
+import pw.tmpim.gooddeathmessages.PlayerEntityDeathHandler;
 
 @Mixin(ClientPlayerEntity.class)
 public abstract class ClientPlayerEntityMixin extends PlayerEntity {

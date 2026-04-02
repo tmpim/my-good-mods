@@ -1,11 +1,11 @@
-package pw.tmpim.goodmod.death
+package pw.tmpim.gooddeathmessages
 
 import net.minecraft.entity.Entity
 import net.minecraft.entity.mob.*
 import net.minecraft.entity.passive.WolfEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.projectile.FireballEntity
-import pw.tmpim.goodmod.mixin.death.EntityAccessor
+import pw.tmpim.gooddeathmessages.mixin.EntityAccessor
 
 object PlayerEntityDeathHandler {
   @JvmStatic

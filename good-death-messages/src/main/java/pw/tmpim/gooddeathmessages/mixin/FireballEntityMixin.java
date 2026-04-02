@@ -1,4 +1,4 @@
-package pw.tmpim.goodmod.mixin.death;
+package pw.tmpim.gooddeathmessages.mixin;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.projectile.FireballEntity;
@@ -7,7 +7,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import pw.tmpim.goodmod.death.ExplosionTracker;
+import pw.tmpim.gooddeathmessages.ExplosionTracker;
 
 @Mixin(FireballEntity.class)
 public abstract class FireballEntityMixin extends Entity {

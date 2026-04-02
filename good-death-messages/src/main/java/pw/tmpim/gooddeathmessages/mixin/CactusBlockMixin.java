@@ -1,4 +1,4 @@
-package pw.tmpim.goodmod.mixin.death;
+package pw.tmpim.gooddeathmessages.mixin;
 
 import net.minecraft.block.CactusBlock;
 import net.minecraft.entity.Entity;
@@ -8,7 +8,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import pw.tmpim.goodmod.death.Victim;
+import pw.tmpim.gooddeathmessages.Victim;
 
 @Mixin(CactusBlock.class)
 public class CactusBlockMixin {

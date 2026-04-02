@@ -1,4 +1,4 @@
-package pw.tmpim.goodmod.death
+package pw.tmpim.gooddeathmessages
 
 import net.minecraft.entity.Entity
 
