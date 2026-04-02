@@ -1,5 +1,6 @@
 @file:Suppress("UnstableApiUsage")
 
+import groovy.json.JsonSlurper
 import groovy.namespace.QName
 import groovy.util.Node
 import groovy.util.NodeList
@@ -177,25 +178,9 @@ allprojects {
         println("no class tweaker at $classTweakerPath for $name, skipping")
       }
 
-      runs {
-        register("testClient") {
-          source("test")
-          client()
-          configurations.transitiveImplementation
-        }
-        register("testServer") {
-          source("test")
-          server()
-          configurations.transitiveImplementation
-        }
-        register("data") {
-          property("datagen.run", name)
-          property(
-            "datagen.path",
-            project.projectDir.toPath().resolve("src/generated/resources/").toAbsolutePath().toString()
-          )
-          client()
-        }
+      // disable IDEA run configurations
+      runs.configureEach {
+        ideConfigGenerated(false)
       }
     }
 
@@ -215,6 +200,8 @@ allprojects {
         inputs.property(name, value)
       }
 
+      // IDEA will emit "Cannot resolve resource filtering of MatchingCopyAction." but this can be safely ignored
+      // https://youtrack.jetbrains.com/issue/IDEA-296490
       filesMatching("fabric.mod.json") {
         expand(props)
       }
@@ -250,6 +237,42 @@ subprojects {
   // minecraft-specific
   if (!name.startsWith("tool-")) {
     apply(plugin = "com.modrinth.minotaur")
+
+    configurations.namedElements.get().extendsFrom(configurations.implementation.get())
+
+    // disable runClient/runServer tasks for subprojects
+    tasks {
+      runClient {
+        enabled = false
+      }
+
+      runServer {
+        enabled = false
+      }
+    }
+
+    // add datagen task if the subproject has a data entrypoint
+    val fabricModJson = project.projectDir
+      .resolve("src/main/resources/fabric.mod.json")
+      .takeIf { it.exists() }
+      ?.let { JsonSlurper().parse(it) as Map<*, *> }
+
+    loom {
+      runs {
+        if (fabricModJson != null && (fabricModJson["entrypoints"] as Map<*, *>?)?.containsKey("data") == true) {
+          println("found data entrypoint in $name, registering runData task")
+
+          register("data") {
+            client()
+            property("datagen.run", name)
+            property(
+              "datagen.path",
+              project.projectDir.toPath().resolve("src/generated/resources/").toAbsolutePath().toString()
+            )
+          }
+        }
+      }
+    }
 
     // maven publishing, for submodules only
     publishing {
@@ -344,7 +367,23 @@ dependencies {
   // any useful dev environment dependencies here?
 }
 
+// TODO HACK: add subproject resources to the root run configuration
+afterEvaluate {
+  val extraResourceDirs = subprojects
+    .filter { !it.name.startsWith("tool-") }
+    .flatMap { sub ->
+      sub.sourceSets.flatMap { ss ->
+        ss.resources.srcDirs.filter { it.exists() }
+      }
+    }
+
+  tasks.named<JavaExec>("runClient") {
+    classpath = files(extraResourceDirs) + classpath
+  }
+}
+
 tasks.register("genSourcesWithRetry") {
+  // TODO: this retry doesn't seem to work with the subproject genSources
   // genSources currently has a consistent failure, requiring it to be run a few times to get past the failing classes
   // (it has an internal cache). try to generate up to 10 times
   group = "fabric"
