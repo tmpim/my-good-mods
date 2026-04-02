@@ -311,6 +311,7 @@ subprojects {
         uploadFile.set(tasks.jar)
         changelog.set("Release notes can be found on the [GitHub repository](https://github.com/${gitRepo}/commits/master).")
         gameVersions.add(libs.versions.minecraft.get())
+        loaders.add("fabric")
         loaders.add("babric")
 
         syncBodyFrom.set(provider {

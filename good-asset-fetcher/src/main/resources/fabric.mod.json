@@ -17,7 +17,7 @@
   "license": "MIT",
   "icon": "assets/good-asset-fetcher/icon.png",
 
-  "environment": "client",
+  "environment": "*",
   "entrypoints": {
     "stationapi:event_bus": [],
     "stationapi:event_bus_client": [
