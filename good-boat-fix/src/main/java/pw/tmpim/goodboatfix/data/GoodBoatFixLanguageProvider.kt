@@ -10,7 +10,6 @@ private const val C = CONFIG_KEY
 
 class GoodBoatFixLanguageProvider(ctx: DataGenContext) : LanguageProvider(ctx) {
   override fun run(ctx: DataGenContext) {
-
     LangBuilder()
       .add("$C.name", MOD_NAME)
       .add("$C.drop_item_enabled", "Boats drop boat item")

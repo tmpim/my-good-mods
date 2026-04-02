@@ -11,16 +11,10 @@
     "item.PickaxeItemAccessor",
     "item.PickaxeItemMixin",
     "item.ShovelItemAccessor",
-    "item.ShovelItemMixin",
-    "sign.SignBlockEntityMixin",
-    "sign.SignBlockMixin"
+    "item.ShovelItemMixin"
   ],
-  "server": [
-    "ServerPlayNetworkHandlerMixin"
-  ],
-  "client": [
-    "sign.SignEditScreenMixin"
-  ],
+  "server": [],
+  "client": [],
   "injectors": {
     "defaultRequire": 1
   }

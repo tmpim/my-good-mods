@@ -1,4 +1,4 @@
-package pw.tmpim.goodmod.mixin;
+package pw.tmpim.goodcommandfixes.mixin;
 
 import com.llamalad7.mixinextras.sugar.Local;
 import net.minecraft.entity.player.ServerPlayerEntity;
@@ -10,7 +10,7 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import pw.tmpim.goodmod.GoodMod;
+import pw.tmpim.goodcommandfixes.GoodCommandFixes;
 
 @Mixin(ServerPlayNetworkHandler.class)
 public class ServerPlayNetworkHandlerMixin {
@@ -49,6 +49,8 @@ public class ServerPlayNetworkHandlerMixin {
     @Local String[] var2
   ) {
     try {
+      if (Boolean.FALSE.equals(GoodCommandFixes.getConfig().tellFeedbackEnabled)) return;
+
       var src = player.name;
       var dst = var2[1];
       var msg = initialCommand.substring(initialCommand.indexOf(" ")).trim();
@@ -57,7 +59,7 @@ public class ServerPlayNetworkHandlerMixin {
 
       player.sendMessage(newMessage);
     } catch (Exception e) {
-      GoodMod.log.error("failed to forward /tell to sender", e);
+      GoodCommandFixes.log.error("failed to forward /tell to sender", e);
     }
   }
 
@@ -79,12 +81,14 @@ public class ServerPlayNetworkHandlerMixin {
     CallbackInfo ci
   ) {
     try {
+      if (Boolean.FALSE.equals(GoodCommandFixes.getConfig().globalListEnabled)) return;
+
       if (command.toLowerCase().startsWith("/list")) {
         player.sendMessage("Connected players: " + server.playerManager.getPlayerList());
         ci.cancel();
       }
     } catch (Exception e) {
-      GoodMod.log.error("failed to inject /list command", e);
+      GoodCommandFixes.log.error("failed to inject /list command", e);
     }
   }
 }

@@ -1,0 +1,4 @@
+gui.good-command-fixes.config.tell_feedback_enabled=Show /tell feedback to senders
+gui.good-command-fixes.config.global_list_enabled=Allow all players to run /list
+gui.good-command-fixes.config.name=Good Command Fixes
+

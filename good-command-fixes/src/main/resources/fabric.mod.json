@@ -1,0 +1,53 @@
+{
+  "schemaVersion": 1,
+  "id": "good-command-fixes",
+  "version": "${version}",
+
+  "name": "Good Command Fixes",
+  "description": "Allows all players to run /list, and shows /tell feedback to the sender as well.",
+  "authors": [
+    "tmpim",
+    "Lemmmy"
+  ],
+  "contact": {
+    "sources": "https://github.com/tmpim/my-good-mods"
+  },
+
+  "license": "MIT",
+  "icon": "assets/good-command-fixes/icon.png",
+
+  "environment": "*",
+  "entrypoints": {
+    "stationapi:event_bus": [
+      {
+        "adapter": "kotlin",
+        "value": "pw.tmpim.goodcommandfixes.GoodCommandFixes"
+      }
+    ],
+    "stationapi:event_bus_client": [],
+    "stationapi:event_bus_server": [],
+    "gcapi3": [
+      {
+        "adapter": "kotlin",
+        "value": "pw.tmpim.goodcommandfixes.GoodCommandFixes"
+      }
+    ],
+    "data": [
+      {
+        "adapter": "kotlin",
+        "value": "pw.tmpim.goodcommandfixes.data.GoodCommandFixesData"
+      }
+    ]
+  },
+
+  "mixins": [
+    "good-command-fixes.mixins.json"
+  ],
+
+  "depends": {
+    "minecraft": "1.0.0-beta.7.3",
+    "stationapi": ">=${stationApiMin}",
+    "fabricloader": ">=${fabricLoaderMin}",
+    "fabric-language-kotlin": "*"
+  }
+}
