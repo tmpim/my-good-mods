@@ -1,9 +1,28 @@
-# good-asset-fetcher ![Maven Version](https://img.shields.io/maven-metadata/v?metadataUrl=https%3A%2F%2Frepo.lem.sh%2Freleases%2Fpw%2Ftmpim%2Fmygoodmods%2Fgood-asset-fetcher%2Fmaven-metadata.xml)
+# Good Asset Fetcher
+
+![Minecraft Beta 1.7.3](https://img.shields.io/badge/minecraft-beta_1.7.3-70B237)
+[![Modrinth Downloads](https://img.shields.io/modrinth/dt/good-asset-fetcher?logo=modrinth)](https://modrinth.com/mod/good-asset-fetcher/)
+![Maven Version](https://img.shields.io/maven-metadata/v?metadataUrl=https%3A%2F%2Frepo.lem.sh%2Freleases%2Fpw%2Ftmpim%2Fmygoodmods%2Fgood-asset-fetcher%2Fmaven-metadata.xml)
+
+<!-- modrinth_exclude.start -->
+[![Download on Modrinth](../images/modrinth.png)](https://modrinth.com/mod/good-asset-fetcher/)
+<!-- modrinth_exclude.end -->
 
 Library mod for StationAPI that provides an interface for other mods to fetch resources from official Mojang jars on the
 fly when starting the game; this allows mods to utilise the game's assets without incurring license violations.
 
 Currently only supports clientside assets (not datapacks).
+
+![Screenshot of code registering assets from Minecraft 1.12.2 with the `GoodAssetFetcherRegistryEvent`, and Minecraft 
+Beta 1.7.3 with Stone Bricks, Hay Bale, Coal Block, and Redstone Block textures from Minecraft 1.12.2 
+visible.](/images/demo.png)
+
+## Requirements
+
+- Minecraft Beta 1.7.3
+- [Babric](<https://babric.github.io/use/installer/>)
+- [StationAPI](<https://modrinth.com/mod/stationapi>)
+- [Fabric Language Kotlin](<https://modrinth.com/mod/fabric-language-kotlin>)
 
 ## Usage (for developers)
 
@@ -29,7 +48,10 @@ Currently only supports clientside assets (not datapacks).
       {
         "entrypoints": {
           "stationapi:event_bus_client": "com.example.yourmod.ExampleModClientListener"
-        }  
+        },  
+        "depends": {
+          "good-asset-fetcher": "1.x"
+        }
       }  
     ```
    
@@ -94,4 +116,4 @@ above.
 
 ## License
 
-This mod is licensed under the [MIT license](https://github.com/tmpim/my-good-mods/blob/HEAD/LICENSE). 
+This mod is licensed under the [MIT license](../LICENSE). 

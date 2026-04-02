@@ -1,10 +1,10 @@
-package pw.tmpim.goodmod.block
+package pw.tmpim.goodcompression.block
 
 import net.minecraft.block.material.Material
 import net.minecraft.world.BlockView
 import net.minecraft.world.World
 import net.modificationstation.stationapi.api.template.block.TemplateBlock
-import pw.tmpim.goodmod.GoodMod.namespace
+import pw.tmpim.goodcompression.GoodCompression.namespace
 
 class RedstoneBlock : TemplateBlock(
   namespace.id("redstone_block"),
@@ -13,7 +13,7 @@ class RedstoneBlock : TemplateBlock(
    * as World.isPoweringSide calls World.shouldSuffocate.
    *
    * The downside of this is that redstone dust can't be placed on top of the block, which RedstoneWireBlockMixin works
-   * around with a `mygoodmod:redstone_dust_placeable` tag.
+   * around with a `good-compression:redstone_dust_placeable` tag.
    */
   Material.GLASS
 ) {

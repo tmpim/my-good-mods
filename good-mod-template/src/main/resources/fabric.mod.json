@@ -57,7 +57,6 @@
     "fabric-language-kotlin": "*"
   },
   "suggests": {
-    "modmenu": "*",
-    "bhcreative": "*"
+    "modmenu": "*"
   }
 }

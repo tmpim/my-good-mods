@@ -1,0 +1,14 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "pw.tmpim.goodcompression.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "mixins": [
+    "RedstoneWireBlockMixin"
+  ],
+  "server": [],
+  "client": [],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

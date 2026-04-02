@@ -1,0 +1,62 @@
+{
+  "schemaVersion": 1,
+  "id": "good-compression",
+  "version": "${version}",
+
+  "name": "Good Compression",
+  "description": "Adds compressed blocks such as Stone Bricks, Hay Bales, Coal Blocks, and Redstone Blocks.",
+  "authors": [
+    "tmpim",
+    "hugeblank"
+  ],
+  "contact": {
+    "sources": "https://github.com/tmpim/my-good-mods"
+  },
+
+  "license": "MIT",
+  "icon": "assets/good-compression/icon.png",
+
+  "environment": "*",
+  "entrypoints": {
+    "stationapi:event_bus": [
+      {
+        "adapter": "kotlin",
+        "value": "pw.tmpim.goodcompression.GoodCompression"
+      }
+    ],
+    "stationapi:event_bus_client": [
+      {
+        "adapter": "kotlin",
+        "value": "pw.tmpim.goodcompression.GoodCompressionClient"
+      }
+    ],
+    "stationapi:event_bus_server": [],
+    "gcapi3": [
+      {
+        "adapter": "kotlin",
+        "value": "pw.tmpim.goodcompression.GoodCompression"
+      }
+    ],
+    "data": [
+      {
+        "adapter": "kotlin",
+        "value": "pw.tmpim.goodcompression.data.GoodCompressionData"
+      }
+    ]
+  },
+
+  "mixins": [
+    "good-compression.mixins.json"
+  ],
+
+  "depends": {
+    "minecraft": "1.0.0-beta.7.3",
+    "stationapi": ">=${stationApiMin}",
+    "fabricloader": ">=${fabricLoaderMin}",
+    "fabric-language-kotlin": "*",
+    "good-asset-fetcher": "*"
+  },
+  "suggests": {
+    "modmenu": "*"
+  }
+}

@@ -326,20 +326,32 @@ subprojects {
       println("no modrinthApiKey in ~/.gradle/gradle.properties, skipping modrinth configuration")
     } else {
       modrinth {
-        token.set(modrinthKey)
-        projectId.set(modrinthProjectId)
-        versionNumber.set("${libs.versions.minecraft.get()}-$version")
-        versionName.set(version as String)
-        versionType.set("release")
+        token = modrinthKey
+        projectId = modrinthProjectId
+        versionNumber = "${libs.versions.minecraft.get()}-$version"
+        versionName = version as String
+        versionType = "release"
         uploadFile.set(tasks.jar)
-        changelog.set("Release notes can be found on the [GitHub repository](https://github.com/${gitRepo}/commits/master).")
+        changelog = "Release notes can be found on the [GitHub repository](https://github.com/${gitRepo}/commits/master)."
         gameVersions.add(libs.versions.minecraft.get())
         loaders.add("fabric")
         loaders.add("babric")
 
         syncBodyFrom.set(provider {
-          file("README.md").readText()
-            .replace(Regex("/(images/.+?\\.png)"), "https://raw.githubusercontent.com/${gitRepo}/HEAD/$1")
+          val readmeFile = file("README.md")
+          val readmeDir = readmeFile.parentFile
+            .relativeTo(rootProject.projectDir)
+            .path
+            .let { if (it.isEmpty()) "" else "$it/" }
+
+          readmeFile.readText()
+            // replace links to (./LICENSE) to the project's root license file
+            .replace(Regex("""\([\.\/]+LICENSE\)"""), "(https://github.com/${gitRepo}/blob/HEAD/LICENSE)")
+            // replace relative image URLs
+            .replace(Regex("""\((?!https?://)(/images/.+?\.png)\)""")) { match ->
+              val imagePath = match.groupValues[1].trimStart('/')
+              "(https://raw.githubusercontent.com/${gitRepo}/HEAD/${readmeDir}${imagePath})"
+            }
         })
 
         dependencies {
@@ -464,7 +476,7 @@ tasks.register("generateMod") {
     check(confirmation.isEmpty() || confirmation == "y") { "aborted" }
 
     // SETUP
-    val textExtensions = setOf("kt", "kts", "java", "json", "classtweaker", "properties")
+    val textExtensions = setOf("kt", "kts", "java", "json", "classtweaker", "properties", "md")
     val ignoreDirs = setOf(".gradle", "build", "run", ".idea", ".kotlin")
 
     fun replacer(str: String) = str

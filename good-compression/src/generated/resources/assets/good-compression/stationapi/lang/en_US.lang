@@ -1,0 +1,8 @@
+tile.good-compression.redstone_block.name=Block of Redstone
+tile.good-compression.hay_block.name=Hay Bale
+gui.good-compression.config.redstone_dust_on_top_of_blocks.desc=Allow redstone dust to be placed on non-solid blocks, such as Redstone Blocks, if they are in the good-compression:redstone_dust_placeable tag.
+gui.good-compression.config.redstone_dust_on_top_of_blocks=Redstone dust on top of blocks
+tile.good-compression.stone_bricks.name=Stone Bricks
+tile.good-compression.coal_block.name=Block of Coal
+gui.good-compression.config.name=Good Compression
+

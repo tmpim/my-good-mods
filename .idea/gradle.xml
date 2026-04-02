@@ -4,9 +4,6 @@
   <component name="GradleSettings">
     <option name="linkedExternalProjectsSettings">
       <GradleProjectSettings>
-        <option name="delegatedBuild" value="true" />
-        <option name="testRunner" value="GRADLE" />
-        <option name="distributionType" value="DEFAULT_WRAPPED" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
         <option name="modules">
           <set>
@@ -14,6 +11,7 @@
             <option value="$PROJECT_DIR$/good-asset-fetcher" />
             <option value="$PROJECT_DIR$/good-boat-fix" />
             <option value="$PROJECT_DIR$/good-command-fixes" />
+            <option value="$PROJECT_DIR$/good-compression" />
             <option value="$PROJECT_DIR$/good-death-messages" />
             <option value="$PROJECT_DIR$/good-food" />
             <option value="$PROJECT_DIR$/good-mod" />

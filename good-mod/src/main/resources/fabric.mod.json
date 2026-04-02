@@ -49,17 +49,13 @@
     "good-mod.mixins.json"
   ],
 
-  "accessWidener": "good-mod.classtweaker",
-
   "depends": {
     "minecraft": "1.0.0-beta.7.3",
     "stationapi": ">=${stationApiMin}",
     "fabricloader": ">=${fabricLoaderMin}",
-    "fabric-language-kotlin": "*",
-    "good-asset-fetcher": "*"
+    "fabric-language-kotlin": "*"
   },
   "suggests": {
-    "modmenu": "*",
-    "bhcreative": "*"
+    "modmenu": "*"
   }
 }

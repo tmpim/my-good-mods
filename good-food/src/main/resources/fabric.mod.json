@@ -31,12 +31,6 @@
       }
     ],
     "stationapi:event_bus_server": [],
-    "gcapi3": [
-      {
-        "adapter": "kotlin",
-        "value": "pw.tmpim.goodfood.GoodFood"
-      }
-    ],
     "data": [
       {
         "adapter": "kotlin",
@@ -52,7 +46,6 @@
     "fabric-language-kotlin": "*"
   },
   "suggests": {
-    "modmenu": "*",
-    "bhcreative": "*"
+    "modmenu": "*"
   }
 }
