@@ -331,7 +331,7 @@ subprojects {
         versionNumber = "${libs.versions.minecraft.get()}-$version"
         versionName = version as String
         versionType = "release"
-        uploadFile.set(tasks.jar)
+        uploadFile.set(tasks.remapJar)
         changelog = "Release notes can be found on the [GitHub repository](https://github.com/${gitRepo}/commits/master)."
         gameVersions.add(libs.versions.minecraft.get())
         loaders.add("fabric")

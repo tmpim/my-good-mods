@@ -15,31 +15,42 @@ Beta 1.7.3 mod to add compressed blocks such as Stone Bricks, Hay Bales, Coal Bl
 ## Blocks
 
 #### Stone Bricks
+
 ![Recipe for Stone Bricks, which requires 4 stone in a square pattern, and crafts 4 stone bricks.](/images/recipe-stone-bricks.png)
+
 4x Stone → 4x Stone Bricks. Stacks to 64x.
 
 #### Hay Bale
+
 ![Recipe for Hay Bale, which requires 9 wheat in a square pattern, and crafts 1 hay bale.](/images/recipe-hay-bale.png)
+
 9x Wheat → 1x Hay Bale. Stacks to 64x.
 
 ![Inverse recipe for Hay Bale, which requires turns a single hay bale back into 9 wheat.](/images/recipe-hay-bale-inverse.png)
+
 1x Hay Bale → 9x Wheat.
 
 #### Coal Block
+
 ![Recipe for Coal Block, which requires 9 coal in a square pattern, and crafts 1 coal block.](/images/recipe-coal-block.png)
+
 9x Coal → 1x Coal Block. Stacks to 64x.
 
 ![Inverse recipe for Coal Block, which requires turns a single coal block back into 9 coal.](/images/recipe-coal-block-inverse.png)
+
 1x Coal Block → 9x Coal.
 
 #### Redstone Block
+
 The redstone blocks function properly as redstone blocks, though behaviour may differ slightly to newer versions of the
 game. See technical notes below for more details.
 
 ![Recipe for Redstone Block, which requires 9 redstone in a square pattern, and crafts 1 redstone block.](/images/recipe-redstone-block.png)
+
 9x Redstone → 1x Redstone Block. Stacks to 64x.
 
 ![Inverse recipe for Redstone Block, which requires turns a single redstone block back into 9 redstone.](/images/recipe-redstone-block-inverse.png)
+
 1x Redstone Block → 9x Redstone.
 
 ## Requirements

@@ -17,7 +17,9 @@ Currently only adds bagels, but more foods are planned.
 ## Items
 
 #### Bagel
+
 ![Recipe for the Bagel, which requires 8 wheat in a square pattern, and crafts 2 bagels.](/images/recipe-bagel.png)
+
 8x Wheat → 2x Bagel. Heals 2.5 hearts. Stacks to 8x.
 
 ## Requirements
