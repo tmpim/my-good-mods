@@ -5,6 +5,18 @@ import groovy.util.Node
 import groovy.util.NodeList
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
+import java.io.BufferedReader
+import java.io.InputStreamReader
+import java.nio.file.FileVisitResult
+import java.nio.file.Files
+import javax.lang.model.SourceVersion
+import kotlin.io.path.copyTo
+import kotlin.io.path.exists
+import kotlin.io.path.extension
+import kotlin.io.path.fileVisitor
+import kotlin.io.path.name
+import kotlin.io.path.readText
+import kotlin.io.path.writeText
 import kotlin.text.replace
 
 plugins {
@@ -333,11 +345,11 @@ dependencies {
 
 tasks.register("genSourcesWithRetry") {
   // genSources currently has a consistent failure, requiring it to be run a few times to get past the failing classes
-  // (it has an internal cache). try to generate up to 5 times
+  // (it has an internal cache). try to generate up to 10 times
   group = "fabric"
 
   doLast {
-    val maxRetries = 5
+    val maxRetries = 10
     var currentAttempt = 0
     var errors = mutableListOf<Throwable>()
 
@@ -363,3 +375,127 @@ tasks.register("genSourcesWithRetry") {
     }
   }
 }
+
+tasks.register("generateMod") {
+  doLast {
+    // CONFIGURATION
+    var templateDir = projectDir.resolve("good-mod-template")
+    check(templateDir.exists()) { "good-mod-template dir is missing!" }
+
+    // prompt for info
+    println("== mod settings ==")
+
+    println("mod name (human friendly, 1-32 characters, starts with 'Good ', e.g. 'Good Food') [REQUIRED]:")
+    val modName = readInput()
+    check(modName.length in 1..32) { "mod name should be between 1 and 32 characters" }
+
+    var modId = modName.toKebabCase()
+    println("mod id (lowercase alphanumeric) [press enter to use $modId]:")
+    modId = readInput().takeIf { it.isNotEmpty() } ?: modId
+    check(modId.matches("^[a-z0-9-]+$".toRegex())) { "$modId is not a valid mod ID" }
+
+    var archivesBaseName = modId
+    println("maven archive base name (snake_case) [press enter to use $archivesBaseName]:")
+    archivesBaseName = readInput().takeIf { it.isNotEmpty() } ?: archivesBaseName
+
+    var packageNameBase = modId.replace("-", "")
+    println("package name base (lowercase) [press enter to use $packageNameBase]:")
+    packageNameBase = readInput().takeIf { it.isNotEmpty() } ?: packageNameBase
+
+    var classNameBase = modName.toPascalCase()
+    println("class name base (PascalCase) [press enter to use $classNameBase]:")
+    classNameBase = readInput().takeIf { it.isNotEmpty() } ?: classNameBase
+
+    // check the mod-id dir doesn't exist yet
+    var modDir = projectDir.resolve(modId)
+    check(!modDir.exists()) { "$modId already exists: $modDir" }
+
+    println("== confirmation ==")
+    println("making a mod with the following settings:\n")
+    println("  - Mod Name: $modName")
+    println("  - Mod ID  : $modId")
+    println("  - Archive : $archivesBaseName")
+    println("  - Package : $packageNameBase")
+    println("  - Class   : $classNameBase")
+    println("  - Mod Dir : $modDir")
+    println("\nare you sure? Y/n")
+
+    var confirmation = readInput().trim().lowercase()
+    check(confirmation.isEmpty() || confirmation == "y") { "aborted" }
+
+    // SETUP
+    val textExtensions = setOf("kt", "kts", "java", "json", "classtweaker", "properties")
+    val ignoreDirs = setOf(".gradle", "build", "run", ".idea", ".kotlin")
+
+    fun replacer(str: String) = str
+      .replace("Good Mod Template", modName)
+      .replace("GoodModTemplate", classNameBase)
+      .replace("good-mod-template", modId)
+      .replace("goodmodtemplate", packageNameBase)
+
+    modDir.mkdirs()
+
+    val templateVisitor = fileVisitor {
+      onPreVisitDirectory { dir, _ ->
+        when (dir.name) {
+          in ignoreDirs -> {
+            println("skipping ${dir.name}")
+            FileVisitResult.SKIP_SUBTREE
+          }
+          else -> {
+            val srcFile = dir.toFile().toRelativeString(projectDir)
+            val dstFile = projectDir.resolve(replacer(srcFile))
+
+            println("creating directory $dstFile")
+            dstFile.mkdirs()
+
+            FileVisitResult.CONTINUE
+          }
+        }
+      }
+
+      onVisitFile { file, _ ->
+        val srcFile = file.toFile().toRelativeString(projectDir)
+        val dstFile = projectDir.resolve(replacer(srcFile))
+
+        if (dstFile.exists()) {
+          println("warning: $dstFile already exists! not touching it")
+        } else {
+          println("creating file $srcFile -> $dstFile")
+
+          if (file.extension in textExtensions) {
+            dstFile.writeText(replacer(file.readText()))
+          } else {
+            file.copyTo(dstFile.toPath())
+          }
+        }
+
+        FileVisitResult.CONTINUE
+      }
+    }
+
+    Files.walkFileTree(templateDir.toPath(), templateVisitor)
+
+    println("\n\ndone!! now add the mod to settings.gradle.kts and reload the project\n\n")
+  }
+}
+
+fun readInput(): String = BufferedReader(InputStreamReader(System.`in`)).readLine()
+
+fun String.toSnakeCase() = this
+  .replace("([a-z])([A-Z]+)".toRegex(), "$1_$2")
+  .replace("\\s+".toRegex(), "_")
+  .replace("[^A-Za-z0-9_]".toRegex(), "")
+  .lowercase()
+
+fun String.toKebabCase() = this
+  .toSnakeCase()
+  .replace("_", "-")
+
+fun String.toPascalCase() = this
+  .split("[^A-Za-z0-9]+".toRegex())
+  .joinToString("") { word -> word.lowercase().replaceFirstChar { it.uppercase() } }
+
+fun String.toCamelCase() = this
+  .toPascalCase()
+  .replaceFirstChar { it.lowercase() }
