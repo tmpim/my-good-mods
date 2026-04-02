@@ -121,22 +121,24 @@ internal object AssetFetcherImpl {
     check(gotSha1.equals(sha1, ignoreCase = true)) { "sha1 mismatch for $version client.jar" }
 
     // extract the files we need and write to disk
-    val sourceFileLut = files.associateBy { it.sourcePath }
+    val sourceFileLut = files.groupBy { it.sourcePath }
 
     ByteArrayInputStream(jarBytes.toByteArray()).use { bais ->
       JarInputStream(bais).use { jizz ->
         var entry = jizz.nextEntry
 
         while (entry != null) {
-          val fileMapping = sourceFileLut[entry.name]
-          if (fileMapping != null) {
+          val fileMappings = sourceFileLut[entry.name]
+          if (fileMappings != null) {
             log.info("extracting ${entry.name}")
 
-            val outFile = cacheDir.resolve(fileMapping.destPath).toFile()
-            outFile.parentFile.mkdirs()
-            outFile.outputStream().use { jizz.copyTo(it) }
+            fileMappings.forEach { mapping ->
+              val outFile = cacheDir.resolve(mapping.destPath).toFile()
+              outFile.parentFile.mkdirs()
+              outFile.outputStream().use { jizz.copyTo(it) }
 
-            fileMapping.fetched = true
+              mapping.fetched = true
+            }
           }
 
           entry = jizz.nextEntry
