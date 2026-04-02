@@ -1,0 +1,14 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "pw.tmpim.goodassetfetcher.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "mixins": [],
+  "server": [],
+  "client": [
+    "ResourcePackManagerMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

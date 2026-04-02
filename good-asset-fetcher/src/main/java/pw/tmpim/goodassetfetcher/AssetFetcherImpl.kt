@@ -1,10 +1,12 @@
-package pw.tmpim.goodmod.assets
+package pw.tmpim.goodassetfetcher
 
 import com.google.gson.GsonBuilder
 import net.fabricmc.loader.api.FabricLoader
-import pw.tmpim.goodmod.GoodMod.MOD_ID
-import pw.tmpim.goodmod.GoodMod.MOD_VERSION
-import pw.tmpim.goodmod.GoodMod.log
+import pw.tmpim.goodassetfetcher.GoodAssetFetcher.MOD_ID
+import pw.tmpim.goodassetfetcher.GoodAssetFetcher.MOD_VERSION
+import pw.tmpim.goodassetfetcher.GoodAssetFetcher.log
+import pw.tmpim.goodassetfetcher.mojangapi.VersionInfo
+import pw.tmpim.goodassetfetcher.mojangapi.VersionManifestV2
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
 import java.io.InputStream
@@ -22,13 +24,13 @@ import kotlin.io.path.outputStream
 
 // based on hugeblank/clustersback (MIT licensed)
 // https://github.com/hugeblank/clustersback/blob/main/src/main/java/dev/hugeblank/clustersback/MinecraftJarGetter.java
-object AssetFetcher {
+internal object AssetFetcherImpl {
   val cacheDir: Path = FabricLoader.getInstance().configDir.resolve("${MOD_ID}/asset-cache")
 
   private var fetched = false
 
   private const val VERSION_MANIFEST_URL = "https://piston-meta.mojang.com/mc/game/version_manifest_v2.json"
-  private lateinit var versionManifest: VersionManifestV2
+  private var versionManifest: VersionManifestV2? = null
 
   private val gson = GsonBuilder().create()
   private val userAgent = "${MOD_ID}/${MOD_VERSION}"
@@ -42,18 +44,21 @@ object AssetFetcher {
   @Synchronized
   fun fetchVersionManifest() {
     log.info("Fetching version manifest...")
+
     val manifest = fetchCached(
       VERSION_MANIFEST_URL,
       "versionManifest-$MOD_VERSION.json" /* refetch on mod update */,
       VersionManifestV2::class.java
     )
     versionManifest = manifest
-    log.info("Got ${versionManifest.versions.size} versions")
+
+    log.info("Got ${manifest.versions.size} versions")
   }
 
   @Synchronized
   fun fetchVersionInfo(version: String, url: String): VersionInfo {
     log.info("Fetching version info for $version...")
+
     return fetchCached(
       url,
       "$version-$MOD_VERSION.json" /* refetch on mod update */,
@@ -65,7 +70,12 @@ object AssetFetcher {
   fun fetchAssets() {
     if (fetched) return
 
-    val filesPerVersion = GoodResources.files
+    if (versionManifest == null) {
+      log.error("version manifest not available, skipping assets fetch")
+      return
+    }
+
+    val filesPerVersion = GoodAssetFetcherRegistryImpl.files
       .groupBy { it.version }
 
     filesPerVersion.forEach { (version, files) ->
@@ -78,9 +88,10 @@ object AssetFetcher {
     fetched = true
   }
 
-  fun fetchJar(version: String, files: List<GoodResources.ResourceDef>) {
+  fun fetchJar(version: String, files: List<GoodAssetFetcherRegistryImpl.ResourceDef>) {
     // fetch the jar url + hash from the version manifest
-    val versionInfoUrl = requireNotNull(versionManifest.versions.find { it.id == version }) {
+    val manifest = versionManifest ?: return
+    val versionInfoUrl = requireNotNull(manifest.versions.find { it.id == version }) {
       "version $version not found!"
     }
     val versionInfo = fetchVersionInfo(version, versionInfoUrl.url)
@@ -163,11 +174,13 @@ object AssetFetcher {
 
   private fun fetchUrl(url: String): InputStream {
     val client = HttpClient.newBuilder().build()
+
     val res = client.send(HttpRequest.newBuilder()
       .uri(URI.create(url))
       .header("User-Agent", userAgent)
       .header("Accept", "application/json")
       .build(), HttpResponse.BodyHandlers.ofInputStream())
+
     return res.body()
   }
 }

@@ -1,0 +1,41 @@
+{
+  "schemaVersion": 1,
+  "id": "good-asset-fetcher",
+  "version": "${version}",
+
+  "name": "Good Asset Fetcher",
+  "description": "Provides assets from any version of Minecraft to other mods.",
+  "authors": [
+    "Lemmmy",
+    "hugeblank"
+  ],
+  "contact": {
+    "sources": "https://github.com/tmpim/MyGoodMods"
+  },
+
+  "license": "MIT",
+  "icon": "assets/good-asset-fetcher/icon.png",
+
+  "environment": "*",
+  "entrypoints": {
+    "stationapi:event_bus": [],
+    "stationapi:event_bus_client": [
+      {
+        "adapter": "kotlin",
+        "value": "pw.tmpim.goodassetfetcher.GoodAssetFetcher"
+      }
+    ],
+    "stationapi:event_bus_server": []
+  },
+
+  "mixins": [
+    "good-asset-fetcher.mixins.json"
+  ],
+
+  "depends": {
+    "minecraft": "1.0.0-beta.7.3",
+    "stationapi": ">=${stationApiMin}",
+    "fabricloader": ">=${fabricLoaderMin}",
+    "fabric-language-kotlin": "*"
+  }
+}

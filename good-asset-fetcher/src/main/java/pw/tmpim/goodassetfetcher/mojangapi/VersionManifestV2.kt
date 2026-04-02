@@ -1,4 +1,4 @@
-package pw.tmpim.goodmod.assets
+package pw.tmpim.goodassetfetcher.mojangapi
 
 data class VersionManifestV2(
   val versions: List<Version>

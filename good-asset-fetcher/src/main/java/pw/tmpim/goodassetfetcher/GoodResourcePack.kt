@@ -1,32 +1,37 @@
-package pw.tmpim.goodmod.assets
+package pw.tmpim.goodassetfetcher
 
 import com.google.gson.GsonBuilder
 import net.modificationstation.stationapi.api.resource.InputSupplier
 import net.modificationstation.stationapi.api.resource.ResourceType
 import net.modificationstation.stationapi.api.util.Identifier
 import net.modificationstation.stationapi.impl.resource.DirectoryResourcePack
-import pw.tmpim.goodmod.GoodMod.MOD_NAME
-import pw.tmpim.goodmod.assets.GoodResourcePackProvider.Companion.goodMcMeta
+import pw.tmpim.goodassetfetcher.GoodAssetFetcher.PACK_NAME
+import pw.tmpim.goodassetfetcher.GoodAssetFetcher.log
+import pw.tmpim.goodassetfetcher.GoodResourcePackProvider.Companion.goodMcMeta
 import java.io.InputStream
 import kotlin.io.path.exists
 import kotlin.io.path.writeText
 
-class GoodResourcePack : DirectoryResourcePack(
-  "$MOD_NAME Generated",
-  AssetFetcher.cacheDir,
+internal class GoodResourcePack : DirectoryResourcePack(
+  PACK_NAME,
+  AssetFetcherImpl.cacheDir,
   true /* TODO */
 ) {
   private val gson = GsonBuilder().create()
 
   override fun openRoot(vararg segments: String): InputSupplier<InputStream>? {
-    // ensure the assets exist on disk before loading the resource pack
-    AssetFetcher.fetchAssets()
+    try {
+      // ensure the assets exist on disk before loading the resource pack
+      AssetFetcherImpl.fetchAssets()
 
-    // ensure pack.mcmeta exists
-    val mcmetaFile = AssetFetcher.cacheDir.resolve("pack.mcmeta")
-    if (!mcmetaFile.exists()) {
-      val metadata = McMetaFile(McMetaFile.Metadata(goodMcMeta.description, goodMcMeta.format))
-      mcmetaFile.writeText(gson.toJson(metadata))
+      // ensure pack.mcmeta exists
+      val mcmetaFile = AssetFetcherImpl.cacheDir.resolve("pack.mcmeta")
+      if (!mcmetaFile.exists()) {
+        val metadata = McMetaFile(McMetaFile.Metadata(goodMcMeta.description, goodMcMeta.format))
+        mcmetaFile.writeText(gson.toJson(metadata))
+      }
+    } catch (e: Exception) {
+      log.error("error preparing assets, some assets may be missing", e)
     }
 
     // delegate the rest to DirectoryResourcePack with our cache dir
@@ -40,7 +45,7 @@ class GoodResourcePack : DirectoryResourcePack(
     return super.open(type, id)
   }
 
-  data class McMetaFile(
+  private data class McMetaFile(
     val pack: Metadata
   ) {
     data class Metadata(

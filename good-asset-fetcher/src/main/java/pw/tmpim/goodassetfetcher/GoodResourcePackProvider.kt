@@ -1,10 +1,11 @@
-package pw.tmpim.goodmod.assets
+package pw.tmpim.goodassetfetcher
 
 import net.modificationstation.stationapi.api.resource.ResourceType
 import net.modificationstation.stationapi.impl.resource.ResourcePackProfile
 import net.modificationstation.stationapi.impl.resource.ResourcePackProvider
 import net.modificationstation.stationapi.impl.resource.ResourcePackSource
-import pw.tmpim.goodmod.GoodMod.MOD_ID
+import pw.tmpim.goodassetfetcher.GoodAssetFetcher.MOD_ID
+import pw.tmpim.goodassetfetcher.GoodAssetFetcher.PACK_NAME
 import java.util.function.Consumer
 
 class GoodResourcePackProvider : ResourcePackProvider {
@@ -24,6 +25,6 @@ class GoodResourcePackProvider : ResourcePackProvider {
   }
 
   companion object {
-    val goodMcMeta = ResourcePackProfile.Metadata("My rather fantastic resource pack", 6)
+    val goodMcMeta = ResourcePackProfile.Metadata(PACK_NAME, 6)
   }
 }

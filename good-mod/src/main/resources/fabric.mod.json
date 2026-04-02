@@ -54,7 +54,8 @@
     "minecraft": "1.0.0-beta.7.3",
     "stationapi": ">=${stationApiMin}",
     "fabricloader": ">=${fabricLoaderMin}",
-    "fabric-language-kotlin": "*"
+    "fabric-language-kotlin": "*",
+    "good-asset-fetcher": "*"
   },
   "suggests": {
     "modmenu": "*",

@@ -19,7 +19,6 @@ java.sourceCompatibility = JavaVersion.VERSION_17
 java.targetCompatibility = JavaVersion.VERSION_17
 
 val modId: String by project
-val modVersion: String by project
 val mavenGroup: String by project
 val archivesBaseName: String by project
 val gitRepo: String by project
@@ -44,6 +43,7 @@ kotlin {
 
 allprojects {
   val libs = rootProject.libs // https://github.com/gradle/gradle/issues/16634#issuecomment-809345790
+  project.properties["modVersion"]?.let { version = it }
 
   apply(plugin = "kotlin")
   apply(plugin = "maven-publish")
@@ -274,8 +274,8 @@ subprojects {
         modrinth {
           token.set(modrinthKey)
           projectId.set(modrinthProjectId)
-          versionNumber.set("${libs.versions.minecraft.get()}-$modVersion")
-          versionName.set(modVersion)
+          versionNumber.set("${libs.versions.minecraft.get()}-$version")
+          versionName.set(version as String)
           versionType.set("release")
           uploadFile.set(tasks.jar)
           changelog.set("Release notes can be found on the [GitHub repository](https://github.com/${gitRepo}/commits/master).")

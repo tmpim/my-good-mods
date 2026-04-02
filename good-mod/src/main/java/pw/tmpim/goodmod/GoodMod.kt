@@ -20,9 +20,9 @@ import org.slf4j.LoggerFactory
 import pw.tmpim.goodmod.block.RedstoneBlock
 
 object GoodMod : ModInitializer {
-  const val MOD_ID: String = "good-mod"
-  const val MOD_NAME: String = "My good mod"
-  val MOD_VERSION: String = FabricLoader.getInstance().getModContainer(MOD_ID).get().metadata.version.toString()
+  const val MOD_ID = "good-mod"
+  const val MOD_NAME = "My good mod"
+  val MOD_VERSION = FabricLoader.getInstance().getModContainer(MOD_ID).get().metadata.version.toString()
 
   val namespace: Namespace = Namespace.resolve()
 
