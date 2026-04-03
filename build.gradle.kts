@@ -1,24 +1,16 @@
 @file:Suppress("UnstableApiUsage")
 
 import groovy.json.JsonSlurper
-import groovy.namespace.QName
 import groovy.util.Node
 import groovy.util.NodeList
+import net.fabricmc.loom.task.GenerateSourcesTask
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
 import java.io.BufferedReader
 import java.io.InputStreamReader
 import java.nio.file.FileVisitResult
 import java.nio.file.Files
-import javax.lang.model.SourceVersion
-import kotlin.io.path.copyTo
-import kotlin.io.path.exists
-import kotlin.io.path.extension
-import kotlin.io.path.fileVisitor
-import kotlin.io.path.name
-import kotlin.io.path.readText
-import kotlin.io.path.writeText
-import kotlin.text.replace
+import kotlin.io.path.*
 
 plugins {
 	java
@@ -192,6 +184,7 @@ allprojects {
     tasks.withType<ProcessResources> {
       val props = mapOf(
         "version" to project.properties["version"],
+        "javaVersion" to libs.versions.java.get(),
         "stationApiMin" to libs.versions.stationapi.min.get(),
         "fabricLoaderMin" to libs.versions.fabric.loader.min.get(),
       )
@@ -240,17 +233,6 @@ subprojects {
 
     configurations.namedElements.get().extendsFrom(configurations.implementation.get())
 
-    // disable runClient/runServer tasks for subprojects
-    tasks {
-      runClient {
-        enabled = false
-      }
-
-      runServer {
-        enabled = false
-      }
-    }
-
     // add datagen task if the subproject has a data entrypoint
     val fabricModJson = project.projectDir
       .resolve("src/main/resources/fabric.mod.json")
@@ -270,6 +252,16 @@ subprojects {
               project.projectDir.toPath().resolve("src/generated/resources/").toAbsolutePath().toString()
             )
           }
+        }
+      }
+    }
+
+    afterEvaluate {
+      // disable confusing/broken tasks for subprojects
+      setOf("runClient", "runServer", "genSourcesWithCfr").forEach { name ->
+        tasks.findByName(name)?.let {
+          it.enabled = false
+          it.group = null // hide the task in the 'other' group
         }
       }
     }
@@ -379,8 +371,22 @@ dependencies {
   // any useful dev environment dependencies here?
 }
 
-// TODO HACK: add subproject resources to the root run configuration
 afterEvaluate {
+  // disable confusing/broken tasks for the root project
+  setOf("runData", "genSources", "genSourcesWithVineflower").forEach { name ->
+    tasks.findByName(name)?.let {
+      it.enabled = false
+      it.group = null // hide the task in the 'other' group
+    }
+  }
+
+  // remove all other root genSources tasks
+  tasks.withType<GenerateSourcesTask> {
+    enabled = false
+    group = null // hide the task in the 'other' group
+  }
+
+  // TODO HACK: add subproject resources to the root run configuration
   val extraResourceDirs = subprojects
     .filter { !it.name.startsWith("tool-") }
     .flatMap { sub ->
@@ -389,42 +395,9 @@ afterEvaluate {
       }
     }
 
+  // root runClient
   tasks.named<JavaExec>("runClient") {
     classpath = files(extraResourceDirs) + classpath
-  }
-}
-
-tasks.register("genSourcesWithRetry") {
-  // TODO: this retry doesn't seem to work with the subproject genSources
-  // genSources currently has a consistent failure, requiring it to be run a few times to get past the failing classes
-  // (it has an internal cache). try to generate up to 10 times
-  group = "fabric"
-
-  doLast {
-    val maxRetries = 10
-    var currentAttempt = 0
-    var errors = mutableListOf<Throwable>()
-
-    while (currentAttempt < maxRetries) {
-      try {
-        currentAttempt++
-        println("attempt $currentAttempt: running genSources...")
-
-        tasks.named("genSources").get().actions.forEach { action ->
-          action.execute(tasks.named("genSources").get())
-        }
-
-        break // success
-      } catch (e: Exception) {
-        if (currentAttempt == maxRetries) {
-          errors.forEach { println(it) }
-          throw e
-        } else {
-          errors.add(e)
-          println("attempt $currentAttempt failed, retrying")
-        }
-      }
-    }
   }
 }
 

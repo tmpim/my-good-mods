@@ -1,9 +1,10 @@
 # my-good-mods
 
-
 [![Download on Modrinth](/images/modrinth.png)](https://modrinth.com/organization/tmpim)
 
 ## Development
+
+Java 21 is required.
 
 To run the monorepo, run the `runClient` root task.
 
@@ -13,6 +14,11 @@ the subproject to `settings.gradle.kts` and reload the project.
 To run data generators, run the subproject's `runData` task.
 
 ## Troubleshooting
+
+#### `Critical injection failure: Variable modifier method stationapi_changeTickY(I)I`
+
+An older version of StationAPI has entered your classpath. Run `clean --refresh-dependencies`. Don't run `genSources` on 
+the root project—only run it on individual subprojects.
 
 #### genSources: `Failed to decompile, java.lang.IllegalStateException: Unexpected output: /net/minecraft/class_277$1.java`
 
@@ -25,7 +31,16 @@ RuntimeException: Failed to read classTweaker file from mod modmenu
 ClassTweakerFormatException: Namespace (intermediary) does not match current runtime namespace (named
 ```
 
-Run `--refresh-dependencies` with any Gradle task, e.g. `./gradlew clean --refresh-dependencies`.
+Ensure all inter-subproject dependencies are included with the `namedElements` configuration:
+
+```kts
+// good-compression/build.gradle.kts
+dependencies {
+  implementation(project(path = ":good-asset-fetcher", configuration = "namedElements"))
+}
+```
+
+Then run `--refresh-dependencies` with any Gradle task, e.g. `./gradlew clean --refresh-dependencies`.
 
 # License
 
