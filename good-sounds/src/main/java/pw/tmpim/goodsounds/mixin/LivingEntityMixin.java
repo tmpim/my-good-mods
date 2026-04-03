@@ -32,7 +32,7 @@ public abstract class LivingEntityMixin extends Entity {
     }
 
     var config = GoodSounds.getConfig();
-    if (!Objects.equals(config.metalPipe, Boolean.TRUE)) {
+    if (!Objects.equals(config.metalPipeOnFall, Boolean.TRUE)) {
       return;
     }
 

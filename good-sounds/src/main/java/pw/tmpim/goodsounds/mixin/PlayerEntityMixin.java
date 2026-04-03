@@ -37,7 +37,7 @@ public abstract class PlayerEntityMixin extends Entity {
     }
 
     var config = GoodSounds.getConfig();
-    if (!Objects.equals(config.metalPipe, Boolean.TRUE)) {
+    if (!Objects.equals(config.metalPipeOnHit, Boolean.TRUE)) {
       return;
     }
 

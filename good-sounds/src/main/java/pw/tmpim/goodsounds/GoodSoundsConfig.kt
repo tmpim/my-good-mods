@@ -20,12 +20,21 @@ class GoodSoundsConfig {
 
   @JvmField
   @ConfigEntry(
-    name = "Metal pipe",
-    nameKey = "$C.metal_pipe_enabled",
+    name = "Metal pipe on hit",
+    nameKey = "$C.metal_pipe_on_hit_enabled",
     description = "Plays the metal pipe sound when hitting entities with an iron item.",
-    descriptionKey = "$C.metal_pipe_enabled.desc",
+    descriptionKey = "$C.metal_pipe_on_hit_enabled.desc",
   )
-  var metalPipe: Boolean? = true
+  var metalPipeOnHit: Boolean? = false
+
+  @JvmField
+  @ConfigEntry(
+    name = "Metal pipe on fall damage",
+    nameKey = "$C.metal_pipe_on_fall_enabled",
+    description = "Plays the metal pipe when taking fall damage with iron boots.",
+    descriptionKey = "$C.metal_pipe_on_fall_enabled.desc",
+  )
+  var metalPipeOnFall: Boolean? = false
 
   @JvmField
   @ConfigEntry(
