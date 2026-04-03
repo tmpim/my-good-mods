@@ -1,0 +1,16 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "pw.tmpim.goodsounds.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "mixins": [
+  ],
+  "server": [],
+  "client": [
+    "PlayerEntityMixin",
+    "LivingEntityMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

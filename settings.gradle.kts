@@ -33,6 +33,7 @@ include("good-compression")
 include("good-death-messages")
 include("good-food")
 include("good-sign-editing")
+include("good-sounds")
 
 // everything else mod/incubator
 include("good-mod")
