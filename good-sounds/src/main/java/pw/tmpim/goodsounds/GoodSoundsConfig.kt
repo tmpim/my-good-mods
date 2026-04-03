@@ -6,7 +6,18 @@ import pw.tmpim.goodsounds.GoodSounds.MOD_ID
 internal const val CONFIG_KEY = "gui.${MOD_ID}.config"
 private const val C = CONFIG_KEY
 
-class GoodModConfig {
+class GoodSoundsConfig {
+  @JvmField
+  @ConfigEntry(
+    name = "Rain volume",
+    nameKey = "$C.rain_volume",
+    description = "How loud the rain is, as a fraction of the vanilla volume (0.00-1.00).",
+    descriptionKey = "$C.rain_volume.desc",
+    minValue = 0.0,
+    maxValue = 1.0
+  )
+  var rainVolume: Float? = GoodSounds.DEFAULT_RAIN_VOLUME
+
   @JvmField
   @ConfigEntry(
     name = "Metal pipe",

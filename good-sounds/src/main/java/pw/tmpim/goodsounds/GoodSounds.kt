@@ -20,7 +20,11 @@ object GoodSounds : ModInitializer {
 
   @JvmStatic
   @ConfigRoot(value = MOD_ID, visibleName = MOD_NAME, nameKey = "$CONFIG_KEY.name")
-  val config = GoodModConfig()
+  val config = GoodSoundsConfig()
+
+  const val DEFAULT_RAIN_VOLUME: Float = 0.25f
+
+  const val SOUND_METAL_PIPE = "$MOD_ID:metal_pipe"
 
   override fun onInitialize() {}
 

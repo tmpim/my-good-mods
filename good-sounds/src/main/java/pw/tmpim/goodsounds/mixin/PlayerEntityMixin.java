@@ -48,7 +48,7 @@ public abstract class PlayerEntityMixin extends Entity {
     }
 
     if (target instanceof LivingEntity && target.isAlive()) {
-      world.playSound(this, GoodSounds.MOD_ID + ":metal_pipe", 1.0f, 1.0f);
+      world.playSound(this, GoodSounds.SOUND_METAL_PIPE, 1.0f, 1.0f);
     }
   }
 }
