@@ -11,12 +11,11 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import pw.tmpim.goodsounds.GoodSounds;
-import pw.tmpim.goodsounds.MetalItems;
 
 import java.util.Objects;
 
 @Mixin(PlayerEntity.class)
-public abstract class PlayerEntityMixin extends Entity {
+public abstract class PlayerEntityMixin extends LivingEntity {
   @Shadow
   public abstract ItemStack getHand();
 
@@ -41,9 +40,12 @@ public abstract class PlayerEntityMixin extends Entity {
       return;
     }
 
-    var hand = getHand();
-    var metalItems = MetalItems.INSTANCE.getMetalItemSet();
-    if (hand == null || !metalItems.contains(hand.getItem())) {
+    var held = getHand();
+    if (held == null) {
+      return;
+    }
+
+    if (!GoodSounds.isMetalItem(held.getItem())) {
       return;
     }
 

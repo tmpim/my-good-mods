@@ -9,7 +9,6 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import pw.tmpim.goodsounds.GoodSounds;
-import pw.tmpim.goodsounds.MetalItems;
 
 import java.util.Objects;
 
@@ -43,8 +42,7 @@ public abstract class LivingEntityMixin extends Entity {
         return;
       }
 
-      var metalItems = MetalItems.INSTANCE.getMetalItemSet();
-      if (metalItems.contains(boots.getItem())) {
+      if (GoodSounds.isMetalItem(boots.getItem())) {
         var volume = config.metalPipeVolume == null ? GoodSounds.DEFAULT_METAL_PIPE_VOLUME : config.metalPipeVolume;
         world.playSound(this, GoodSounds.SOUND_METAL_PIPE, volume, 1.0f);
       }

@@ -10,5 +10,6 @@ object GoodSoundsData : DataEntrypoint {
   override fun run() {
     val ctx = DataGenContext(namespace)
     ctx.run(GoodSoundsLanguageProvider(ctx))
+    ctx.run(GoodSoundsItemTagProvider(ctx))
   }
 }
