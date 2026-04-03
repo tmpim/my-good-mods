@@ -1,4 +1,4 @@
-# Good Sounds 
+# Good Sounds
 
 ![Minecraft Beta 1.7.3](https://img.shields.io/badge/minecraft-beta_1.7.3-70B237)
 [![Modrinth Downloads](https://img.shields.io/modrinth/dt/good-sounds?logo=modrinth)](https://modrinth.com/mod/good-sounds/)
@@ -7,6 +7,12 @@
 <!-- modrinth_exclude.start -->
 [![Download on Modrinth](../images/modrinth.png)](https://modrinth.com/mod/good-sounds/)
 <!-- modrinth_exclude.end -->
+
+Beta 1.7.3 mod that adds minor sound tweaks like making the rain volume adjustable.
+
+## Configuration
+
+The mod can be configured in-game (if [Mod Menu Babric](https://modrinth.com/mod/modmenu-babric) is installed) or in `.minecraft/config/good-sounds/good-sounds.yml`.
 
 ## Requirements
 
