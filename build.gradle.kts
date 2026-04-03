@@ -476,7 +476,7 @@ tasks.register("generateMod") {
     check(confirmation.isEmpty() || confirmation == "y") { "aborted" }
 
     // SETUP
-    val textExtensions = setOf("kt", "kts", "java", "json", "classtweaker", "properties", "md")
+    val textExtensions = setOf("kt", "kts", "java", "json", "classtweaker", "properties", "md", "lang")
     val ignoreDirs = setOf(".gradle", "build", "run", ".idea", ".kotlin")
 
     fun replacer(str: String) = str
