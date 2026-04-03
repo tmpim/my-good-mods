@@ -23,6 +23,7 @@ object GoodSounds : ModInitializer {
   val config = GoodSoundsConfig()
 
   const val DEFAULT_RAIN_VOLUME: Float = 0.25f
+  const val DEFAULT_METAL_PIPE_VOLUME: Float = 1.0f
 
   const val SOUND_METAL_PIPE = "$MOD_ID:metal_pipe"
 

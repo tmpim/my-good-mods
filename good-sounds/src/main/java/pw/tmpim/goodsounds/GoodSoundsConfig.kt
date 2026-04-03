@@ -26,4 +26,15 @@ class GoodSoundsConfig {
     descriptionKey = "$C.metal_pipe_enabled.desc",
   )
   var metalPipe: Boolean? = true
+
+  @JvmField
+  @ConfigEntry(
+    name = "Metal pipe volume",
+    nameKey = "$C.metal_pipe_volume",
+    description = "Volume of the metal pipe sound (0.00-1.00).",
+    descriptionKey = "$C.metal_pipe_volume.desc",
+    minValue = 0.0,
+    maxValue = 1.0
+  )
+  var metalPipeVolume: Float? = 1.0f
 }

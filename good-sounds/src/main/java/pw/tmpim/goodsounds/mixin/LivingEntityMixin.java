@@ -45,7 +45,8 @@ public abstract class LivingEntityMixin extends Entity {
 
       var metalItems = MetalItems.INSTANCE.getMetalItemSet();
       if (metalItems.contains(boots.getItem())) {
-        world.playSound(this, GoodSounds.SOUND_METAL_PIPE, 1.0f, 1.0f);
+        var volume = config.metalPipeVolume == null ? GoodSounds.DEFAULT_METAL_PIPE_VOLUME : config.metalPipeVolume;
+        world.playSound(this, GoodSounds.SOUND_METAL_PIPE, volume, 1.0f);
       }
     }
   }
