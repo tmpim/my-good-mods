@@ -20,7 +20,7 @@ object GoodModTemplate : ModInitializer {
 
   @JvmStatic
   @ConfigRoot(value = MOD_ID, visibleName = MOD_NAME, nameKey = "$CONFIG_KEY.name")
-  val config = GoodModConfig()
+  val config = GoodModTemplateConfig()
 
   override fun onInitialize() {}
 
