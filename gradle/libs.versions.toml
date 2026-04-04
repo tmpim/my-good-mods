@@ -21,7 +21,7 @@ slf4j = "1.8.0-beta4"
 nbt = "6.2+mcb1.7.3"
 
 # dependencies
-stationapi = "2.0.0-alpha.5.4+tmpim.1"
+stationapi = "2.0.0-alpha.5.4+tmpim.2"
 stationapi_min = "2.0.0-alpha.5.4" # minimum supported version, used in fabric.mod.json
 glassconfigapi = "3.2.5"
 modmenu = "1.1.1"
