@@ -10,7 +10,7 @@ import pw.tmpim.goodsounds.GoodSounds.MOD_NAME
 import pw.tmpim.goodsounds.GoodSounds.log
 
 object GoodSoundsClient : ModInitializer {
-  private val platePressed: MutableSet<BlockPos> = hashSetOf()
+  private val platePressed = mutableSetOf<BlockPos>()
 
   override fun onInitialize() {}
 

@@ -4,9 +4,10 @@
   "version": "${version}",
 
   "name": "Good Sounds",
-  "description": "great",
+  "description": "Adds minor sound tweaks like making the rain volume adjustable.",
   "authors": [
-    "tmpim"
+    "tmpim",
+    "Lignum"
   ],
   "contact": {
     "sources": "https://github.com/tmpim/my-good-mods"
