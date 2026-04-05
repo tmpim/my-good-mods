@@ -1,27 +1,18 @@
 package pw.tmpim.gooddeathmessages
 
+import net.minecraft.entity.projectile.ArrowEntity
 import pw.tmpim.gooddeathmessages.ExplosionTracker.BlastSource
 
-@Suppress("FunctionName")
+@Suppress("PropertyName")
 interface Victim {
   // Shot by arrow
-  fun goodmod_setShot() {}
-  fun goodmod_resetShot() {}
-  fun goodmod_isShot(): Boolean = false
+  var `gooddms$shotBy`: ArrowEntity?
   // Pricked by cactus
-  fun goodmod_setPricked() {}
-  fun goodmod_resetPricked() {}
-  fun goodmod_isPricked(): Boolean = false
+  var `gooddms$pricked`: Boolean
   // Damaged by an explosion
-  fun goodmod_setBlastSource(source: BlastSource?) {}
-  fun goodmod_resetBlastSource() {}
-  fun goodmod_getBlastSource(): BlastSource? = null
+  var `gooddms$blastSource`: BlastSource?
   // Struck by lightning
-  fun goodmod_setStruck() {}
-  fun goodmod_resetStruck() {}
-  fun goodmod_isStruck(): Boolean = false
+  var `gooddms$struck`: Boolean
   // Taking damage from being *in* a fire. Fire ticks are a separate check.
-  fun goodmod_setLit() {}
-  fun goodmod_resetLit() {}
-  fun goodmod_isLit(): Boolean = false
+  var `gooddms$lit`: Boolean
 }

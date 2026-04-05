@@ -15,14 +15,14 @@ public class CactusBlockMixin {
   @Inject(method = "onEntityCollision", at = @At("HEAD"))
   private void onEntityCollisionHead(World world, int x, int y, int z, Entity entity, CallbackInfo ci) {
     if (entity instanceof PlayerEntity) {
-      ((Victim) entity).goodmod_setPricked();
+      ((Victim) entity).setGooddms$pricked(true);
     }
   }
 
   @Inject(method = "onEntityCollision", at = @At("TAIL"))
   private void onEntityCollisionTail(World world, int x, int y, int z, Entity entity, CallbackInfo ci) {
     if (entity instanceof PlayerEntity) {
-      ((Victim) entity).goodmod_resetPricked();
+      ((Victim) entity).setGooddms$pricked(false);
     }
   }
 }

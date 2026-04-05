@@ -19,7 +19,7 @@ public class EntityMixin {
   )
   private void onLitBefore(double dx, double dy, double dz, CallbackInfo ci) {
     if (this instanceof Victim victim) {
-      victim.goodmod_setLit();
+      victim.setGooddms$lit(true);
     }
   }
 
@@ -33,7 +33,7 @@ public class EntityMixin {
   )
   private void onLitAfter(double dx, double dy, double dz, CallbackInfo ci) {
     if (this instanceof Victim victim) {
-      victim.goodmod_resetLit();
+      victim.setGooddms$lit(false);
     }
   }
 
@@ -46,7 +46,7 @@ public class EntityMixin {
   )
   private void inLavaBefore(CallbackInfo ci) {
     if (this instanceof Victim victim) {
-      victim.goodmod_setLit();
+      victim.setGooddms$lit(true);
     }
   }
 
@@ -60,21 +60,21 @@ public class EntityMixin {
   )
   private void inLavaAfter(CallbackInfo ci) {
     if (this instanceof Victim victim) {
-      victim.goodmod_resetLit();
+      victim.setGooddms$lit(false);
     }
   }
 
   @Inject(method = "onStruckByLightning", at = @At("HEAD"))
   private void onStruckByLightningHead(LightningEntity lightningEntity, CallbackInfo ci) {
     if (this instanceof Victim victim) {
-      victim.goodmod_setStruck();
+      victim.setGooddms$struck(true);
     }
   }
 
   @Inject(method = "onStruckByLightning", at = @At("TAIL"))
   private void onStruckByLightningTail(LightningEntity lightningEntity, CallbackInfo ci) {
     if (this instanceof Victim victim) {
-      victim.goodmod_resetStruck();
+      victim.setGooddms$struck(false);
     }
   }
 }
