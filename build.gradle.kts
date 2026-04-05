@@ -44,8 +44,8 @@ java {
 kotlin {
   compilerOptions {
     jvmTarget = JvmTarget.JVM_17
-    apiVersion = KotlinVersion.KOTLIN_2_0
-    languageVersion = KotlinVersion.KOTLIN_2_0
+    apiVersion = KotlinVersion.KOTLIN_2_3
+    languageVersion = KotlinVersion.KOTLIN_2_3
   }
 }
 
