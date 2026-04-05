@@ -1,0 +1,10 @@
+gui.good-sounds.config.name=Good Sounds
+gui.good-sounds.config.metal_pipe_on_fall_enabled.desc=Plays the metal pipe when taking fall damage with iron boots.
+gui.good-sounds.config.metal_pipe_volume=Metal pipe volume
+gui.good-sounds.config.metal_pipe_on_fall_enabled=Metal pipe on fall damage
+gui.good-sounds.config.rain_volume=Rain volume
+gui.good-sounds.config.metal_pipe_volume.desc=Volume of the metal pipe sound (0.00-1.00).
+gui.good-sounds.config.metal_pipe_on_hit_enabled=Metal pipe
+gui.good-sounds.config.metal_pipe_on_hit_enabled.desc=Plays the metal pipe sound when hitting entities with an iron item.
+gui.good-sounds.config.rain_volume.desc=How loud the rain is, as a fraction of the vanilla volume (0.00-1.00).
+

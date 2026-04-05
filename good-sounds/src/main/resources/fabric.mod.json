@@ -1,0 +1,62 @@
+{
+  "schemaVersion": 1,
+  "id": "good-sounds",
+  "version": "${version}",
+
+  "name": "Good Sounds",
+  "description": "Adds minor sound tweaks like making the rain volume adjustable.",
+  "authors": [
+    "tmpim",
+    "Lignum"
+  ],
+  "contact": {
+    "sources": "https://github.com/tmpim/my-good-mods"
+  },
+
+  "license": "MIT",
+
+  "environment": "*",
+  "entrypoints": {
+    "stationapi:event_bus": [
+      {
+        "adapter": "kotlin",
+        "value": "pw.tmpim.goodsounds.GoodSounds"
+      }
+    ],
+    "stationapi:event_bus_client": [
+      {
+        "adapter": "kotlin",
+        "value": "pw.tmpim.goodsounds.GoodSoundsClient"
+      }
+    ],
+    "stationapi:event_bus_server": [],
+    "gcapi3": [
+      {
+        "adapter": "kotlin",
+        "value": "pw.tmpim.goodsounds.GoodSounds"
+      }
+    ],
+    "data": [
+      {
+        "adapter": "kotlin",
+        "value": "pw.tmpim.goodsounds.data.GoodSoundsData"
+      }
+    ]
+  },
+
+  "mixins": [
+    "good-sounds.mixins.json"
+  ],
+
+  "accessWidener": "good-sounds.classtweaker",
+
+  "depends": {
+    "minecraft": "1.0.0-beta.7.3",
+    "stationapi": ">=${stationApiMin}",
+    "fabricloader": ">=${fabricLoaderMin}",
+    "fabric-language-kotlin": "*"
+  },
+  "suggests": {
+    "modmenu": "*"
+  }
+}

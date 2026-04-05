@@ -1,0 +1,15 @@
+package pw.tmpim.goodsounds.data
+
+import emmathemartian.datagen.DataGenContext
+import emmathemartian.datagen.entrypoint.DataEntrypoint
+import net.modificationstation.stationapi.api.util.Namespace
+
+object GoodSoundsData : DataEntrypoint {
+  val namespace: Namespace = Namespace.resolve()
+
+  override fun run() {
+    val ctx = DataGenContext(namespace)
+    ctx.run(GoodSoundsLanguageProvider(ctx))
+    ctx.run(GoodSoundsItemTagProvider(ctx))
+  }
+}

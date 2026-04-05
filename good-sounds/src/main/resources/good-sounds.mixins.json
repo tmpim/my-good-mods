@@ -1,0 +1,18 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "pw.tmpim.goodsounds.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "mixins": [],
+  "server": [],
+  "client": [
+    "GameRendererMixin",
+    "LeverBlockMixin",
+    "LivingEntityMixin",
+    "PlayerEntityMixin",
+    "PressurePlateBlockMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
