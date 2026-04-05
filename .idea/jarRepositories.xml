@@ -76,5 +76,10 @@
       <option name="name" value="Lemmmy Repo" />
       <option name="url" value="https://repo.lem.sh/releases" />
     </remote-repository>
+    <remote-repository>
+      <option name="id" value="Apache Snapshots" />
+      <option name="name" value="Apache Snapshots" />
+      <option name="url" value="https://repository.apache.org/content/repositories/snapshots" />
+    </remote-repository>
   </component>
 </project>

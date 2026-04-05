@@ -1,17 +1,14 @@
 {
   "required": true,
   "minVersion": "0.8",
-  "package": "pw.tmpim.goodsignediting.mixin",
+  "package": "pw.tmpim.goodclumps.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
-    "SignBlockEntityMixin",
-    "SignBlockMixin"
+    "ItemEntityMixin",
+    "WorldMixin"
   ],
-  "server": [
-  ],
-  "client": [
-    "SignEditScreenMixin"
-  ],
+  "server": [],
+  "client": [],
   "injectors": {
     "defaultRequire": 1
   },

@@ -1,0 +1,9 @@
+gui.good-clumps.config.item_merge_rate_static.desc=How frequently, in ticks, dropped items should try to merge with others nearby when still
+gui.good-clumps.config.item_merge_rate_moving=Item merge rate when moving
+gui.good-clumps.config.item_merge_radius=Item merge radius
+gui.good-clumps.config.item_merge_radius.desc=The radius, in blocks, of item merging
+gui.good-clumps.config.item_merge_enabled=Item merging enabled
+gui.good-clumps.config.item_merge_rate_moving.desc=How frequently, in ticks, dropped items should try to merge with others nearby when moving
+gui.good-clumps.config.name=Good Clumps
+gui.good-clumps.config.item_merge_rate_static=Item merge rate when static
+

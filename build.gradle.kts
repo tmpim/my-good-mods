@@ -170,9 +170,9 @@ allprojects {
         println("no class tweaker at $classTweakerPath for $name, skipping")
       }
 
-      // disable IDEA run configurations
       runs.configureEach {
-        ideConfigGenerated(false)
+        ideConfigGenerated(false) // disable IDEA run configurations
+        vmArgs("-Dmixin.debug.export=true")
       }
     }
 

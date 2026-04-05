@@ -28,6 +28,7 @@ include("good-asset-fetcher")
 
 // standalone mods
 include("good-boat-fix")
+include("good-clumps")
 include("good-command-fixes")
 include("good-compression")
 include("good-death-messages")
