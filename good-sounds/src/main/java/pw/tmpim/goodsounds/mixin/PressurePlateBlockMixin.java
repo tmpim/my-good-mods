@@ -61,4 +61,15 @@ public abstract class PressurePlateBlockMixin {
   private boolean shouldNotifyNeighbours(World world, int x, int y, int z, int blockId) {
     return !world.isRemote;
   }
+
+  @WrapWithCondition(
+    method = "updatePlateState",
+    at = @At(
+      value = "INVOKE",
+      target = "Lnet/minecraft/world/World;scheduleBlockUpdate(IIIII)V"
+    )
+  )
+  private boolean shouldScheduleBlockUpdate(World world, int x, int y, int z, int id, int tickRate) {
+    return !world.isRemote;
+  }
 }
