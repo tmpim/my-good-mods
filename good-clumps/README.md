@@ -11,6 +11,10 @@
 Beta 1.7.3 to merge nearby dropped items together. By default, item entities within a 1×1×1 area will be merged every
 2 ticks if they're moving, or every 40 ticks if they're stationary.
 
+![Screenshot of Minecraft Beta 1.7.3 with a side-by-side of a pile of many Diamond Blocks dropped on the ground,
+compared to a single stack of Diamond Blocks dropped on the ground. The text reads 'Merge nearby items! and 
+'Reduce lag!'.](/images/demo.png)
+
 ## Configuration
 
 The mod's configuration can be configured in-game (if [Mod Menu Babric](<https://modrinth.com/mod/modmenu-babric>) is

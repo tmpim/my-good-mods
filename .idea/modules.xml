@@ -2,6 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/good-sounds/good-sounds.my-good-mods.good-sounds.main.iml" filepath="$PROJECT_DIR$/.idea/modules/good-sounds/good-sounds.my-good-mods.good-sounds.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/good-sounds/good-sounds.my-good-mods.good-sounds.test.iml" filepath="$PROJECT_DIR$/.idea/modules/good-sounds/good-sounds.my-good-mods.good-sounds.test.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/good-asset-fetcher/my-good-mods.good-asset-fetcher.main.iml" filepath="$PROJECT_DIR$/.idea/modules/good-asset-fetcher/my-good-mods.good-asset-fetcher.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/good-asset-fetcher/my-good-mods.good-asset-fetcher.test.iml" filepath="$PROJECT_DIR$/.idea/modules/good-asset-fetcher/my-good-mods.good-asset-fetcher.test.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/good-boat-fix/my-good-mods.good-boat-fix.main.iml" filepath="$PROJECT_DIR$/.idea/modules/good-boat-fix/my-good-mods.good-boat-fix.main.iml" />
