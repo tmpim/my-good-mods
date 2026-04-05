@@ -22,6 +22,11 @@ object GoodSoundsClient : ModInitializer {
   @EventListener
   fun onBlockSet(event: BlockSetEvent) {
     val world = event.world
+
+    if (!world.isRemote) {
+      return
+    }
+    
     val block = event.blockState.block
     val meta = event.blockMeta
 
