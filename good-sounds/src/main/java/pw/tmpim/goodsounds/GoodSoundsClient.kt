@@ -26,7 +26,7 @@ object GoodSoundsClient : ModInitializer {
     if (!world.isRemote) {
       return
     }
-    
+
     val block = event.blockState.block
     val meta = event.blockMeta
 
