@@ -1,11 +1,6 @@
 package pw.tmpim.goodclumps.world
 
-import net.minecraft.world.World
-
-@Suppress("FunctionName")
+@Suppress("PropertyName")
 interface WorldWithItemTracker {
-  fun goodclumps_getItemTracker(): WorldItemTracker
+  val `goodclumps$itemTracker`: WorldItemTracker
 }
-
-val World.itemTracker
-  get() = goodclumps_getItemTracker()

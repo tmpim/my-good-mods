@@ -1,7 +1,7 @@
 package pw.tmpim.goodclumps.item
 
 import net.minecraft.item.ItemStack
-import java.util.Objects
+import java.util.*
 
 fun ItemStack?.hashItemAndNbt(): Int =
   when {

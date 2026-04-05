@@ -19,7 +19,7 @@ public class WorldMixin implements WorldWithItemTracker {
   private WorldItemTracker itemTracker;
 
   @Override
-  public @NotNull WorldItemTracker goodclumps_getItemTracker() {
+  public @NotNull WorldItemTracker getGoodclumps$itemTracker() {
     return itemTracker;
   }
 

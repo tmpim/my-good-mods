@@ -60,7 +60,7 @@ public class ItemEntityMixin implements TrackedItemEntity {
     if (item.world.isRemote) return; // don't run on clientside
 
     @SuppressWarnings("RedundantCast") // compileJava mixin compilation doesn't know about classtweaker
-    var tracker = ((WorldWithItemTracker) item.world).goodclumps_getItemTracker();
+    var tracker = ((WorldWithItemTracker) item.world).getGoodclumps$itemTracker();
 
     // track the item. for now, still do this even if merging is disabled, as it can be re-enabled at runtime, so let's
     // avoid having to retroactively start tracking every entity
