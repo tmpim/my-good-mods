@@ -17,7 +17,13 @@ public abstract class CreeperEntityMixin extends MonsterEntity {
     super(world);
   }
 
-  @Inject(method = "attack", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/mob/CreeperEntity;isCharged()Z"))
+  @Inject(
+    method = "attack",
+    at = @At(
+      value = "INVOKE",
+      target = "Lnet/minecraft/entity/mob/CreeperEntity;isCharged()Z"
+    )
+  )
   private void beforeExplosion(Entity other, float distance, CallbackInfo ci) {
     ExplosionTracker.pushBlast(new ExplosionTracker.EntityBlast(this));
   }

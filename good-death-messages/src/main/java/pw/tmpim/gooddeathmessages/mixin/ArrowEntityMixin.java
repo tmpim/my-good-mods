@@ -11,7 +11,6 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import pw.tmpim.gooddeathmessages.Victim;
 
 @Mixin(ArrowEntity.class)
 public abstract class ArrowEntityMixin extends Entity {
@@ -28,9 +27,7 @@ public abstract class ArrowEntityMixin extends Entity {
     )
   )
   private void tickShot(CallbackInfo ci, @Local(ordinal = 0) HitResult hit) {
-    if (hit.entity instanceof PlayerEntity) {
-      ((Victim) hit.entity).setGooddms$shotBy((ArrowEntity) (Object) this);
-    }
+    if (hit.entity instanceof PlayerEntity player) player.getGooddms$victim().setShotBy((ArrowEntity) (Object) this);
   }
 
   @Inject(
@@ -48,8 +45,6 @@ public abstract class ArrowEntityMixin extends Entity {
     }
   )
   private void resetShot(CallbackInfo ci, @Local(ordinal = 0) HitResult hit) {
-    if (hit.entity instanceof PlayerEntity) {
-      ((Victim) hit.entity).setGooddms$shotBy(null);
-    }
+    if (hit.entity instanceof PlayerEntity player) player.getGooddms$victim().setShotBy(null);
   }
 }

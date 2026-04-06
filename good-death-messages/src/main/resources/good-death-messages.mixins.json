@@ -12,11 +12,14 @@
     "EntityMixin",
     "ExplosionMixin",
     "FireballEntityMixin",
+    "LivingEntityMixin",
     "PlayerEntityMixin",
+    "SnowballEntityMixin",
     "TntEntityMixin"
   ],
   "server": [
-    "ServerPlayerEntityMixin"
+    "ServerPlayerEntityMixin",
+    "ServerPlayNetworkHandlerMixin"
   ],
   "client": [
     "ClientPlayerEntityMixin"

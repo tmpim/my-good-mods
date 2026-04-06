@@ -17,9 +17,9 @@ public class EntityMixin {
       target = "Lnet/minecraft/entity/Entity;damage(I)V"
     )
   )
-  private void onLitBefore(double dx, double dy, double dz, CallbackInfo ci) {
+  private void inFireBefore(double dx, double dy, double dz, CallbackInfo ci) {
     if (this instanceof Victim victim) {
-      victim.setGooddms$lit(true);
+      victim.getGooddms$victim().setLit(true);
     }
   }
 
@@ -31,9 +31,9 @@ public class EntityMixin {
       shift = At.Shift.AFTER
     )
   )
-  private void onLitAfter(double dx, double dy, double dz, CallbackInfo ci) {
+  private void inFireAfter(double dx, double dy, double dz, CallbackInfo ci) {
     if (this instanceof Victim victim) {
-      victim.setGooddms$lit(false);
+      victim.getGooddms$victim().setLit(false);
     }
   }
 
@@ -46,7 +46,7 @@ public class EntityMixin {
   )
   private void inLavaBefore(CallbackInfo ci) {
     if (this instanceof Victim victim) {
-      victim.setGooddms$lit(true);
+      victim.getGooddms$victim().setLava(true);
     }
   }
 
@@ -60,21 +60,21 @@ public class EntityMixin {
   )
   private void inLavaAfter(CallbackInfo ci) {
     if (this instanceof Victim victim) {
-      victim.setGooddms$lit(false);
+      victim.getGooddms$victim().setLava(false);
     }
   }
 
   @Inject(method = "onStruckByLightning", at = @At("HEAD"))
   private void onStruckByLightningHead(LightningEntity lightningEntity, CallbackInfo ci) {
     if (this instanceof Victim victim) {
-      victim.setGooddms$struck(true);
+      victim.getGooddms$victim().setStruck(true);
     }
   }
 
   @Inject(method = "onStruckByLightning", at = @At("TAIL"))
   private void onStruckByLightningTail(LightningEntity lightningEntity, CallbackInfo ci) {
     if (this instanceof Victim victim) {
-      victim.setGooddms$struck(false);
+      victim.getGooddms$victim().setStruck(false);
     }
   }
 }

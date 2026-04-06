@@ -36,7 +36,7 @@ public class ExplosionMixin {
   ) {
     ExplosionTracker.BlastSource source = blastSource.get();
     if (entity instanceof Victim victim && source != null) {
-      victim.setGooddms$blastSource(source);
+      victim.getGooddms$victim().setBlastSource(source);
     }
   }
 
@@ -54,7 +54,7 @@ public class ExplosionMixin {
   ) {
     ExplosionTracker.BlastSource source = blastSource.get();
     if (entity instanceof Victim victim && source != null) {
-      victim.setGooddms$blastSource(null);
+      victim.getGooddms$victim().setBlastSource(null);
     }
   }
 }

@@ -14,11 +14,12 @@ object DeathRegistry {
     // Explosions
     DeathHooks.FIREBALL, DeathHooks.EXPLOSION_PLAYER, DeathHooks.EXPLOSION_BED, DeathHooks.EXPLOSION,
     // Entity based kills
-    DeathHooks.ARROW, DeathHooks.WOLF_PLAYER, DeathHooks.WOLF, DeathHooks.PLAYER, DeathHooks.MOB,
+    DeathHooks.ARROW, DeathHooks.THROWN, DeathHooks.WOLF_PLAYER,
+    DeathHooks.WOLF, DeathHooks.PLAYER, DeathHooks.MOB,
     // Accidents
-    DeathHooks.CACTUS, DeathHooks.LIGHTNING, DeathHooks.IN_WALL, DeathHooks.FALL_FAR,
-    DeathHooks.FALL, DeathHooks.OUT_OF_WORLD, DeathHooks.DROWN_AND_BURN, DeathHooks.DROWN,
-    DeathHooks.ON_FIRE, DeathHooks.IN_FIRE, DeathHooks.GENERIC_KILL
+    DeathHooks.CACTUS, DeathHooks.LIGHTNING, DeathHooks.IN_WALL, DeathHooks.FALL_LADDER, DeathHooks.FALL_WATER,
+    DeathHooks.FALL_FAR, DeathHooks.FALL, DeathHooks.OUT_OF_WORLD, DeathHooks.DROWN_AND_BURN, DeathHooks.DROWN,
+    DeathHooks.ON_FIRE, DeathHooks.IN_FIRE, DeathHooks.LAVA, DeathHooks.GENERIC_KILL
   )
 
   /** Adds a death cause to the front of the list of death causes.

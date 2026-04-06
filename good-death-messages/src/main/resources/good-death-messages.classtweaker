@@ -1,3 +1,4 @@
 classTweaker v1 named
 
 inject-interface net/minecraft/entity/player/PlayerEntity pw/tmpim/gooddeathmessages/Victim
+inject-interface net/minecraft/entity/player/ServerPlayerEntity pw/tmpim/gooddeathmessages/Victim
