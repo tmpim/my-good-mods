@@ -1,6 +1,5 @@
 package pw.tmpim.gooddeathmessages
 
-import net.minecraft.client.resource.language.TranslationStorage
 import net.minecraft.entity.Entity
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.MobEntity
@@ -12,6 +11,7 @@ import pw.tmpim.gooddeathmessages.ExplosionTracker.BedBlast
 import pw.tmpim.gooddeathmessages.ExplosionTracker.EntityBlast
 import pw.tmpim.gooddeathmessages.data.GoodDeathMessagesData.namespace
 import pw.tmpim.gooddeathmessages.mixin.EntityAccessor
+import pw.tmpim.goodutils.i18n
 
 object DeathHooks {
   // ┌──────────────────────────────────────────────────────────┐
@@ -112,5 +112,5 @@ private fun cause(
 private fun killerCause(
   translationKey: String,
   testFn: TestFn,
-  populateFn: PopulateFn = { v, k -> listOf(v.name, DeathRegistry.getName(k)) }
+  populateFn: PopulateFn = { _, k -> listOf(DeathRegistry.getName(k)) }
 ) = cause(translationKey, testFn, populateFn)
