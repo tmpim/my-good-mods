@@ -28,3 +28,6 @@ interface Victim {
     var projectile: Boolean = false
   )
 }
+
+val Victim.data: Victim.Data
+  get() = `gooddms$victim`

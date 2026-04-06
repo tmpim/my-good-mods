@@ -13,7 +13,7 @@ import pw.tmpim.gooddeathmessages.mixin.EntityAccessor
 object DeathHooks {
 
   val CACTUS = object : Cause("${namespace}.death.attack.cactus") {
-    override fun test(victim: PlayerEntity, killer: Entity?): Boolean = victim.`gooddms$victim`.pricked
+    override fun test(victim: PlayerEntity, killer: Entity?): Boolean = victim.data.pricked
   }
 
   val DROWN = object : Cause("${namespace}.death.attack.drown") {
@@ -23,18 +23,17 @@ object DeathHooks {
   // Generic Explosion
   val EXPLOSION = object : Cause("${namespace}.death.attack.explosion") {
     override fun test(victim: PlayerEntity, killer: Entity?): Boolean =
-      victim.`gooddms$victim`.blastSource is ExplosionTracker.EntityBlast
+      victim.data.blastSource is ExplosionTracker.EntityBlast
   }
 
   // Explosion associated to an entity
   val EXPLOSION_PLAYER = object : Cause("${namespace}.death.attack.explosion.player") {
     override fun test(victim: PlayerEntity, killer: Entity?): Boolean =
-      victim.`gooddms$victim`.blastSource is ExplosionTracker.EntityBlast &&
-        (victim.`gooddms$victim`.blastSource as ExplosionTracker.EntityBlast).entity is LivingEntity
+      (victim.data.blastSource as? ExplosionTracker.EntityBlast)?.entity is LivingEntity
 
     override fun populate(victim: PlayerEntity, killer: Entity?): MutableList<String> {
       return super.populate(victim, killer).apply {
-        addLast(DeathRegistry.getName((victim.`gooddms$victim`.blastSource as ExplosionTracker.EntityBlast).entity))
+        addLast(DeathRegistry.getName((victim.data.blastSource as ExplosionTracker.EntityBlast).entity))
       }
     }
   }
@@ -42,24 +41,24 @@ object DeathHooks {
   // Explosion associated to a bed
   val EXPLOSION_BED = object : Cause("${namespace}.death.attack.badRespawnPoint.message") {
     override fun test(victim: PlayerEntity, killer: Entity?): Boolean =
-      victim.`gooddms$victim`.blastSource is ExplosionTracker.BedBlast
+      victim.data.blastSource is ExplosionTracker.BedBlast
   }
 
   // A fall of less than 5 blocks
   val FALL = object : Cause("${namespace}.death.attack.fall") {
     override fun test(victim: PlayerEntity, killer: Entity?): Boolean =
-      (victim as EntityAccessor).fallDistance - 3.0f > 0
+      victim.fallDistance - 3.0f > 0
   }
 
   // A fall of more than 5 blocks
   val FALL_FAR = object : Cause("${namespace}.death.fell.accident.generic") {
     override fun test(victim: PlayerEntity, killer: Entity?): Boolean =
-      (victim as EntityAccessor).fallDistance - 5.0f > 0
+      victim.fallDistance - 5.0f > 0
   }
 
   val FALL_LADDER = object : Cause("${namespace}.death.fell.accident.ladder") {
     override fun test(victim: PlayerEntity, killer: Entity?): Boolean =
-      (victim as EntityAccessor).fallDistance - 3.0f > 0 && victim.`gooddms$victim`.wasClimbing
+      victim.fallDistance - 3.0f > 0 && victim.data.wasClimbing
   }
 
   val FALL_WATER = object : Cause("${namespace}.death.fell.accident.water") {
@@ -70,7 +69,7 @@ object DeathHooks {
   }
 
   val IN_FIRE = object : Cause("${namespace}.death.attack.inFire") {
-    override fun test(victim: PlayerEntity, killer: Entity?): Boolean = victim.`gooddms$victim`.lit
+    override fun test(victim: PlayerEntity, killer: Entity?): Boolean = victim.data.lit
   }
 
   val ON_FIRE = object : Cause("${namespace}.death.attack.onFire") {
@@ -78,11 +77,11 @@ object DeathHooks {
   }
 
   val LAVA = object : Cause("${namespace}.death.attack.lava") {
-    override fun test(victim: PlayerEntity, killer: Entity?): Boolean = victim.`gooddms$victim`.lava
+    override fun test(victim: PlayerEntity, killer: Entity?): Boolean = victim.data.lava
   }
 
   val LIGHTNING = object : Cause("${namespace}.death.attack.lightningBolt") {
-    override fun test(victim: PlayerEntity, killer: Entity?): Boolean = victim.`gooddms$victim`.struck
+    override fun test(victim: PlayerEntity, killer: Entity?): Boolean = victim.data.struck
   }
 
   val PLAYER = object : KillerWithCause("${namespace}.death.attack.player") {
@@ -94,27 +93,27 @@ object DeathHooks {
   }
 
   val ARROW = object : Cause("${namespace}.death.attack.arrow") {
-    override fun test(victim: PlayerEntity, killer: Entity?): Boolean = victim.`gooddms$victim`.shotBy != null
+    override fun test(victim: PlayerEntity, killer: Entity?): Boolean = victim.data.shotBy != null
 
     override fun populate(victim: PlayerEntity, killer: Entity?): MutableList<String> {
       return super.populate(victim, killer).apply {
-        addLast(DeathRegistry.getName(killer ?: victim.`gooddms$victim`.shotBy))
+        addLast(DeathRegistry.getName(killer ?: victim.data.shotBy))
       }
     }
   }
 
   val THROWN = object : Cause("${namespace}.death.attack.thrown") {
-    override fun test(victim: PlayerEntity, killer: Entity?): Boolean = victim.`gooddms$victim`.projectile
+    override fun test(victim: PlayerEntity, killer: Entity?): Boolean = victim.data.projectile
   }
 
   val FIREBALL = object : Cause("${namespace}.death.attack.fireball") {
     override fun test(victim: PlayerEntity, killer: Entity?): Boolean {
-      val blast: ExplosionTracker.BlastSource? = victim.`gooddms$victim`.blastSource
+      val blast: ExplosionTracker.BlastSource? = victim.data.blastSource
       return blast is ExplosionTracker.EntityBlast && blast.entity is FireballEntity
     }
 
     override fun populate(victim: PlayerEntity, killer: Entity?): MutableList<String> {
-      val blast: ExplosionTracker.EntityBlast = victim.`gooddms$victim`.blastSource as ExplosionTracker.EntityBlast
+      val blast: ExplosionTracker.EntityBlast = victim.data.blastSource as ExplosionTracker.EntityBlast
       val owner: Entity = (blast.entity as FireballEntity).owner
       return super.populate(victim, killer).apply {
         addLast(DeathRegistry.getName(owner))
@@ -135,7 +134,7 @@ object DeathHooks {
   }
 
   val GENERIC_KILL = object : Cause("${namespace}.death.attack.genericKill") {
-    override fun test(victim: PlayerEntity, killer: Entity?): Boolean = victim.`gooddms$victim`.killCommand
+    override fun test(victim: PlayerEntity, killer: Entity?): Boolean = victim.data.killCommand
   }
 
   // Custom
@@ -157,7 +156,7 @@ object DeathHooks {
 
   val DROWN_AND_BURN = object : Cause("${namespace}.death.attack.drownBurn") {
     override fun test(victim: PlayerEntity, killer: Entity?): Boolean =
-      victim.air <= 0 && (victim.fireTicks > 0 || victim.`gooddms$victim`.lit)
+      victim.air <= 0 && (victim.fireTicks > 0 || victim.data.lit)
   }
 
   // Cause Class
@@ -190,3 +189,6 @@ object DeathHooks {
     }
   }
 }
+
+val Entity.fallDistance: Float
+  get() = (this as EntityAccessor).fallDistance
