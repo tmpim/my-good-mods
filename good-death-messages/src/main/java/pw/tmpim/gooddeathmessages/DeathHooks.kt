@@ -85,7 +85,7 @@ object DeathHooks {
       mutableListOf(victim.name)
 
     internal fun translate(victim: PlayerEntity, killer: Entity?): String =
-      translationKey.i18n(*populate(victim, killer).toTypedArray()) // TODO: rebase on master
+      translationKey.i18n(*populate(victim, killer).toTypedArray())
   }
 }
 
