@@ -6,7 +6,7 @@ import emmathemartian.datagen.provider.LanguageProvider
 import pw.tmpim.goodfarming.CONFIG_KEY
 import pw.tmpim.goodfarming.GoodFarming
 import pw.tmpim.goodfarming.GoodFarming.MOD_NAME
-import pw.tmpim.goodutils.data.sub
+import pw.tmpim.goodutils.i18n.sub
 
 private const val C = CONFIG_KEY
 

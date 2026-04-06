@@ -1,1 +1,17 @@
-{"type":"minecraft:crafting_shaped","pattern":["WWW","W W","WWW"],"key":{"W":{"item":"minecraft:wheat"}},"result":{"item":"good-food:bagel","count":2}}
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "WWW",
+    "W W",
+    "WWW"
+  ],
+  "key": {
+    "W": {
+      "item": "minecraft:wheat"
+    }
+  },
+  "result": {
+    "item": "good-food:bagel",
+    "count": 2
+  }
+}

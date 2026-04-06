@@ -13,7 +13,7 @@ import pw.tmpim.goodflags.block.FlagSpec.FLAG_WIDTH
 import pw.tmpim.goodflags.block.FlagSpec.getGLColor
 import pw.tmpim.goodflags.data.TranslationString
 import pw.tmpim.goodflags.net.FlagNetworkingC2S
-import pw.tmpim.goodutils.i18n
+import pw.tmpim.goodutils.i18n.i18n
 import kotlin.math.abs
 
 private const val TC = TranslationString.COLOR

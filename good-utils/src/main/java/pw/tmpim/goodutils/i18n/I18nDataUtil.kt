@@ -1,9 +1,7 @@
-package pw.tmpim.goodutils.data
+package pw.tmpim.goodutils.i18n
 
 import emmathemartian.datagen.builder.LangBuilder
-import net.minecraft.client.resource.language.I18n
 import net.minecraft.item.Item
-import pw.tmpim.goodutils.getItemSubKey
 
 // kept in a separate file as datagen may not be in the classpath
 

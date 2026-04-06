@@ -1,1 +1,16 @@
-{"type":"minecraft:crafting_shaped","pattern":["RRR","RRR","RRR"],"key":{"R":{"item":"minecraft:redstone"}},"result":{"item":"good-compression:redstone_block"}}
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "RRR",
+    "RRR",
+    "RRR"
+  ],
+  "key": {
+    "R": {
+      "item": "minecraft:redstone"
+    }
+  },
+  "result": {
+    "item": "good-compression:redstone_block"
+  }
+}

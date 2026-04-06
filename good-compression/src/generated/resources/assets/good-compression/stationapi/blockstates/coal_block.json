@@ -1,1 +1,8 @@
-{"variants":{"":{"model":"good-compression:block/coal_block","weight":1}}}
+{
+  "variants": {
+    "": {
+      "model": "good-compression:block/coal_block",
+      "weight": 1
+    }
+  }
+}

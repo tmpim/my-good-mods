@@ -11,7 +11,7 @@ import pw.tmpim.gooddeathmessages.ExplosionTracker.BedBlast
 import pw.tmpim.gooddeathmessages.ExplosionTracker.EntityBlast
 import pw.tmpim.gooddeathmessages.GoodDeathMessages.MOD_ID
 import pw.tmpim.gooddeathmessages.mixin.EntityAccessor
-import pw.tmpim.goodutils.i18n
+import pw.tmpim.goodutils.i18n.i18n
 
 object DeathHooks {
   // ┌──────────────────────────────────────────────────────────┐

@@ -267,7 +267,7 @@ subprojects {
 
           register("data") {
             client()
-            property("datagen.run", name)
+            property("datagen.run", project.name)
             property(
               "datagen.path",
               project.projectDir.toPath().resolve("src/generated/resources/").toAbsolutePath().toString()

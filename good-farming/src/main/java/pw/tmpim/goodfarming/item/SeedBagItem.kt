@@ -14,7 +14,7 @@ import net.modificationstation.stationapi.api.util.math.Direction
 import pw.tmpim.goodfarming.GoodFarming
 import pw.tmpim.goodfarming.GoodFarming.MOD_ID
 import pw.tmpim.goodfarming.GoodFarming.namespace
-import pw.tmpim.goodutils.getItemSubKey
+import pw.tmpim.goodutils.i18n.getItemSubKey
 import pw.tmpim.goodutils.removeTag
 import pw.tmpim.goodutils.world.spiral3D
 import kotlin.math.max

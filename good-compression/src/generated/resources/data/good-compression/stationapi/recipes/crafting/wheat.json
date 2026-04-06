@@ -1,1 +1,12 @@
-{"type":"minecraft:crafting_shapeless","ingredients":[{"item":"good-compression:hay_block"}],"result":{"item":"minecraft:wheat","count":9}}
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "good-compression:hay_block"
+    }
+  ],
+  "result": {
+    "item": "minecraft:wheat",
+    "count": 9
+  }
+}

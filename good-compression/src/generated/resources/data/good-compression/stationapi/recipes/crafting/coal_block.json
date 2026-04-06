@@ -1,1 +1,16 @@
-{"type":"minecraft:crafting_shaped","pattern":["CCC","CCC","CCC"],"key":{"C":{"item":"minecraft:coal"}},"result":{"item":"good-compression:coal_block"}}
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "CCC",
+    "CCC",
+    "CCC"
+  ],
+  "key": {
+    "C": {
+      "item": "minecraft:coal"
+    }
+  },
+  "result": {
+    "item": "good-compression:coal_block"
+  }
+}

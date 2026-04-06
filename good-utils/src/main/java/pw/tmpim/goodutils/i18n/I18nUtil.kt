@@ -1,4 +1,4 @@
-package pw.tmpim.goodutils
+package pw.tmpim.goodutils.i18n
 
 import net.minecraft.client.resource.language.I18n
 import net.minecraft.item.Item

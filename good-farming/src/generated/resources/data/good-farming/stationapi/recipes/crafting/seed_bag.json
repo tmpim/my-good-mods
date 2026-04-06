@@ -1,1 +1,18 @@
-{"type":"minecraft:crafting_shaped","pattern":["S","L"],"key":{"S":{"item":"minecraft:string"},"L":{"item":"minecraft:leather"}},"result":{"item":"good-farming:seed_bag"}}
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "S",
+    "L"
+  ],
+  "key": {
+    "S": {
+      "item": "minecraft:string"
+    },
+    "L": {
+      "item": "minecraft:leather"
+    }
+  },
+  "result": {
+    "item": "good-farming:seed_bag"
+  }
+}

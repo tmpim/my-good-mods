@@ -1,1 +1,8 @@
-{"variants":{"":{"model":"good-compression:block/stone_bricks","weight":1}}}
+{
+  "variants": {
+    "": {
+      "model": "good-compression:block/stone_bricks",
+      "weight": 1
+    }
+  }
+}

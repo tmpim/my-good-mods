@@ -1,1 +1,12 @@
-{"type":"minecraft:crafting_shapeless","ingredients":[{"item":"good-compression:coal_block"}],"result":{"item":"minecraft:coal","count":9}}
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "good-compression:coal_block"
+    }
+  ],
+  "result": {
+    "item": "minecraft:coal",
+    "count": 9
+  }
+}

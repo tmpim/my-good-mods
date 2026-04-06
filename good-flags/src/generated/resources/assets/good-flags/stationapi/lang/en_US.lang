@@ -14,7 +14,6 @@ gui.good-flags.color.red=Red
 gui.good-flags.color.silver=Light Gray
 gui.good-flags.color.white=White
 gui.good-flags.color.yellow=Yellow
-gui.good-flags.config.name=Good Flags
 gui.good-flags.title=Paint Flag
 gui.good-flags.tool.brush=Brush
 gui.good-flags.tool.eraser=Eraser

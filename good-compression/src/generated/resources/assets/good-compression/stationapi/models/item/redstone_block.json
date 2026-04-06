@@ -1,1 +1,3 @@
-{"parent":"good-compression:block/redstone_block"}
+{
+  "parent": "good-compression:block/redstone_block"
+}

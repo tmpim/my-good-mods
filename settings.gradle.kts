@@ -34,10 +34,10 @@ include("good-command-fixes")
 include("good-compression")
 include("good-death-messages")
 include("good-farming")
+include("good-flags")
 include("good-food")
 include("good-sign-editing")
 include("good-sounds")
-include("good-flags")
 
 // everything else mod/incubator
 include("good-mod")

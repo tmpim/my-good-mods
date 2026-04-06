@@ -1,1 +1,3 @@
-{"parent":"good-compression:block/coal_block"}
+{
+  "parent": "good-compression:block/coal_block"
+}

@@ -1,1 +1,3 @@
-{"parent":"good-compression:block/hay_block"}
+{
+  "parent": "good-compression:block/hay_block"
+}

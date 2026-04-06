@@ -1,1 +1,3 @@
-{"parent":"good-compression:block/stone_bricks"}
+{
+  "parent": "good-compression:block/stone_bricks"
+}

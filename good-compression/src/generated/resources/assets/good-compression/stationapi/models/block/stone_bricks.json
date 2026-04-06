@@ -1,1 +1,6 @@
-{"parent":"minecraft:block/cube_all","textures":{"all":"good-compression:block/stonebrick"}}
+{
+  "parent": "minecraft:block/cube_all",
+  "textures": {
+    "all": "good-compression:block/stonebrick"
+  }
+}
