@@ -8,6 +8,7 @@ import net.minecraft.block.Block
 import net.minecraft.sound.BlockSoundGroup
 import net.modificationstation.stationapi.api.event.block.entity.BlockEntityRegisterEvent
 import net.modificationstation.stationapi.api.event.mod.InitEvent
+import net.modificationstation.stationapi.api.event.registry.BlockItemRegistryEvent
 import net.modificationstation.stationapi.api.event.registry.BlockRegistryEvent
 import net.modificationstation.stationapi.api.util.Namespace
 import org.slf4j.Logger
