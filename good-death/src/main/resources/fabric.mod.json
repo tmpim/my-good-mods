@@ -1,0 +1,63 @@
+{
+  "schemaVersion": 1,
+  "id": "good-death",
+  "version": "${version}",
+
+  "name": "Good Death",
+  "description": "great",
+  "authors": [
+    "tmpim"
+  ],
+  "contact": {
+    "sources": "https://github.com/tmpim/my-good-mods"
+  },
+
+  "license": "MIT",
+  "icon": "assets/good-death/icon.png",
+
+  "environment": "*",
+  "entrypoints": {
+    "stationapi:event_bus": [
+      {
+        "adapter": "kotlin",
+        "value": "pw.tmpim.gooddeath.GoodDeath"
+      }
+    ],
+    "stationapi:event_bus_client": [
+      {
+        "adapter": "kotlin",
+        "value": "pw.tmpim.gooddeath.GoodDeathClient"
+      }
+    ],
+    "stationapi:event_bus_server": [],
+    "gcapi3": [
+      {
+        "adapter": "kotlin",
+        "value": "pw.tmpim.gooddeath.GoodDeath"
+      }
+    ],
+    "data": [
+      {
+        "adapter": "kotlin",
+        "value": "pw.tmpim.gooddeath.data.GoodDeathData"
+      }
+    ]
+  },
+
+  "mixins": [
+    "good-death.mixins.json"
+  ],
+
+  "accessWidener": "good-death.classtweaker",
+
+  "depends": {
+    "minecraft": "1.0.0-beta.7.3",
+    "java": ">=${javaVersion}",
+    "stationapi": ">=${stationApiMin}",
+    "fabricloader": ">=${fabricLoaderMin}",
+    "fabric-language-kotlin": "*"
+  },
+  "suggests": {
+    "modmenu": "*"
+  }
+}
