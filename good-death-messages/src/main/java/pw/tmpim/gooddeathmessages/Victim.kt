@@ -3,8 +3,8 @@ package pw.tmpim.gooddeathmessages
 import net.minecraft.entity.projectile.ArrowEntity
 import pw.tmpim.gooddeathmessages.ExplosionTracker.BlastSource
 
-@Suppress("PropertyName")
 interface Victim {
+  @Suppress("PropertyName")
   val `gooddms$victim`: Data
 
   data class Data(
