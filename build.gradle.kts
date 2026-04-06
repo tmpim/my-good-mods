@@ -166,6 +166,31 @@ allprojects {
       if (classTweakerPath.exists()) {
         println("found class tweaker at $classTweakerPath for $name")
         accessWidenerPath = classTweakerPath
+
+        // verify the class tweaker is actually referenced in fabric.mod.json
+        val fabricModJson = getFabricModJson()
+        if (fabricModJson != null) {
+          val definedPath = checkNotNull(fabricModJson["accessWidener"] as? String) {
+            """
+              |project $name has a class tweaker at $classTweakerPath, but it is missing from fabric.mod.json!
+              |
+              |add the following line to fabric.mod.json, usually above "depends":
+              |    "accessWidener": "${classTweakerPath.name}",
+            """.trimMargin().trim()
+          }
+
+          check(definedPath == classTweakerPath.name) {
+            """
+              |project $name has a class tweaker at $classTweakerPath, but it is defined differently in fabric.mod.json!
+              |
+              |got:
+              |    "accessWidener": "$definedPath",
+              |
+              |expected:
+              |    "accessWidener": "${classTweakerPath.name}",
+            """.trimMargin().trim()
+          }
+        }
       } else {
         println("no class tweaker at $classTweakerPath for $name, skipping")
       }
@@ -233,14 +258,10 @@ subprojects {
 
     configurations.namedElements.get().extendsFrom(configurations.implementation.get())
 
-    // add datagen task if the subproject has a data entrypoint
-    val fabricModJson = project.projectDir
-      .resolve("src/main/resources/fabric.mod.json")
-      .takeIf { it.exists() }
-      ?.let { JsonSlurper().parse(it) as Map<*, *> }
-
     loom {
       runs {
+        // add datagen task if the subproject has a data entrypoint
+        val fabricModJson = getFabricModJson()
         if (fabricModJson != null && (fabricModJson["entrypoints"] as Map<*, *>?)?.containsKey("data") == true) {
           println("found data entrypoint in $name, registering runData task")
 
@@ -254,6 +275,7 @@ subprojects {
           }
         }
 
+        // remove client/server tasks for subprojects
         findByName("client")?.let(::remove)
         findByName("server")?.let(::remove)
       }
@@ -531,3 +553,9 @@ fun String.toPascalCase() = this
 fun String.toCamelCase() = this
   .toPascalCase()
   .replaceFirstChar { it.lowercase() }
+
+fun Project.getFabricModJson(): Map<*, *>? =
+  project.projectDir
+    .resolve("src/main/resources/fabric.mod.json")
+    .takeIf { it.exists() }
+    ?.let { JsonSlurper().parse(it) as Map<*, *> }

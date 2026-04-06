@@ -30,7 +30,6 @@
         "value": "pw.tmpim.goodfarming.GoodFarmingClient"
       }
     ],
-    "stationapi:event_bus_server": [],
     "gcapi3": [
       {
         "adapter": "kotlin",
