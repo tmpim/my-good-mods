@@ -9,20 +9,17 @@ import net.minecraft.client.Minecraft
 import net.minecraft.client.render.Tessellator
 import net.minecraft.client.render.block.entity.BlockEntityRenderer
 import net.minecraft.client.render.platform.Lighting
+import net.modificationstation.stationapi.api.client.StationRenderAPI
 import net.modificationstation.stationapi.api.client.texture.atlas.Atlases
 import org.lwjgl.opengl.GL11
 import pw.tmpim.goodflags.block.FlagBlockEntity
 import pw.tmpim.goodflags.block.FlagSpec.FLAG_HEIGHT
 import pw.tmpim.goodflags.block.FlagSpec.FLAG_WIDTH
-import pw.tmpim.goodflags.block.FlagSpec.getGLColor
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
 
 @Environment(EnvType.CLIENT)
 class FlagBlockEntityRenderer : BlockEntityRenderer() {
-  /** Cache of GL texture IDs keyed by block entity identity hash. */
-  private val textureCache = HashMap<Int, Int>()
-
   override fun render(entity: BlockEntity, dx: Double, dy: Double, dz: Double, tickDelta: Float) {
     if (entity !is FlagBlockEntity) return
 
@@ -69,30 +66,28 @@ class FlagBlockEntityRenderer : BlockEntityRenderer() {
     val poleRadius = 0.0625 // 1/16 of a block
     val poleHeight = 3.0
 
-    this.bindTexture("/terrain.png")
+    val gameAtlas = StationRenderAPI.getBakedModelManager().getAtlas(Atlases.GAME_ATLAS_TEXTURE)
+    gameAtlas.bindTexture()
 
     val t = Tessellator.INSTANCE
-
     t.startQuads()
 
     val atlas = Atlases.getTerrain()
-
     val woodBlockSideId = Block.LOG.getTexture(2)
-
     val woodBlockSideSprite = atlas.getTexture(woodBlockSideId)
 
     val uSize = woodBlockSideSprite.endU - woodBlockSideSprite.startU
     val vSize = woodBlockSideSprite.endV - woodBlockSideSprite.startV
 
     val uSideStart = woodBlockSideSprite.startU
-    val uSideEnd =   woodBlockSideSprite.startU + uSize / 8
+    val uSideEnd   = woodBlockSideSprite.startU + uSize / 8
     val vSideStart = woodBlockSideSprite.startV
-    val vSideEnd =   woodBlockSideSprite.endV
+    val vSideEnd   = woodBlockSideSprite.endV
 
     val uEndsStart = woodBlockSideSprite.startU
-    val uEndsEnd =   woodBlockSideSprite.startU + uSize / 8
+    val uEndsEnd   = woodBlockSideSprite.startU + uSize / 8
     val vEndsStart = woodBlockSideSprite.startV
-    val vEndsEnd =   woodBlockSideSprite.startV + vSize / 8
+    val vEndsEnd   = woodBlockSideSprite.startV + vSize / 8
 
     // Side faces: 3 quads per face, each covering 1 block segment
     for (i in 0 until 3) {
@@ -135,30 +130,29 @@ class FlagBlockEntityRenderer : BlockEntityRenderer() {
 
   private fun drawFlag(entity: FlagBlockEntity, light: Float) {
     // Flag extends from the pole to the right, at the top of the pole (3:2 ratio)
-    val flagWidth = 1.5    // 1.5 blocks wide
-    val flagHeight = 1.0   // 1 block tall
-    val flagTop = 3.0      // Top of the flag (at top of pole)
+    val flagWidth  = 1.5 // 1.5 blocks wide
+    val flagHeight = 1.0 // 1 block tall
+    val flagTop    = 3.0 // Top of the flag (at top of pole)
     val flagBottom = flagTop - flagHeight
-    val flagRight = -0.0625 // Start just past the pole
-    val flagLeft = flagRight - flagWidth
+    val flagRight  = -0.0625 // Start just past the pole
+    val flagLeft   = flagRight - flagWidth
 
     // Thickness: 1 pixel (1/32 block), centred on the pole's Z plane
     val flagThickness = 0.0625 / 2
-    val flagZFront = flagThickness / 2.0
-    val flagZBack  = -flagThickness / 2.0
+    val flagZFront    = flagThickness / 2.0
+    val flagZBack     = -flagThickness / 2.0
 
     // UV edge fractions for the edge strips
     val uMin = 0.0
     val uMax = 1.0
     val vMin = 0.0
     val vMax = 1.0
-    val vTopRow    = 1.0 / FLAG_HEIGHT          // one texel row from top
-    val vBottomRow = 1.0 - 1.0 / FLAG_HEIGHT    // one texel row from bottom
-    val uRightCol  = 1.0 - 1.0 / FLAG_WIDTH     // one texel column from right
+    val vTopRow    = 1.0 / FLAG_HEIGHT       // one texel row from top
+    val vBottomRow = 1.0 - 1.0 / FLAG_HEIGHT // one texel row from bottom
+    val uRightCol  = 1.0 - 1.0 / FLAG_WIDTH  // one texel column from right
 
     // Get or create the GL texture
     val textureId = getOrCreateTexture(entity)
-
     GL11.glEnable(GL11.GL_TEXTURE_2D)
     GL11.glBindTexture(GL11.GL_TEXTURE_2D, textureId)
 
@@ -174,10 +168,10 @@ class FlagBlockEntityRenderer : BlockEntityRenderer() {
     t.vertex(flagRight, flagTop,    flagZFront, uMin, vMin)
 
     // Back face of the flag (negative Z, reversed winding, mirrored U)
-    t.vertex(flagRight, flagTop,    flagZBack,  uMin, vMin)
-    t.vertex(flagRight, flagBottom, flagZBack,  uMin, vMax)
-    t.vertex(flagLeft,  flagBottom, flagZBack,  uMax, vMax)
-    t.vertex(flagLeft,  flagTop,    flagZBack,  uMax, vMin)
+    t.vertex(flagRight, flagTop,    flagZBack, uMin, vMin)
+    t.vertex(flagRight, flagBottom, flagZBack, uMin, vMax)
+    t.vertex(flagLeft,  flagBottom, flagZBack, uMax, vMax)
+    t.vertex(flagLeft,  flagTop,    flagZBack, uMax, vMin)
 
     // Top edge – uses the top row of the texture (vMin..vTopRow)
     t.vertex(flagLeft,  flagTop, flagZBack,  uMax, vMin)
@@ -192,8 +186,8 @@ class FlagBlockEntityRenderer : BlockEntityRenderer() {
     t.vertex(flagRight, flagBottom, flagZFront, uMin, vBottomRow)
 
     // Right (free) edge – uses the rightmost column (uMax..uRightCol)
-    t.vertex(flagLeft, flagTop,    flagZFront, uMax,     vMin)
-    t.vertex(flagLeft, flagBottom, flagZFront, uMax,     vMax)
+    t.vertex(flagLeft, flagTop,    flagZFront, uMax,      vMin)
+    t.vertex(flagLeft, flagBottom, flagZFront, uMax,      vMax)
     t.vertex(flagLeft, flagBottom, flagZBack,  uRightCol, vMax)
     t.vertex(flagLeft, flagTop,    flagZBack,  uRightCol, vMin)
 
@@ -220,37 +214,24 @@ class FlagBlockEntityRenderer : BlockEntityRenderer() {
     val buffer = ByteBuffer.allocateDirect(FLAG_WIDTH * FLAG_HEIGHT * 4)
       .order(ByteOrder.nativeOrder())
 
-    // Load terrain atlas pixels once for wool texture sampling.
-    // terrain.png is a 256×256 atlas with 16×16 tiles arranged in a 16×16 grid.
-    // getColors returns ARGB int[] with width*height entries, row-major.
-    val terrainPixels = dispatcher.textureManager.getColors("/terrain.png")
-    val terrainWidth = 256  // terrain.png is always 256×256 in b1.7.3
+    // Sample wool texture from Station's Arsenic sprites
+    val atlas = Atlases.getTerrain()
+    val woolTextures = (0..<16).map { dyeIndex ->
+      val woolBlockMeta = WoolBlock.getBlockMeta(dyeIndex)
+      val woolTexture = Block.WOOL.getTexture(0, woolBlockMeta)
+      atlas.getTexture(woolTexture).sprite.contents
+    }
 
+    @Suppress("UnstableApiUsage")
     for (y in 0 until FLAG_HEIGHT) {
       for (x in 0 until FLAG_WIDTH) {
         val colorIndex = entity.getPixel(x, y)
         val dyeIndex = colorIndex and 0xF
+        val woolTex = woolTextures[dyeIndex] ?: woolTextures[0] // fallback to white
 
-        // Wool texture tile in terrain atlas.
-        // WoolBlock.getBlockMeta converts dye item meta → block meta.
-        val woolBlockMeta = WoolBlock.getBlockMeta(dyeIndex)
-        val woolTexId = if (woolBlockMeta == 0) 64
-                        else 113 + ((woolBlockMeta.inv() and 8) shr 3) + (woolBlockMeta.inv() and 7) * 16
-        // Tile origin in the 256×256 atlas: column = low nibble × 16, row = high nibble × 16
-        val tileCol = (woolTexId and 0xF) * 16
-        val tileRow = (woolTexId shr 4) * 16
         // Map flag pixel to wool tile via modulo (tile repeats across the 48×32 flag canvas)
-        val woolX = x % 16
-        val woolY = y % 16
-        val woolArgb = terrainPixels[(tileRow + woolY) * terrainWidth + (tileCol + woolX)]
-        val woolR = (woolArgb shr 16) and 0xFF
-        val woolG = (woolArgb shr 8) and 0xFF
-        val woolB = woolArgb and 0xFF
-
-        buffer.put(woolR.toByte())
-        buffer.put(woolG.toByte())
-        buffer.put(woolB.toByte())
-        buffer.put(255.toByte())
+        // TODO: scale the canvas according to the resolution of the resource pack (based on the biggest wool tex?)
+        buffer.putInt(woolTex.baseFrame.getColor(x % woolTex.width, y % woolTex.height))
       }
     }
     buffer.flip()
@@ -269,5 +250,14 @@ class FlagBlockEntityRenderer : BlockEntityRenderer() {
     entity.dirty = false
 
     return texId
+  }
+
+  companion object {
+    /** Cache of GL texture IDs keyed by block entity identity hash. */
+    private val textureCache = HashMap<Int, Int>()
+
+    fun clearTextureCache() {
+      textureCache.clear()
+    }
   }
 }

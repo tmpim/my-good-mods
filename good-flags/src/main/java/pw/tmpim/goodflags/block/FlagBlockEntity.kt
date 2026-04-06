@@ -4,10 +4,9 @@ import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
 import net.minecraft.block.entity.BlockEntity
 import net.minecraft.nbt.NbtCompound
-import net.minecraft.network.packet.Packet
 import pw.tmpim.goodflags.block.FlagSpec.FLAG_HEIGHT
 import pw.tmpim.goodflags.block.FlagSpec.FLAG_WIDTH
-import pw.tmpim.goodflags.net.FlagNetworking
+import pw.tmpim.goodflags.net.FlagNetworkingS2C
 
 class FlagBlockEntity : BlockEntity() {
   /** Each byte is a color index 0-15. Row-major order: index = y * WIDTH + x */
@@ -27,6 +26,7 @@ class FlagBlockEntity : BlockEntity() {
     System.arraycopy(data, 0, pixels, 0, pixels.size)
     dirty = true
     markDirty()
+    world.blockUpdateEvent(x, y, z) // update the flag for other players
   }
 
   override fun writeNbt(nbt: NbtCompound) {
@@ -47,11 +47,9 @@ class FlagBlockEntity : BlockEntity() {
 
   /**
    * Called by the server when sending chunk data to clients.
-   * Returns a MessagePacket containing the flag's pixel data so
-   * the client receives it on login / chunk load.
+   * Returns a MessagePacket containing the flag's pixel data so the client receives it on login / chunk load.
    */
   @Environment(EnvType.SERVER)
-  override fun createUpdatePacket(): Packet {
-    return FlagNetworking.createSyncPacket(x, y, z, pixels)
-  }
+  override fun createUpdatePacket() =
+    FlagNetworkingS2C.createSyncPacket(x, y, z, pixels)
 }

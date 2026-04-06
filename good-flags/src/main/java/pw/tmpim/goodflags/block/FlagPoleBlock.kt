@@ -20,13 +20,13 @@ class FlagPoleBlock : TemplateBlock(namespace.id("flagpole"), Material.WOOD) {
   override fun isOpaque(): Boolean = false
 
   // Never drop an item — only the base FlagBlock drops the item
-  override fun getDroppedItemId(blockMeta: Int, random: Random): Int = 0
+  override fun getDroppedItemId(blockMeta: Int, random: Random) = 0
 
   override fun getCollisionShape(world: World, x: Int, y: Int, z: Int): Box? = null
 
   /**
-   * Delegate use interactions up/down to the base FlagBlock so the player can
-   * open the paint screen by clicking any part of the flag structure.
+   * Delegate use interactions up/down to the base FlagBlock so the player can open the paint screen by clicking any
+   * part of the flag structure.
    */
   override fun onUse(world: World, x: Int, y: Int, z: Int, player: PlayerEntity): Boolean {
     val baseY = findBaseY(world, x, y, z) ?: return false
@@ -39,17 +39,16 @@ class FlagPoleBlock : TemplateBlock(namespace.id("flagpole"), Material.WOOD) {
     val below = world.getBlockId(x, y - 1, z)
     val above = world.getBlockId(x, y + 1, z)
 
-    // If the block below is neither the base nor another pole segment, this
-    // pole has lost its support. Remove self silently — no drop.
-    // The upper pole (if any) will receive its own neighborUpdate and do the same.
+    // If the block below is neither the base nor another pole segment, this pole has lost its support. Remove self
+    // silently — no drop. The upper pole (if any) will receive its own neighborUpdate and do the same.
     if ((below != flagId && below != poleId) || (below == flagId && above != poleId)) {
       world.setBlock(x, y, z, 0)
     }
   }
 
   /**
-   * Walks downward from (x, y, z) through FlagPoleBlock layers until it finds
-   * the FlagBlock base. Returns null if no base is found within the expected range.
+   * Walks downward from (x, y, z) through FlagPoleBlock layers until it finds the FlagBlock base. Returns null if no
+   * base is found within the expected range.
    */
   private fun findBaseY(world: World, x: Int, y: Int, z: Int): Int? {
     val flagId = GoodFlags.flagBlock.id
@@ -64,5 +63,5 @@ class FlagPoleBlock : TemplateBlock(namespace.id("flagpole"), Material.WOOD) {
     return null
   }
 
-  override fun getPistonBehavior() = 2
+  override fun getPistonBehavior() = 2 // unpushable
 }

@@ -6,15 +6,15 @@ import net.minecraft.block.Block
 import net.minecraft.block.entity.BlockEntity
 import net.minecraft.block.material.Material
 import net.minecraft.entity.LivingEntity
-import net.minecraft.entity.player.ClientPlayerEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.util.math.Box
 import net.minecraft.util.math.MathHelper
 import net.minecraft.world.World
+import net.modificationstation.stationapi.api.network.packet.PacketHelper
 import net.modificationstation.stationapi.api.template.block.TemplateBlockWithEntity
 import pw.tmpim.goodflags.GoodFlags
 import pw.tmpim.goodflags.GoodFlags.namespace
-import pw.tmpim.goodflags.client.FlagPaintScreen
+import pw.tmpim.goodflags.net.FlagNetworkingS2C
 
 class FlagBlock : TemplateBlockWithEntity(namespace.id("flag"), Material.WOOD) {
   init {
@@ -27,7 +27,10 @@ class FlagBlock : TemplateBlockWithEntity(namespace.id("flag"), Material.WOOD) {
 
   companion object {
     fun applyBoundingBox(block: Block) {
-      block.setBoundingBox(0.5f - 0.0625f, 0.0F, 0.5f - 0.0625f, 0.5f + 0.0625f, 1.0F, 0.5f + 0.0625f)
+      block.setBoundingBox(
+        0.5f - 0.0625f, 0.0f, 0.5f - 0.0625f,
+        0.5f + 0.0625f, 1.0f, 0.5f + 0.0625f
+      )
     }
   }
 
@@ -44,24 +47,22 @@ class FlagBlock : TemplateBlockWithEntity(namespace.id("flag"), Material.WOOD) {
   override fun onUse(world: World, x: Int, y: Int, z: Int, player: PlayerEntity): Boolean {
     val entity = world.getBlockEntity(x, y, z)
     if (entity is FlagBlockEntity) {
-      if (player is ClientPlayerEntity) {
-        openPaintScreen(player, entity)
+      if (!world.isRemote) {
+        // request to open the screen via a packet; will short-circuit in singleplayer
+        PacketHelper.sendTo(player, FlagNetworkingS2C.createOpenPacket(x, y, z))
       }
+
       return true
     }
+
     return false
   }
 
-  @Environment(EnvType.CLIENT)
-  private fun openPaintScreen(player: ClientPlayerEntity, entity: FlagBlockEntity) {
-    val mc = player.minecraft
-    mc.setScreen(FlagPaintScreen(entity))
-  }
-
-  override fun canPlaceAt(world: World, x: Int, y: Int, z: Int): Boolean {
-    if (y + 2 >= 128) return false
-    return world.getMaterial(x, y - 1, z).suffocates() && world.getBlockId(x, y + 1, z) == 0 && world.getBlockId(x, y + 2, z) == 0
-  }
+  override fun canPlaceAt(world: World, x: Int, y: Int, z: Int) =
+    y + 2 < 128
+      && world.getMaterial(x, y - 1, z).suffocates()
+      && world.getBlockId(x, y + 1, z) == 0
+      && world.getBlockId(x, y + 2, z) == 0
 
   override fun onPlaced(world: World, x: Int, y: Int, z: Int) {
     super.onPlaced(world, x, y, z)
@@ -110,5 +111,5 @@ class FlagBlock : TemplateBlockWithEntity(namespace.id("flag"), Material.WOOD) {
     }
   }
 
-  override fun getPistonBehavior() = 2
+  override fun getPistonBehavior() = 2 // unpushable
 }

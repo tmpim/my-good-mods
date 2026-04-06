@@ -253,6 +253,9 @@ subprojects {
             )
           }
         }
+
+        findByName("client")?.let(::remove)
+        findByName("server")?.let(::remove)
       }
     }
 
@@ -365,8 +368,14 @@ dependencies {
     .forEach {
       implementation(project(path = ":${it.name}", configuration = "namedElements"))
     }
+}
 
-  // any useful dev environment dependencies here?
+loom {
+  runs {
+    named("server") {
+      runDir = "runServer"
+    }
+  }
 }
 
 afterEvaluate {

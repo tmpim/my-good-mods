@@ -6,7 +6,8 @@
   "name": "Good Flags",
   "description": "Placeable flags that you can paint on.",
   "authors": [
-    "tmpim"
+    "tmpim",
+    "emmachase"
   ],
   "contact": {
     "sources": "https://github.com/tmpim/my-good-mods"
@@ -30,12 +31,6 @@
       }
     ],
     "stationapi:event_bus_server": [],
-    "gcapi3": [
-      {
-        "adapter": "kotlin",
-        "value": "pw.tmpim.goodflags.GoodFlags"
-      }
-    ],
     "data": [
       {
         "adapter": "kotlin",
@@ -50,17 +45,12 @@
     ]
   },
 
-  "mixins": [
-    "good-flags.mixins.json"
-  ],
+  "accessWidener": "good-flags.classtweaker",
 
   "depends": {
     "minecraft": "1.0.0-beta.7.3",
     "stationapi": ">=${stationApiMin}",
     "fabricloader": ">=${fabricLoaderMin}",
     "fabric-language-kotlin": "*"
-  },
-  "suggests": {
-    "modmenu": "*"
   }
 }

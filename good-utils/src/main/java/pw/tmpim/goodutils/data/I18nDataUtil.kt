@@ -1,6 +1,7 @@
 package pw.tmpim.goodutils.data
 
 import emmathemartian.datagen.builder.LangBuilder
+import net.minecraft.client.resource.language.I18n
 import net.minecraft.item.Item
 import pw.tmpim.goodutils.getItemSubKey
 

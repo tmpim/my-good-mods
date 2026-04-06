@@ -1,5 +1,4 @@
 classTweaker v1 named
 
 inject-interface net/minecraft/nbt/NbtCompound pw/tmpim/goodutils/NbtCompoundExt
-
 inject-interface net/minecraft/block/FarmlandBlock pw/tmpim/goodutils/block/FallableBlock

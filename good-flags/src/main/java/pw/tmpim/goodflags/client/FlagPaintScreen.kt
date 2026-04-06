@@ -4,19 +4,20 @@ import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
 import net.minecraft.client.gui.screen.Screen
 import net.minecraft.client.gui.widget.ButtonWidget
-import net.minecraft.client.resource.language.TranslationStorage
 import net.minecraft.item.DyeItem
 import org.lwjgl.input.Mouse
+import pw.tmpim.goodflags.GoodFlags.MOD_ID
 import pw.tmpim.goodflags.block.FlagBlockEntity
-import pw.tmpim.goodflags.block.FlagSpec
 import pw.tmpim.goodflags.block.FlagSpec.FLAG_HEIGHT
 import pw.tmpim.goodflags.block.FlagSpec.FLAG_WIDTH
 import pw.tmpim.goodflags.block.FlagSpec.getGLColor
 import pw.tmpim.goodflags.data.TranslationString
-import pw.tmpim.goodflags.net.FlagNetworking
+import pw.tmpim.goodflags.net.FlagNetworkingC2S
+import pw.tmpim.goodutils.i18n
 import kotlin.math.abs
 
 private const val TC = TranslationString.COLOR
+private const val TT = TranslationString.TOOL
 
 @Environment(EnvType.CLIENT)
 class FlagPaintScreen(private val flagEntity: FlagBlockEntity) : Screen() {
@@ -26,8 +27,12 @@ class FlagPaintScreen(private val flagEntity: FlagBlockEntity) : Screen() {
     private const val BTN_CANCEL = 1
   }
 
-  private enum class Tool(val label: String) {
-    PENCIL("Pencil"), FILL("Fill"), ERASER("Eraser"), LINE("Line"), RECT("Rect")
+  private enum class Tool(val labelKey: String) {
+    PENCIL("$TT.pencil"),
+    FILL("$TT.fill"),
+    ERASER("$TT.eraser"),
+    LINE("$TT.line"),
+    RECT("$TT.rect")
   }
 
   private var selectedColor = 0 // Default to black
@@ -70,6 +75,8 @@ class FlagPaintScreen(private val flagEntity: FlagBlockEntity) : Screen() {
   private var shapeStartX = -1
   private var shapeStartY = -1
 
+  private val tr by ::textRenderer
+
   override fun init() {
     buttons.clear()
 
@@ -92,8 +99,8 @@ class FlagPaintScreen(private val flagEntity: FlagBlockEntity) : Screen() {
     brushY = toolsY
 
     val btnY = paletteY + paletteSwatchSize + 10
-    buttons.add(ButtonWidget(BTN_DONE,   width / 2 - 105, btnY, 100, 20, "Done"))
-    buttons.add(ButtonWidget(BTN_CANCEL, width / 2 + 5,   btnY, 100, 20, "Cancel"))
+    buttons.add(ButtonWidget(BTN_DONE,   width / 2 - 105, btnY, 100, 20, "gui.done".i18n()))
+    buttons.add(ButtonWidget(BTN_CANCEL, width / 2 + 5,   btnY, 100, 20, "gui.cancel".i18n()))
   }
 
   override fun buttonClicked(button: ButtonWidget) {
@@ -102,7 +109,7 @@ class FlagPaintScreen(private val flagEntity: FlagBlockEntity) : Screen() {
       BTN_DONE   -> {
         System.arraycopy(localPixels, 0, flagEntity.pixels, 0, localPixels.size)
         flagEntity.dirty = true
-        FlagNetworking.sendFlagUpdate(flagEntity.x, flagEntity.y, flagEntity.z, localPixels)
+        FlagNetworkingC2S.sendFlagUpdate(flagEntity.x, flagEntity.y, flagEntity.z, localPixels)
       }
       BTN_CANCEL -> {}
     }
@@ -299,7 +306,7 @@ class FlagPaintScreen(private val flagEntity: FlagBlockEntity) : Screen() {
     }
 
     // Title
-    drawCenteredTextWithShadow(textRenderer, "Paint Flag", width / 2, canvasY - 15, 0xFFFFFF)
+    drawCenteredTextWithShadow(tr, "gui.$MOD_ID.title".i18n(), width / 2, canvasY - 15, 0xFFFFFF)
 
     // Canvas border + pixels
     fill(canvasX - 1, canvasY - 1, canvasX + canvasWidth + 1, canvasY + canvasHeight + 1, 0xFF333333.toInt())
@@ -354,15 +361,22 @@ class FlagPaintScreen(private val flagEntity: FlagBlockEntity) : Screen() {
       val bg     = if (selected) 0xFF3A3A6A.toInt() else 0xFF444444.toInt()
       fill(bx - 1, by - 1, bx + toolBtnW + 1, by + toolBtnH + 1, border)
       fill(bx, by, bx + toolBtnW, by + toolBtnH, bg)
-      drawCenteredTextWithShadow(textRenderer, tool.label, bx + toolBtnW / 2, by + (toolBtnH - 8) / 2, 0xFFFFFF)
+      drawCenteredTextWithShadow(tr, tool.labelKey.i18n(), bx + toolBtnW / 2, by + (toolBtnH - 8) / 2, 0xFFFFFF)
     }
 
     // "Tools" label above tool buttons
-    drawCenteredTextWithShadow(textRenderer, "Tools", toolsX + toolBtnW / 2, toolsY - 12, 0xAAAAAA)
+    drawCenteredTextWithShadow(tr, "$TT.title".i18n(), toolsX + toolBtnW / 2, toolsY - 12, 0xAAAAAA)
 
     // Brush size buttons (right side) — dimmed when Fill is active (fill always uses size 1)
     val brushDisabled = currentTool == Tool.FILL || currentTool == Tool.RECT
-    drawCenteredTextWithShadow(textRenderer, "Brush", brushX + brushBtnSize / 2, brushY - 12, if (brushDisabled) 0x555555 else 0xAAAAAA)
+    drawCenteredTextWithShadow(
+      tr,
+      "$TT.brush".i18n(),
+      brushX + brushBtnSize / 2,
+      brushY - 12,
+      if (brushDisabled) 0x555555 else 0xAAAAAA
+    )
+
     for (idx in 0 until 4) {
       val size = idx + 1
       val bx = brushX
@@ -373,7 +387,7 @@ class FlagPaintScreen(private val flagEntity: FlagBlockEntity) : Screen() {
       val textColor = if (brushDisabled) 0x555555 else 0xFFFFFF
       fill(bx - 1, by - 1, bx + brushBtnSize + 1, by + brushBtnSize + 1, border)
       fill(bx, by, bx + brushBtnSize, by + brushBtnSize, bg)
-      drawCenteredTextWithShadow(textRenderer, "$size", bx + brushBtnSize / 2, by + (brushBtnSize - 8) / 2, textColor)
+      drawCenteredTextWithShadow(tr, "$size", bx + brushBtnSize / 2, by + (brushBtnSize - 8) / 2, textColor)
     }
 
     // Palette
@@ -396,8 +410,8 @@ class FlagPaintScreen(private val flagEntity: FlagBlockEntity) : Screen() {
     }
 
     // Selected color name
-    val colorName = TranslationStorage.getInstance().getClientTranslation("$TC.${ DyeItem.names[selectedColor] }")
-    drawCenteredTextWithShadow(textRenderer, colorName, width / 2, paletteY - 12, 0xAAAAAA)
+    val colorName = "$TC.${DyeItem.names[selectedColor]}".i18n()
+    drawCenteredTextWithShadow(tr, colorName, width / 2, paletteY - 12, 0xAAAAAA)
 
     super.render(mouseX, mouseY, delta)
   }
