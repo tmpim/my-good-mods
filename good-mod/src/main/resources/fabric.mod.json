@@ -24,23 +24,10 @@
         "value": "pw.tmpim.goodmod.GoodMod"
       }
     ],
-    "stationapi:event_bus_client": [
-      {
-        "adapter": "kotlin",
-        "value": "pw.tmpim.goodmod.GoodModClient"
-      }
-    ],
-    "stationapi:event_bus_server": [],
     "gcapi3": [
       {
         "adapter": "kotlin",
         "value": "pw.tmpim.goodmod.GoodMod"
-      }
-    ],
-    "data": [
-      {
-        "adapter": "kotlin",
-        "value": "pw.tmpim.goodmod.data.GoodModData"
       }
     ]
   },

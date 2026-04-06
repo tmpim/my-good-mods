@@ -4,13 +4,7 @@
   "package": "pw.tmpim.goodmod.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
-    "block.FlowingLiquidBlockMixin",
-    "item.AxeItemAccessor",
-    "item.AxeItemMixin",
-    "item.PickaxeItemAccessor",
-    "item.PickaxeItemMixin",
-    "item.ShovelItemAccessor",
-    "item.ShovelItemMixin"
+    "block.FlowingLiquidBlockMixin"
   ],
   "server": [],
   "client": [],
