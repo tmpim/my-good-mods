@@ -4,9 +4,10 @@
   "version": "${version}",
 
   "name": "Good Farming",
-  "description": "great",
+  "description": "Additions and tweaks to make farming easier",
   "authors": [
-    "tmpim"
+    "tmpim",
+    "Lemmmy"
   ],
   "contact": {
     "sources": "https://github.com/tmpim/my-good-mods"

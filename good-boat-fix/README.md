@@ -18,16 +18,6 @@ This mod is incompatible with [UniTweaks](<https://modrinth.com/mod/unitweaks>) 
 works slightly differently. Both mods may be installed simultaneously, but Good Boat Fix will disable itself if it 
 detects that UniTweaks is installed and the tweak is enabled. Disable one or the other in the config.
 
-## Configuration
-
-The mod's configuration can be configured in-game (if [Mod Menu Babric](<https://modrinth.com/mod/modmenu-babric>) is 
-installed) or in `.minecraft/config/good-boat-fix/good-boat-fix.yml`. The tweak can be disabled without having to
-uninstall the mod:
-
-```yml
-boatsDropBoatItem: false
-```
-
 ## Requirements
 
 - Minecraft Beta 1.7.3
@@ -38,6 +28,16 @@ boatsDropBoatItem: false
 ## Recommended
 
 - [Mod Menu Babric](<https://modrinth.com/mod/modmenu-babric>) (for in-game configuration)
+
+## Configuration
+
+The mod's configuration can be configured in-game (if [Mod Menu Babric](<https://modrinth.com/mod/modmenu-babric>) is
+installed) or in `.minecraft/config/good-boat-fix/good-boat-fix.yml`. The tweak can be disabled without having to
+uninstall the mod:
+
+```yml
+boatsDropBoatItem: false
+```
 
 ## License
 

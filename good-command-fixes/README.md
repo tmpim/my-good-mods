@@ -20,6 +20,13 @@ message is visible in the chat.](/images/demo.png)
 
 This mod is incompatible with [Glass Brigadier](<https://github.com/Glass-Series/Glass-Brigadier>). 
 
+## Requirements
+
+- Minecraft Beta 1.7.3
+- [Babric](<https://babric.github.io/use/installer/>)
+- [StationAPI](<https://modrinth.com/mod/stationapi>)
+- [Fabric Language Kotlin](<https://modrinth.com/mod/fabric-language-kotlin>)
+
 ## Configuration
 
 The mod's configuration can be found at `.minecraft/config/good-command-fixes/good-command-fixes.yml`. Each command
@@ -29,13 +36,6 @@ tweak can be individually configured:
 globalListEnabled: true
 tellFeedbackEnabled: true
 ```
-
-## Requirements
-
-- Minecraft Beta 1.7.3
-- [Babric](<https://babric.github.io/use/installer/>)
-- [StationAPI](<https://modrinth.com/mod/stationapi>)
-- [Fabric Language Kotlin](<https://modrinth.com/mod/fabric-language-kotlin>)
 
 ## License
 

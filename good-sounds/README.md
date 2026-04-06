@@ -10,11 +10,6 @@
 
 Beta 1.7.3 mod that adds minor sound tweaks like making the rain volume adjustable.
 
-## Configuration
-
-The mod can be configured in-game (if [Mod Menu Babric](https://modrinth.com/mod/modmenu-babric) is installed) or in 
-`.minecraft/config/good-sounds/good-sounds.yml`.
-
 ## Requirements
 
 - Minecraft Beta 1.7.3
@@ -25,6 +20,11 @@ The mod can be configured in-game (if [Mod Menu Babric](https://modrinth.com/mod
 ## Recommended
 
 - [Mod Menu Babric](<https://modrinth.com/mod/modmenu-babric>) (for in-game configuration)
+
+## Configuration
+
+The mod can be configured in-game (if [Mod Menu Babric](https://modrinth.com/mod/modmenu-babric) is installed) or in
+`.minecraft/config/good-sounds/good-sounds.yml`.
 
 ## License
 

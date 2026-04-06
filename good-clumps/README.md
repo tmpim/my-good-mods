@@ -15,6 +15,17 @@ Beta 1.7.3 to merge nearby dropped items together. By default, item entities wit
 compared to a single stack of Diamond Blocks dropped on the ground. The text reads 'Merge nearby items! and 
 'Reduce lag!'.](/images/demo.png)
 
+## Requirements
+
+- Minecraft Beta 1.7.3
+- [Babric](<https://babric.github.io/use/installer/>)
+- [StationAPI](<https://modrinth.com/mod/stationapi>)
+- [Fabric Language Kotlin](<https://modrinth.com/mod/fabric-language-kotlin>)
+
+## Recommended
+
+- [Mod Menu Babric](<https://modrinth.com/mod/modmenu-babric>) (for in-game configuration)
+
 ## Configuration
 
 The mod's configuration can be configured in-game (if [Mod Menu Babric](<https://modrinth.com/mod/modmenu-babric>) is
@@ -33,17 +44,6 @@ itemMergeRateStatic: 40
 # How frequently, in ticks, dropped items should try to merge with others nearby when moving
 itemMergeRateMoving: 2
 ```
-
-## Requirements
-
-- Minecraft Beta 1.7.3
-- [Babric](<https://babric.github.io/use/installer/>)
-- [StationAPI](<https://modrinth.com/mod/stationapi>)
-- [Fabric Language Kotlin](<https://modrinth.com/mod/fabric-language-kotlin>)
-
-## Recommended
-
-- [Mod Menu Babric](<https://modrinth.com/mod/modmenu-babric>) (for in-game configuration)
 
 ## License
 
