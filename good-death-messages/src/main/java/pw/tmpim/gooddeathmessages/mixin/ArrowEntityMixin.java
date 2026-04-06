@@ -14,7 +14,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(ArrowEntity.class)
 public abstract class ArrowEntityMixin extends Entity {
-
   public ArrowEntityMixin(World world) {
     super(world);
   }
@@ -27,11 +26,14 @@ public abstract class ArrowEntityMixin extends Entity {
     )
   )
   private void tickShot(CallbackInfo ci, @Local(ordinal = 0) HitResult hit) {
-    if (hit.entity instanceof PlayerEntity player) player.getGooddms$victim().setShotBy((ArrowEntity) (Object) this);
+    if (hit.entity instanceof PlayerEntity player) {
+      player.getGooddms$victim().setShotBy((ArrowEntity) (Object) this);
+    }
   }
 
   @Inject(
-    method = "tick", at = {
+    method = "tick",
+    at = {
       @At(
         value = "INVOKE",
         target = "Lnet/minecraft/world/World;playSound(Lnet/minecraft/entity/Entity;Ljava/lang/String;FF)V"
@@ -45,6 +47,8 @@ public abstract class ArrowEntityMixin extends Entity {
     }
   )
   private void resetShot(CallbackInfo ci, @Local(ordinal = 0) HitResult hit) {
-    if (hit.entity instanceof PlayerEntity player) player.getGooddms$victim().setShotBy(null);
+    if (hit.entity instanceof PlayerEntity player) {
+      player.getGooddms$victim().setShotBy(null);
+    }
   }
 }

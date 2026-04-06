@@ -8,7 +8,6 @@ import pw.tmpim.gooddeathmessages.Victim;
 
 @Mixin(PlayerEntity.class)
 public class PlayerEntityMixin implements Victim {
-
   @Unique
   private final Data data = new Data();
 

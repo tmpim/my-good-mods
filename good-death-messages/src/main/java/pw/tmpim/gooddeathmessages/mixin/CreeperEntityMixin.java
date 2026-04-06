@@ -12,7 +12,6 @@ import pw.tmpim.gooddeathmessages.ExplosionTracker;
 
 @Mixin(CreeperEntity.class)
 public abstract class CreeperEntityMixin extends MonsterEntity {
-
   public CreeperEntityMixin(World world) {
     super(world);
   }

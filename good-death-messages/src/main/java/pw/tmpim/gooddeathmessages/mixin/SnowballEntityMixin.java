@@ -11,7 +11,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(SnowballEntity.class)
 public class SnowballEntityMixin {
-
   @Inject(
     method = "tick",
     at = @At(
@@ -20,7 +19,9 @@ public class SnowballEntityMixin {
     )
   )
   private void beforeHit(CallbackInfo ci, @Local(ordinal = 0) HitResult hitResult) {
-    if (hitResult.entity instanceof PlayerEntity player) player.getGooddms$victim().setProjectile(true);
+    if (hitResult.entity instanceof PlayerEntity player) {
+      player.getGooddms$victim().setProjectile(true);
+    }
   }
 
   @Inject(
@@ -32,6 +33,8 @@ public class SnowballEntityMixin {
     )
   )
   private void afterHit(CallbackInfo ci, @Local(ordinal = 0) HitResult hitResult) {
-    if (hitResult.entity instanceof PlayerEntity player) player.getGooddms$victim().setProjectile(false);
+    if (hitResult.entity instanceof PlayerEntity player) {
+      player.getGooddms$victim().setProjectile(false);
+    }
   }
 }

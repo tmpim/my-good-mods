@@ -7,202 +7,110 @@ import net.minecraft.entity.MobEntity
 import net.minecraft.entity.passive.WolfEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.projectile.FireballEntity
+import pw.tmpim.gooddeathmessages.DeathHooks.Cause
+import pw.tmpim.gooddeathmessages.ExplosionTracker.BedBlast
+import pw.tmpim.gooddeathmessages.ExplosionTracker.EntityBlast
 import pw.tmpim.gooddeathmessages.data.GoodDeathMessagesData.namespace
 import pw.tmpim.gooddeathmessages.mixin.EntityAccessor
 
 object DeathHooks {
+  // ┌──────────────────────────────────────────────────────────┐
+  // │                   Vanilla death causes                   │
+  // └──────────────────────────────────────────────────────────┘
+  val CACTUS = cause("attack.cactus", { v, _ -> v.data.pricked })
+  val DROWN  = cause("attack.drown", { v, _ -> v.air <= 0 })
 
-  val CACTUS = cause(
-    "attack.cactus",
-    { victim, _ -> victim.data.pricked }
-  )
-
-  val DROWN = cause(
-    "attack.drown",
-    {victim, _ -> victim.air <= 0}
-  )
-
-  // Generic Explosion
-  val EXPLOSION = cause(
-    "attack.explosion",
-    {victim, _ -> victim.data.blastSource is ExplosionTracker.EntityBlast}
-  )
-
-  // Explosion associated to an entity
+  val EXPLOSION = cause("attack.explosion", { v, _ -> v.data.blastSource is EntityBlast })
   val EXPLOSION_PLAYER = cause(
     "attack.explosion.player",
-    {victim, _ -> (victim.data.blastSource as? ExplosionTracker.EntityBlast)?.entity is LivingEntity},
-    {victim, _ ->
-      listOf(DeathRegistry.getName((victim.data.blastSource as ExplosionTracker.EntityBlast).entity))
-    }
+    { v, _ -> (v.data.blastSource as? EntityBlast)?.entity is LivingEntity },
+    { v, _ -> listOf(DeathRegistry.getName((v.data.blastSource as EntityBlast).entity)) }
   )
-
-  // Explosion associated to a bed
-  val EXPLOSION_BED = cause(
-    "attack.badRespawnPoint.message",
-    {victim, _ -> victim.data.blastSource is ExplosionTracker.BedBlast}
-  )
+  val EXPLOSION_BED = cause("attack.badRespawnPoint.message", { v, _ -> v.data.blastSource is BedBlast })
 
   // A fall of less than 5 blocks
-  val FALL = cause(
-    "attack.fall",
-    {victim, _ -> victim.fallDistance - 3.0f > 0}
-  )
-
+  val FALL        = cause("attack.fall", { v, _ -> v.fallDistance - 3.0f > 0 })
   // A fall of more than 5 blocks
-  val FALL_FAR = cause(
-    "fell.accident.generic",
-    {victim, _ -> victim.fallDistance - 5.0f > 0}
-  )
+  val FALL_FAR    = cause("fell.accident.generic", { v, _ -> v.fallDistance - 5.0f > 0 })
+  val FALL_LADDER = cause("fell.accident.ladder", { v, _ -> v.fallDistance - 3.0f > 0 && v.data.wasClimbing })
+  val FALL_WATER  = cause("fell.accident.water", { v, _ -> v.fallDistance - 3.0f > 0 && v.checkWaterCollisions() })
 
-  val FALL_LADDER = cause(
-    "fell.accident.ladder",
-    {victim, _ -> victim.fallDistance - 3.0f > 0 && victim.data.wasClimbing}
-  )
+  val IN_FIRE   = cause("attack.inFire", { v, _ -> v.data.lit })
+  val ON_FIRE   = cause("attack.onFire", { v, _ -> v.fireTicks > 0 })
+  val LAVA      = cause("attack.lava", { v, _ -> v.data.lava })
+  val LIGHTNING = cause("attack.lightningBolt", { v, _ -> v.data.struck })
 
-  val FALL_WATER = cause(
-    "fell.accident.water",
-    {victim, _ -> victim.fallDistance - 3.0f > 0 && victim.checkWaterCollisions()}
-  )
+  val PLAYER = killerCause("attack.player", { _, k -> k is PlayerEntity })
+  val MOB    = killerCause("attack.mob", { _, k -> k is MobEntity })
 
-  val IN_FIRE = cause(
-    "attack.inFire",
-    {victim, _ -> victim.data.lit}
+  val ARROW = cause("attack.arrow",
+    { v, _ -> v.data.shotBy != null },
+    { v, k -> listOf(DeathRegistry.getName(k ?: v.data.shotBy)) }
   )
-
-  val ON_FIRE = cause(
-    "attack.onFire",
-    {victim, _ -> victim.fireTicks > 0}
-  )
-
-  val LAVA = cause(
-    "attack.lava",
-    {victim, _ -> victim.data.lava}
-  )
-
-  val LIGHTNING = cause(
-    "attack.lightningBolt",
-    {victim, _ -> victim.data.struck}
-  )
-
-  val PLAYER = killerCause(
-    "attack.player",
-    {_, killer -> killer is PlayerEntity}
-  )
-
-  val MOB = killerCause(
-    "attack.mob",
-    {_, killer -> killer is MobEntity}
-  )
-
-  val ARROW = cause(
-    "attack.arrow",
-    {victim, _ -> victim.data.shotBy != null},
-    {victim, killer -> listOf(DeathRegistry.getName(killer ?: victim.data.shotBy))}
-  )
-
-  val THROWN = cause(
-    "attack.thrown",
-    {victim, _ -> victim.data.projectile}
-  )
-
+  val THROWN = cause("attack.thrown", { v, _ -> v.data.projectile })
   val FIREBALL = cause(
     "attack.fireball",
-    {victim, _ ->
-      val blast: ExplosionTracker.BlastSource? = victim.data.blastSource
-      blast is ExplosionTracker.EntityBlast && blast.entity is FireballEntity
-    },
-    {victim, _ ->
-      val blast: ExplosionTracker.EntityBlast = victim.data.blastSource as ExplosionTracker.EntityBlast
-      val owner: Entity = (blast.entity as FireballEntity).owner
+    { v, _ -> (v.data.blastSource as? EntityBlast)?.entity is FireballEntity },
+    { v, _ ->
+      val blast = v.data.blastSource as EntityBlast
+      val owner = (blast.entity as FireballEntity).owner
       listOf(DeathRegistry.getName(owner))
     }
   )
 
-  val IN_WALL = cause(
-    "attack.inWall",
-    { victim, _ -> victim.isInsideWall}
-  )
+  val IN_WALL      = cause("attack.inWall", { v, _ -> v.isInsideWall })
+  val OUT_OF_WORLD = cause("attack.outOfWorld", { v, _ -> v.y < -64.0f })
+  val GENERIC      = cause("attack.generic", { _, _ -> true })
+  val GENERIC_KILL = cause("attack.genericKill", { v, _ -> v.data.killCommand })
 
-  val OUT_OF_WORLD = cause(
-    "attack.outOfWorld",
-    { victim, _ -> victim.y < -64.0F}
-  )
-
-  val GENERIC = cause(
-    "attack.generic",
-    { _, _ -> true}
-  )
-
-  val GENERIC_KILL = cause(
-    "attack.genericKill",
-    { victim, _ -> victim.data.killCommand}
-  )
-
-  // Custom
-
-  val WOLF = killerCause(
-    "attack.wolf",
-    {_, killer -> killer is WolfEntity}
-  )
-
+  // ┌──────────────────────────────────────────────────────────┐
+  // │  Custom, non-vanilla hooks added by Good Death Messages  │
+  // └──────────────────────────────────────────────────────────┘
+  val WOLF = killerCause("attack.wolf", { _, k -> k is WolfEntity })
   val WOLF_PLAYER = cause(
     "attack.wolf.player",
-    { _, killer -> killer is WolfEntity && killer.isTamed},
-    {_, killer ->
-      listOf((killer as WolfEntity).ownerName, DeathRegistry.getName(killer))
-    }
+    { _, k -> k is WolfEntity && k.isTamed },
+    { _, k -> listOf((k as WolfEntity).ownerName, DeathRegistry.getName(k)) }
   )
 
   val DROWN_AND_BURN = cause(
     "attack.drownBurn",
-    {victim, _ -> victim.air <= 0 && (victim.fireTicks > 0 || victim.data.lit || victim.data.lava)}
+    { v, _ -> v.air <= 0 && (v.fireTicks > 0 || v.data.lit || v.data.lava) }
   )
 
-  // Cause Class
-
-  fun cause(
-    translationKey: String,
-    test: (victim: PlayerEntity, killer: Entity?) -> Boolean,
-    populate: (victim: PlayerEntity, killer: Entity?) -> List<String> = {
-      victim, _ -> listOf(victim.name)
-    }
-  ) = object : Cause("${namespace}.death." + translationKey) {
-    override fun test(victim: PlayerEntity, killer: Entity?): Boolean = test(victim, killer)
-    override fun populate(victim: PlayerEntity, killer: Entity?): MutableList<String> =
-      super.populate(victim, killer).apply {
-        addAll(populate(victim, killer))
-      }
-  }
-
-  fun killerCause(
-    translationKey: String,
-    test: (victim: PlayerEntity, killer: Entity?) -> Boolean,
-    populate: (victim: PlayerEntity, killer: Entity?) -> List<String> = {
-        victim, killer -> listOf(victim.name, DeathRegistry.getName(killer))
-    }
-  ) = cause(translationKey, test, populate)
-
-  val translations: TranslationStorage = TranslationStorage.getInstance()
-
-  abstract class Cause {
-    val translationKey: String
-
-    constructor(translationKey: String) {
-      this.translationKey = translationKey
-    }
-
+  abstract class Cause(val translationKey: String) {
     abstract fun test(victim: PlayerEntity, killer: Entity?): Boolean
 
-    open fun populate(victim: PlayerEntity, killer: Entity?): MutableList<String> {
-      return mutableListOf(victim.name)
-    }
+    open fun populate(victim: PlayerEntity, killer: Entity?): MutableList<String> =
+      mutableListOf(victim.name)
 
-    fun translate(victim: PlayerEntity, killer: Entity?): String {
-      return translations.get(translationKey, *populate(victim, killer).toTypedArray())
-    }
+    internal fun translate(victim: PlayerEntity, killer: Entity?): String =
+      translationKey.i18n(*populate(victim, killer).toTypedArray()) // TODO: rebase on master
   }
 }
 
-val Entity.fallDistance: Float
+private val Entity.fallDistance: Float
   get() = (this as EntityAccessor).fallDistance
+
+// shorthands for registering causes
+private typealias TestFn = (victim: PlayerEntity, killer: Entity?) -> Boolean
+private typealias PopulateFn = (victim: PlayerEntity, killer: Entity?) -> List<String>
+
+private fun cause(
+  translationKey: String,
+  testFn: TestFn,
+  populateFn: PopulateFn = { v, _ -> listOf(v.name) }
+) = object : Cause("${namespace}.death.$translationKey") {
+  override fun test(victim: PlayerEntity, killer: Entity?) =
+    testFn(victim, killer)
+
+  override fun populate(victim: PlayerEntity, killer: Entity?) =
+    super.populate(victim, killer)
+      .apply { addAll(populateFn(victim, killer)) }
+}
+
+private fun killerCause(
+  translationKey: String,
+  testFn: TestFn,
+  populateFn: PopulateFn = { v, k -> listOf(v.name, DeathRegistry.getName(k)) }
+) = cause(translationKey, testFn, populateFn)
