@@ -20,6 +20,9 @@ public abstract class ClientPlayerEntityMixin extends PlayerEntity {
 
   @Override
   public void onKilledBy(Entity killer) {
-    minecraft.inGameHud.addChatMessage(DeathRegistry.createMessage(this, killer));
+    var message = DeathRegistry.createMessage(this, killer);
+    if (message == null) return;
+    
+    minecraft.inGameHud.addChatMessage(message);
   }
 }

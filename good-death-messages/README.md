@@ -32,9 +32,9 @@ Adds the following death messages:
 - `<player> burned to death`
 - `<player> suffocated in a wall`
 
-And includes some additional non-standard messages:
-- `<player> was mauled to bits by <player>'s <entity>`
-- `<player> was mauled to bits by <entity>`
+And includes some additional non-standard messages, which can be disabled:
+- `<player> was mauled to bits by <player>'s <wolf>`
+- `<player> was mauled to bits by <wolf>`
 - `<player> belly flopped into a puddle`
 - `<player> drowned to a crisp`
 
@@ -48,15 +48,24 @@ And includes some additional non-standard messages:
 ## Recommended
 
 - [Mod Menu Babric](<https://modrinth.com/mod/modmenu-babric>) (for in-game configuration)
+- 
+## Configuration
 
-## Known issues
+The mod's configuration can be configured in-game (if [Mod Menu Babric](<https://modrinth.com/mod/modmenu-babric>) is
+installed) or in `.minecraft/config/good-death-messages/good-death-messages.yml`.
 
-Non-standard death messages should be configurable.
+```yml
+deathMessagesEnabled: true
+
+# Enables Good Death Messages' own additional death messages. 
+# Does not affect any other mods adding their own death messages.
+customDeathMessagesEnabled: true
+```
 
 ## Translations
 
 Currently messages are only in en_US. If you would like to provide localization for a language, contribute  
-[here](https://github.com/tmpim/my-good-mods/tree/master/good-death-messages/src/main/java/pw/tmpim/gooddeathmessages/data/GoodDeathMessagesLanguageProvider.kt).
+[here](https://github.com/tmpim/my-good-mods/tree/master/good-death-messages/src/main/resources/assets/good-death-messages).
 
 ## License
 

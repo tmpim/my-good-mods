@@ -9,7 +9,7 @@ import net.minecraft.entity.projectile.FireballEntity
 import pw.tmpim.gooddeathmessages.DeathHooks.Cause
 import pw.tmpim.gooddeathmessages.ExplosionTracker.BedBlast
 import pw.tmpim.gooddeathmessages.ExplosionTracker.EntityBlast
-import pw.tmpim.gooddeathmessages.data.GoodDeathMessagesData.namespace
+import pw.tmpim.gooddeathmessages.GoodDeathMessages.MOD_ID
 import pw.tmpim.gooddeathmessages.mixin.EntityAccessor
 import pw.tmpim.goodutils.i18n
 
@@ -33,7 +33,6 @@ object DeathHooks {
   // A fall of more than 5 blocks
   val FALL_FAR    = cause("fell.accident.generic", { v, _ -> v.fallDistance - 5.0f > 0 })
   val FALL_LADDER = cause("fell.accident.ladder", { v, _ -> v.fallDistance - 3.0f > 0 && v.data.wasClimbing })
-  val FALL_WATER  = cause("fell.accident.water", { v, _ -> v.fallDistance - 3.0f > 0 && v.checkWaterCollisions() })
 
   val IN_FIRE   = cause("attack.inFire", { v, _ -> v.data.lit })
   val ON_FIRE   = cause("attack.onFire", { v, _ -> v.fireTicks > 0 })
@@ -60,22 +59,36 @@ object DeathHooks {
 
   val IN_WALL      = cause("attack.inWall", { v, _ -> v.isInsideWall })
   val OUT_OF_WORLD = cause("attack.outOfWorld", { v, _ -> v.y < -64.0f })
-  val GENERIC      = cause("attack.generic", { _, _ -> true })
   val GENERIC_KILL = cause("attack.genericKill", { v, _ -> v.data.killCommand })
+
+  // fallback if nothing else passes the test
+  val GENERIC = cause("attack.generic", { _, _ -> true })
 
   // ┌──────────────────────────────────────────────────────────┐
   // │  Custom, non-vanilla hooks added by Good Death Messages  │
   // └──────────────────────────────────────────────────────────┘
-  val WOLF = killerCause("attack.wolf", { _, k -> k is WolfEntity })
+  val WOLF = killerCause(
+    "attack.wolf",
+    { _, k -> k is WolfEntity },
+    custom = true
+  )
   val WOLF_PLAYER = cause(
     "attack.wolf.player",
     { _, k -> k is WolfEntity && k.isTamed },
-    { _, k -> listOf((k as WolfEntity).ownerName, DeathRegistry.getName(k)) }
+    { _, k -> listOf((k as WolfEntity).ownerName, DeathRegistry.getName(k)) },
+    custom = true
+  )
+
+  val FALL_WATER  = cause(
+    "fell.accident.water",
+    { v, _ -> v.fallDistance - 3.0f > 0 && v.checkWaterCollisions() },
+    custom = true
   )
 
   val DROWN_AND_BURN = cause(
     "attack.drownBurn",
-    { v, _ -> v.air <= 0 && (v.fireTicks > 0 || v.data.lit || v.data.lava) }
+    { v, _ -> v.air <= 0 && (v.fireTicks > 0 || v.data.lit || v.data.lava) },
+    custom = true
   )
 
   abstract class Cause(val translationKey: String) {
@@ -99,10 +112,11 @@ private typealias PopulateFn = (victim: PlayerEntity, killer: Entity?) -> List<S
 private fun cause(
   translationKey: String,
   testFn: TestFn,
-  populateFn: PopulateFn = { v, _ -> listOf(v.name) }
-) = object : Cause("${namespace}.death.$translationKey") {
+  populateFn: PopulateFn = { v, _ -> listOf(v.name) },
+  custom: Boolean = false
+) = object : Cause("${MOD_ID}.death.$translationKey") {
   override fun test(victim: PlayerEntity, killer: Entity?) =
-    testFn(victim, killer)
+    testFn(victim, killer) && (!custom || GoodDeathMessages.config.customDeathMessagesEnabled == true)
 
   override fun populate(victim: PlayerEntity, killer: Entity?) =
     super.populate(victim, killer)
@@ -112,5 +126,6 @@ private fun cause(
 private fun killerCause(
   translationKey: String,
   testFn: TestFn,
-  populateFn: PopulateFn = { _, k -> listOf(DeathRegistry.getName(k)) }
-) = cause(translationKey, testFn, populateFn)
+  populateFn: PopulateFn = { _, k -> listOf(DeathRegistry.getName(k)) },
+  custom: Boolean = false
+) = cause(translationKey, testFn, populateFn, custom)

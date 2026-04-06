@@ -9,6 +9,8 @@ import net.minecraft.entity.projectile.FireballEntity
 object DeathRegistry {
   // Registering & Resolution
   private val causes = with (DeathHooks) {
+    // vanilla causes + non-vanilla causes, which dynamically test customDeathMessagesEnabled (which may change at
+    // runtime if modmenu is installed)
     mutableListOf(
       // Explosions
       FIREBALL, EXPLOSION_PLAYER, EXPLOSION_BED, EXPLOSION,
@@ -40,7 +42,11 @@ object DeathRegistry {
   }
 
   @JvmStatic
-  fun createMessage(victim: PlayerEntity, killer: Entity?): String {
+  fun createMessage(victim: PlayerEntity, killer: Entity?): String? {
+    if (GoodDeathMessages.config.deathMessagesEnabled != true) {
+      return null
+    }
+
     for (cause in causes) {
       if (cause.test(victim, killer)) {
         return cause.translate(victim, killer)
