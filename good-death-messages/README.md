@@ -48,7 +48,7 @@ And includes some additional non-standard messages, which can be disabled:
 ## Recommended
 
 - [Mod Menu Babric](<https://modrinth.com/mod/modmenu-babric>) (for in-game configuration)
-- 
+
 ## Configuration
 
 The mod's configuration can be configured in-game (if [Mod Menu Babric](<https://modrinth.com/mod/modmenu-babric>) is
@@ -64,7 +64,7 @@ customDeathMessagesEnabled: true
 
 ## Translations
 
-Currently messages are only in en_US. If you would like to provide localization for a language, contribute  
+Currently, messages are only in en_US. If you would like to provide localization for a language, contribute  
 [here](https://github.com/tmpim/my-good-mods/tree/master/good-death-messages/src/main/resources/assets/good-death-messages).
 
 ## License
