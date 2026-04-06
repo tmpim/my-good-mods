@@ -4,6 +4,7 @@
   "package": "pw.tmpim.goodutils.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
+    "EntityMixin",
     "NbtCompoundMixin"
   ],
   "server": [],

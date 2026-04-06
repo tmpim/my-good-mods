@@ -16,6 +16,7 @@ import pw.tmpim.goodfarming.GoodFarming.MOD_ID
 import pw.tmpim.goodfarming.GoodFarming.namespace
 import pw.tmpim.goodutils.getItemSubKey
 import pw.tmpim.goodutils.removeTag
+import pw.tmpim.goodutils.world.spiral3D
 import kotlin.math.max
 
 class SeedBagItem : TemplateItem(namespace.id("seed_bag")), CustomReachProvider, CustomTooltipProvider {
@@ -43,7 +44,7 @@ class SeedBagItem : TemplateItem(namespace.id("seed_bag")), CustomReachProvider,
     val lateralRadius = config.seedBagPlantLateralRadius ?: 3
     val verticalRadius = config.seedBagPlantVerticalRadius ?: 2
 
-    spiral3D(x, y, z, lateralRadius, verticalRadius, world.bottomY, world.topY)
+    world.spiral3D(x, y, z, lateralRadius, verticalRadius)
       .takeWhile { remaining > 0 }
       .forEach { (x, y, z) ->
         // use the seed's own useOnBlock function
@@ -137,44 +138,6 @@ class SeedBagItem : TemplateItem(namespace.id("seed_bag")), CustomReachProvider,
         bagStack.damage = max(0, bagStack.maxDamage - count)
         bagStack.stationNbt.put(SEEDS_KEY, NbtCompound().apply { newSeedStack.writeNbt(this) })
         bagStack.stationNbt.putInt(SEEDS_COUNT_KEY, count)
-      }
-    }
-
-    private fun spiral3D(
-      cx: Int,
-      cy: Int,
-      cz: Int,
-      rX: Int,
-      rY: Int,
-      minY: Int,
-      maxY: Int,
-    ): Sequence<Triple<Int, Int, Int>> = sequence {
-      val yOffsets = sequence { // 0, +1, -1, +2, -2, ...
-        yield(0)
-        for (r in 1..rY) {
-          yield(r)
-          yield(-r)
-        }
-      }
-
-      for (dy in yOffsets) {
-        if (cy + dy !in minY..<maxY) {
-          continue // skip the y layer if it's out of the world
-        }
-
-        // shell 0: center column
-        yield(Triple(cx, cy + dy, cz))
-
-        // shell r: walk the square perimeter
-        for (r in 1..rX) {
-          var x = -r
-          var z = -r
-
-          while (x < r)  { yield(Triple(cx + x, cy + dy, cz + z)); x++ }
-          while (z < r)  { yield(Triple(cx + x, cy + dy, cz + z)); z++ }
-          while (x > -r) { yield(Triple(cx + x, cy + dy, cz + z)); x-- }
-          while (z > -r) { yield(Triple(cx + x, cy + dy, cz + z)); z-- }
-        }
       }
     }
   }
