@@ -24,6 +24,7 @@ pluginManagement {
 rootProject.name = "my-good-mods"
 
 // library mods
+include("good-utils")
 include("good-asset-fetcher")
 
 // standalone mods
@@ -32,6 +33,7 @@ include("good-clumps")
 include("good-command-fixes")
 include("good-compression")
 include("good-death-messages")
+include("good-farming")
 include("good-food")
 include("good-sign-editing")
 include("good-sounds")

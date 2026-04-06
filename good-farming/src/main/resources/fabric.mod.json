@@ -1,0 +1,63 @@
+{
+  "schemaVersion": 1,
+  "id": "good-farming",
+  "version": "${version}",
+
+  "name": "Good Farming",
+  "description": "great",
+  "authors": [
+    "tmpim"
+  ],
+  "contact": {
+    "sources": "https://github.com/tmpim/my-good-mods"
+  },
+
+  "license": "MIT",
+  "icon": "assets/good-farming/icon.png",
+
+  "environment": "*",
+  "entrypoints": {
+    "stationapi:event_bus": [
+      {
+        "adapter": "kotlin",
+        "value": "pw.tmpim.goodfarming.GoodFarming"
+      }
+    ],
+    "stationapi:event_bus_client": [
+      {
+        "adapter": "kotlin",
+        "value": "pw.tmpim.goodfarming.GoodFarmingClient"
+      }
+    ],
+    "stationapi:event_bus_server": [],
+    "gcapi3": [
+      {
+        "adapter": "kotlin",
+        "value": "pw.tmpim.goodfarming.GoodFarming"
+      }
+    ],
+    "data": [
+      {
+        "adapter": "kotlin",
+        "value": "pw.tmpim.goodfarming.data.GoodFarmingData"
+      }
+    ]
+  },
+
+  "mixins": [
+    "good-farming.mixins.json"
+  ],
+
+  "accessWidener": "good-farming.classtweaker",
+
+  "depends": {
+    "minecraft": "1.0.0-beta.7.3",
+    "java": ">=${javaVersion}",
+    "stationapi": ">=${stationApiMin}",
+    "fabricloader": ">=${fabricLoaderMin}",
+    "fabric-language-kotlin": "*"
+  },
+  "suggests": {
+    "modmenu": "*"
+  }
+}

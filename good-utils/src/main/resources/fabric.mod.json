@@ -1,0 +1,63 @@
+{
+  "schemaVersion": 1,
+  "id": "good-utils",
+  "version": "${version}",
+
+  "name": "Good Utils",
+  "description": "Utilities for my good mods",
+  "authors": [
+    "tmpim"
+  ],
+  "contact": {
+    "sources": "https://github.com/tmpim/my-good-mods"
+  },
+
+  "license": "MIT",
+  "icon": "assets/good-utils/icon.png",
+
+  "environment": "*",
+  "entrypoints": {
+    "stationapi:event_bus": [
+      {
+        "adapter": "kotlin",
+        "value": "pw.tmpim.goodutils.GoodUtils"
+      }
+    ],
+    "stationapi:event_bus_client": [
+      {
+        "adapter": "kotlin",
+        "value": "pw.tmpim.goodutils.GoodUtilsClient"
+      }
+    ],
+    "stationapi:event_bus_server": [],
+    "gcapi3": [
+      {
+        "adapter": "kotlin",
+        "value": "pw.tmpim.goodutils.GoodUtils"
+      }
+    ],
+    "data": [
+      {
+        "adapter": "kotlin",
+        "value": "pw.tmpim.goodutils.data.GoodUtilsData"
+      }
+    ]
+  },
+
+  "mixins": [
+    "good-utils.mixins.json"
+  ],
+
+  "accessWidener": "good-utils.classtweaker",
+
+  "depends": {
+    "minecraft": "1.0.0-beta.7.3",
+    "java": ">=${javaVersion}",
+    "stationapi": ">=${stationApiMin}",
+    "fabricloader": ">=${fabricLoaderMin}",
+    "fabric-language-kotlin": "*"
+  },
+  "suggests": {
+    "modmenu": "*"
+  }
+}

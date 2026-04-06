@@ -1,0 +1,3 @@
+classTweaker v1 named
+
+accessible field net/minecraft/screen/slot/Slot inventory Lnet/minecraft/inventory/Inventory;

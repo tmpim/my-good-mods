@@ -256,13 +256,11 @@ subprojects {
       }
     }
 
-    afterEvaluate {
-      // disable confusing/broken tasks for subprojects
-      setOf("runClient", "runServer", "genSourcesWithCfr").forEach { name ->
-        tasks.findByName(name)?.let {
-          it.enabled = false
-          it.group = null // hide the task in the 'other' group
-        }
+    // disable confusing/broken tasks for subprojects
+    tasks.configureEach {
+      if (name in setOf("runClient", "runServer", "genSourcesWithCfr")) {
+        enabled = false
+        group = null // hide the task in the 'other' group
       }
     }
 
