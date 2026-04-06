@@ -1,0 +1,114 @@
+package pw.tmpim.goodflags.block
+
+import net.fabricmc.api.EnvType
+import net.fabricmc.api.Environment
+import net.minecraft.block.Block
+import net.minecraft.block.entity.BlockEntity
+import net.minecraft.block.material.Material
+import net.minecraft.entity.LivingEntity
+import net.minecraft.entity.player.ClientPlayerEntity
+import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.util.math.Box
+import net.minecraft.util.math.MathHelper
+import net.minecraft.world.World
+import net.modificationstation.stationapi.api.template.block.TemplateBlockWithEntity
+import pw.tmpim.goodflags.GoodFlags
+import pw.tmpim.goodflags.GoodFlags.namespace
+import pw.tmpim.goodflags.client.FlagPaintScreen
+
+class FlagBlock : TemplateBlockWithEntity(namespace.id("flag"), Material.WOOD) {
+  init {
+    setTranslationKey(namespace, "flag")
+    setHardness(1.0F)
+    setResistance(1.0F)
+    setSoundGroup(WOOD_SOUND_GROUP)
+    applyBoundingBox(this)
+  }
+
+  companion object {
+    fun applyBoundingBox(block: Block) {
+      block.setBoundingBox(0.5f - 0.0625f, 0.0F, 0.5f - 0.0625f, 0.5f + 0.0625f, 1.0F, 0.5f + 0.0625f)
+    }
+  }
+
+  override fun createBlockEntity(): BlockEntity = FlagBlockEntity()
+
+  override fun isFullCube(): Boolean = false
+  override fun isOpaque(): Boolean = false
+
+  @Environment(EnvType.CLIENT)
+  override fun getRenderType(): Int = -1
+
+  override fun getCollisionShape(world: World, x: Int, y: Int, z: Int): Box? = null
+
+  override fun onUse(world: World, x: Int, y: Int, z: Int, player: PlayerEntity): Boolean {
+    val entity = world.getBlockEntity(x, y, z)
+    if (entity is FlagBlockEntity) {
+      if (player is ClientPlayerEntity) {
+        openPaintScreen(player, entity)
+      }
+      return true
+    }
+    return false
+  }
+
+  @Environment(EnvType.CLIENT)
+  private fun openPaintScreen(player: ClientPlayerEntity, entity: FlagBlockEntity) {
+    val mc = player.minecraft
+    mc.setScreen(FlagPaintScreen(entity))
+  }
+
+  override fun canPlaceAt(world: World, x: Int, y: Int, z: Int): Boolean {
+    if (y + 2 >= 128) return false
+    return world.getMaterial(x, y - 1, z).suffocates() && world.getBlockId(x, y + 1, z) == 0 && world.getBlockId(x, y + 2, z) == 0
+  }
+
+  override fun onPlaced(world: World, x: Int, y: Int, z: Int) {
+    super.onPlaced(world, x, y, z)
+  }
+
+  override fun onPlaced(world: World, x: Int, y: Int, z: Int, placer: LivingEntity) {
+    val rotation = (MathHelper.floor((placer.yaw * 4.0F / 360.0F) + 0.5) and 3)
+    world.setBlockMeta(x, y, z, rotation)
+    val poleId = GoodFlags.flagPoleBlock.id
+    world.setBlock(x, y + 1, z, poleId)
+    world.setBlock(x, y + 2, z, poleId)
+  }
+
+  override fun neighborUpdate(world: World, x: Int, y: Int, z: Int, id: Int) {
+    val poleId = GoodFlags.flagPoleBlock.id
+    val meta = world.getBlockMeta(x, y, z)
+    var broken = false
+
+    // The pole at y+1 must exist — if it was mined away the structure is invalid
+    if (world.getBlockId(x, y + 1, z) != poleId) {
+      broken = true
+      // Silently remove the top pole too if it's still there
+      if (world.getBlockId(x, y + 2, z) == poleId) {
+        world.setBlock(x, y + 2, z, 0)
+      }
+    }
+
+    // The floor below must be solid
+    if (!world.getMaterial(x, y - 1, z).suffocates()) {
+      broken = true
+      // Silently remove both pole blocks above
+      if (world.getBlockId(x, y + 1, z) == poleId) {
+        world.setBlock(x, y + 1, z, 0)
+      }
+      if (world.getBlockId(x, y + 2, z) == poleId) {
+        world.setBlock(x, y + 2, z, 0)
+      }
+    }
+
+    // Double check that we still exist before dropping a stack.
+    if (broken && world.getBlockId(x, y, z) == this.id) {
+      if (!world.isRemote) {
+        dropStacks(world, x, y, z, meta)
+      }
+      world.setBlock(x, y, z, 0)
+    }
+  }
+
+  override fun getPistonBehavior() = 2
+}

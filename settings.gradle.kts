@@ -37,6 +37,7 @@ include("good-farming")
 include("good-food")
 include("good-sign-editing")
 include("good-sounds")
+include("good-flags")
 
 // everything else mod/incubator
 include("good-mod")

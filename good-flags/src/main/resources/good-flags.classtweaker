@@ -1,0 +1,3 @@
+classTweaker v1 named
+
+accessible field net/minecraft/entity/player/ClientPlayerEntity minecraft Lnet/minecraft/client/Minecraft;
