@@ -4,6 +4,8 @@ import net.minecraft.block.entity.BlockEntity
 import net.minecraft.nbt.NbtCompound
 
 class TombstoneBlockEntity(owner: String?): BlockEntity() {
+  constructor() : this(null)
+
   val hasOwner: Boolean
     get() = this.owner != null
 
