@@ -1,6 +1,5 @@
 package pw.tmpim.goodcompression
 
-import net.fabricmc.api.ModInitializer
 import net.mine_diver.unsafeevents.listener.EventListener
 import net.modificationstation.stationapi.api.event.mod.InitEvent
 import pw.tmpim.goodassetfetcher.api.GoodAssetFetcherRegistryEvent
@@ -8,8 +7,7 @@ import pw.tmpim.goodcompression.GoodCompression.MOD_NAME
 import pw.tmpim.goodcompression.GoodCompression.log
 import pw.tmpim.goodcompression.GoodCompression.namespace
 
-object GoodCompressionClient : ModInitializer {
-  override fun onInitialize() {}
+object GoodCompressionClient {
 
   @EventListener
   fun onInit(event: InitEvent) {

@@ -1,13 +1,11 @@
 package pw.tmpim.goodfood
 
-import net.fabricmc.api.ModInitializer
 import net.mine_diver.unsafeevents.listener.EventListener
 import net.modificationstation.stationapi.api.event.mod.InitEvent
 import pw.tmpim.goodfood.GoodFood.MOD_NAME
 import pw.tmpim.goodfood.GoodFood.log
 
-object GoodFoodClient : ModInitializer {
-  override fun onInitialize() {}
+object GoodFoodClient {
 
   @EventListener
   fun onInit(event: InitEvent) {

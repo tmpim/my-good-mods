@@ -1,6 +1,5 @@
 package pw.tmpim.goodsounds
 
-import net.fabricmc.api.ModInitializer
 import net.mine_diver.unsafeevents.listener.EventListener
 import net.minecraft.block.PressurePlateBlock
 import net.minecraft.util.math.BlockPos
@@ -9,10 +8,8 @@ import net.modificationstation.stationapi.api.event.world.BlockSetEvent
 import pw.tmpim.goodsounds.GoodSounds.MOD_NAME
 import pw.tmpim.goodsounds.GoodSounds.log
 
-object GoodSoundsClient : ModInitializer {
+object GoodSoundsClient {
   private val platePressed = mutableSetOf<BlockPos>()
-
-  override fun onInitialize() {}
 
   @EventListener
   fun onInit(event: InitEvent) {

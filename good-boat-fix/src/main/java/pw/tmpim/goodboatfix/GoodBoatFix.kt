@@ -1,6 +1,5 @@
 package pw.tmpim.goodboatfix
 
-import net.fabricmc.api.ModInitializer
 import net.fabricmc.loader.api.FabricLoader
 import net.glasslauncher.mods.gcapi3.api.ConfigRoot
 import net.mine_diver.unsafeevents.listener.EventListener
@@ -8,7 +7,7 @@ import net.modificationstation.stationapi.api.event.mod.InitEvent
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
-object GoodBoatFix : ModInitializer {
+object GoodBoatFix {
   const val MOD_ID = "good-boat-fix"
   const val MOD_NAME = "Good Boat Fix"
 
@@ -19,8 +18,6 @@ object GoodBoatFix : ModInitializer {
   val config = GoodBoatFixConfig()
 
   private var unitweaksInstalled: Boolean = false
-
-  override fun onInitialize() {}
 
   @EventListener
   fun onInit(event: InitEvent) {

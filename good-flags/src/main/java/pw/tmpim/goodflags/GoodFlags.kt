@@ -1,6 +1,5 @@
 package pw.tmpim.goodflags
 
-import net.fabricmc.api.ModInitializer
 import net.mine_diver.unsafeevents.listener.EventListener
 import net.minecraft.block.Block
 import net.modificationstation.stationapi.api.event.block.entity.BlockEntityRegisterEvent
@@ -16,7 +15,7 @@ import pw.tmpim.goodflags.block.FlagPoleBlock
 import pw.tmpim.goodflags.net.FlagNetworkingC2S
 import pw.tmpim.goodflags.net.FlagNetworkingS2C
 
-object GoodFlags : ModInitializer {
+object GoodFlags {
   const val MOD_ID = "good-flags"
   const val MOD_NAME = "Good Flags"
 
@@ -26,8 +25,6 @@ object GoodFlags : ModInitializer {
 
   lateinit var flagBlock: Block
   lateinit var flagPoleBlock: Block
-
-  override fun onInitialize() {}
 
   @EventListener
   fun onInit(event: InitEvent) {

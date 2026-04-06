@@ -1,6 +1,5 @@
 package pw.tmpim.goodcompression
 
-import net.fabricmc.api.ModInitializer
 import net.glasslauncher.mods.gcapi3.api.ConfigRoot
 import net.mine_diver.unsafeevents.listener.EventListener
 import net.minecraft.block.Block
@@ -15,7 +14,7 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import pw.tmpim.goodcompression.block.RedstoneBlock
 
-object GoodCompression : ModInitializer {
+object GoodCompression {
   const val MOD_ID = "good-compression"
   const val MOD_NAME = "Good Compression"
 
@@ -36,8 +35,6 @@ object GoodCompression : ModInitializer {
   // tags
   @JvmField val redstoneDustPlaceable: TagKey<Block> =
     TagKey.of(BlockRegistry.KEY, namespace.id("redstone_dust_placeable"))
-
-  override fun onInitialize() {}
 
   @EventListener
   fun onInit(event: InitEvent) {

@@ -1,6 +1,5 @@
 package pw.tmpim.goodfarming
 
-import net.fabricmc.api.ModInitializer
 import net.glasslauncher.mods.gcapi3.api.ConfigRoot
 import net.mine_diver.unsafeevents.listener.EventListener
 import net.minecraft.item.Item
@@ -13,7 +12,7 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import pw.tmpim.goodfarming.item.SeedBagItem
 
-object GoodFarming : ModInitializer {
+object GoodFarming {
   const val MOD_ID = "good-farming"
   const val MOD_NAME = "Good Farming"
 
@@ -30,8 +29,6 @@ object GoodFarming : ModInitializer {
 
   // tags
   val seeds: TagKey<Item> = TagKey.of(ItemRegistry.KEY, namespace.id("seeds"))
-
-  override fun onInitialize() {}
 
   @EventListener
   fun onInit(event: InitEvent) {

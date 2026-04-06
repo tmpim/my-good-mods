@@ -1,6 +1,5 @@
 package pw.tmpim.goodfood
 
-import net.fabricmc.api.ModInitializer
 import net.mine_diver.unsafeevents.listener.EventListener
 import net.minecraft.item.Item
 import net.modificationstation.stationapi.api.event.mod.InitEvent
@@ -10,7 +9,7 @@ import net.modificationstation.stationapi.api.util.Namespace
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
-object GoodFood : ModInitializer {
+object GoodFood {
   const val MOD_ID = "good-food"
   const val MOD_NAME = "Good Food"
 
@@ -20,8 +19,6 @@ object GoodFood : ModInitializer {
 
   // items
   lateinit var bagelItem: Item
-
-  override fun onInitialize() {}
 
   @EventListener
   fun onInit(event: InitEvent) {

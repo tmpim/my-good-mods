@@ -1,6 +1,5 @@
 package pw.tmpim.goodflags
 
-import net.fabricmc.api.ModInitializer
 import net.mine_diver.unsafeevents.listener.EventListener
 import net.modificationstation.stationapi.api.client.event.block.entity.BlockEntityRendererRegisterEvent
 import net.modificationstation.stationapi.api.client.event.resource.AssetsReloadEvent
@@ -10,8 +9,7 @@ import pw.tmpim.goodflags.GoodFlags.log
 import pw.tmpim.goodflags.block.FlagBlockEntity
 import pw.tmpim.goodflags.client.FlagBlockEntityRenderer
 
-object GoodFlagsClient : ModInitializer {
-  override fun onInitialize() {}
+object GoodFlagsClient {
 
   @EventListener
   fun onInit(event: InitEvent) {

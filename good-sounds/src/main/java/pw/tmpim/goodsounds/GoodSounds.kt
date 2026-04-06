@@ -1,6 +1,5 @@
 package pw.tmpim.goodsounds
 
-import net.fabricmc.api.ModInitializer
 import net.glasslauncher.mods.gcapi3.api.ConfigRoot
 import net.mine_diver.unsafeevents.listener.EventListener
 import net.minecraft.item.Item
@@ -11,7 +10,7 @@ import net.modificationstation.stationapi.api.util.Namespace
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
-object GoodSounds : ModInitializer {
+object GoodSounds {
   const val MOD_ID = "good-sounds"
   const val MOD_NAME = "Good Sounds"
 
@@ -28,8 +27,6 @@ object GoodSounds : ModInitializer {
   const val DEFAULT_METAL_PIPE_VOLUME: Float = 1.0f
 
   const val SOUND_METAL_PIPE = "$MOD_ID:metal_pipe"
-
-  override fun onInitialize() {}
 
   @JvmStatic
   fun isMetalItem(item: Item?): Boolean =

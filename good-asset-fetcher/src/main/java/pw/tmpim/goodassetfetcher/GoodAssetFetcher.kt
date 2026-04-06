@@ -1,6 +1,5 @@
 package pw.tmpim.goodassetfetcher
 
-import net.fabricmc.api.ModInitializer
 import net.fabricmc.loader.api.FabricLoader
 import net.mine_diver.unsafeevents.listener.EventListener
 import net.modificationstation.stationapi.api.StationAPI
@@ -9,7 +8,7 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import pw.tmpim.goodassetfetcher.api.GoodAssetFetcherRegistryEvent
 
-object GoodAssetFetcher : ModInitializer {
+object GoodAssetFetcher {
   const val MOD_ID = "good-asset-fetcher"
   const val MOD_NAME = "Good Asset Fetcher"
   val MOD_VERSION = FabricLoader.getInstance().getModContainer(MOD_ID).get().metadata.version.toString()
@@ -17,8 +16,6 @@ object GoodAssetFetcher : ModInitializer {
   const val PACK_NAME = "$MOD_NAME Generated"
 
   @JvmField val log: Logger = LoggerFactory.getLogger(MOD_ID)
-
-  override fun onInitialize() {}
 
   @EventListener
   fun onInit(event: InitEvent) {

@@ -1,13 +1,11 @@
 package pw.tmpim.goodfarming
 
-import net.fabricmc.api.ModInitializer
 import net.mine_diver.unsafeevents.listener.EventListener
 import net.modificationstation.stationapi.api.event.mod.InitEvent
 import pw.tmpim.goodfarming.GoodFarming.MOD_NAME
 import pw.tmpim.goodfarming.GoodFarming.log
 
-object GoodFarmingClient : ModInitializer {
-  override fun onInitialize() {}
+object GoodFarmingClient {
 
   @EventListener
   fun onInit(event: InitEvent) {
