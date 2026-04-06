@@ -18,10 +18,14 @@
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/good-config/my-good-mods.good-config.test.iml" filepath="$PROJECT_DIR$/.idea/modules/good-config/my-good-mods.good-config.test.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/good-death-messages/my-good-mods.good-death-messages.main.iml" filepath="$PROJECT_DIR$/.idea/modules/good-death-messages/my-good-mods.good-death-messages.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/good-death-messages/my-good-mods.good-death-messages.test.iml" filepath="$PROJECT_DIR$/.idea/modules/good-death-messages/my-good-mods.good-death-messages.test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/good-death/my-good-mods.good-death.main.iml" filepath="$PROJECT_DIR$/.idea/modules/good-death/my-good-mods.good-death.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/good-death/my-good-mods.good-death.test.iml" filepath="$PROJECT_DIR$/.idea/modules/good-death/my-good-mods.good-death.test.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/good-farming/my-good-mods.good-farming.main.iml" filepath="$PROJECT_DIR$/.idea/modules/good-farming/my-good-mods.good-farming.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/good-farming/my-good-mods.good-farming.test.iml" filepath="$PROJECT_DIR$/.idea/modules/good-farming/my-good-mods.good-farming.test.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/good-flags/my-good-mods.good-flags.main.iml" filepath="$PROJECT_DIR$/.idea/modules/good-flags/my-good-mods.good-flags.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/good-flags/my-good-mods.good-flags.main~1.iml" filepath="$PROJECT_DIR$/.idea/modules/good-flags/my-good-mods.good-flags.main~1.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/good-flags/my-good-mods.good-flags.test.iml" filepath="$PROJECT_DIR$/.idea/modules/good-flags/my-good-mods.good-flags.test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/good-flags/my-good-mods.good-flags.test~1.iml" filepath="$PROJECT_DIR$/.idea/modules/good-flags/my-good-mods.good-flags.test~1.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/good-food/my-good-mods.good-food.main.iml" filepath="$PROJECT_DIR$/.idea/modules/good-food/my-good-mods.good-food.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/good-food/my-good-mods.good-food.test.iml" filepath="$PROJECT_DIR$/.idea/modules/good-food/my-good-mods.good-food.test.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/good-mod-template/my-good-mods.good-mod-template.main.iml" filepath="$PROJECT_DIR$/.idea/modules/good-mod-template/my-good-mods.good-mod-template.main.iml" />
@@ -38,7 +42,6 @@
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/good-utils/my-good-mods.good-utils.test.iml" filepath="$PROJECT_DIR$/.idea/modules/good-utils/my-good-mods.good-utils.test.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/my-good-mods.main.iml" filepath="$PROJECT_DIR$/.idea/modules/my-good-mods.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/my-good-mods.test.iml" filepath="$PROJECT_DIR$/.idea/modules/my-good-mods.test.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/tool-nbt-upgrader/my-good-mods.tool-nbt-upgrader.main.iml" filepath="$PROJECT_DIR$/.idea/modules/tool-nbt-upgrader/my-good-mods.tool-nbt-upgrader.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/good-sounds/programming.my-good-mods.good-sounds.main.iml" filepath="$PROJECT_DIR$/.idea/modules/good-sounds/programming.my-good-mods.good-sounds.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/good-sounds/programming.my-good-mods.good-sounds.test.iml" filepath="$PROJECT_DIR$/.idea/modules/good-sounds/programming.my-good-mods.good-sounds.test.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/good-asset-fetcher/pw.tmpim.mygoodmods.my-good-mods.good-asset-fetcher.main.iml" filepath="$PROJECT_DIR$/.idea/modules/good-asset-fetcher/pw.tmpim.mygoodmods.my-good-mods.good-asset-fetcher.main.iml" />
@@ -51,6 +54,8 @@
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/good-command-fixes/pw.tmpim.mygoodmods.my-good-mods.good-command-fixes.test.iml" filepath="$PROJECT_DIR$/.idea/modules/good-command-fixes/pw.tmpim.mygoodmods.my-good-mods.good-command-fixes.test.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/good-compression/pw.tmpim.mygoodmods.my-good-mods.good-compression.main.iml" filepath="$PROJECT_DIR$/.idea/modules/good-compression/pw.tmpim.mygoodmods.my-good-mods.good-compression.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/good-compression/pw.tmpim.mygoodmods.my-good-mods.good-compression.test.iml" filepath="$PROJECT_DIR$/.idea/modules/good-compression/pw.tmpim.mygoodmods.my-good-mods.good-compression.test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/good-config/pw.tmpim.mygoodmods.my-good-mods.good-config.main.iml" filepath="$PROJECT_DIR$/.idea/modules/good-config/pw.tmpim.mygoodmods.my-good-mods.good-config.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/good-config/pw.tmpim.mygoodmods.my-good-mods.good-config.test.iml" filepath="$PROJECT_DIR$/.idea/modules/good-config/pw.tmpim.mygoodmods.my-good-mods.good-config.test.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/good-death-messages/pw.tmpim.mygoodmods.my-good-mods.good-death-messages.main.iml" filepath="$PROJECT_DIR$/.idea/modules/good-death-messages/pw.tmpim.mygoodmods.my-good-mods.good-death-messages.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/good-death-messages/pw.tmpim.mygoodmods.my-good-mods.good-death-messages.test.iml" filepath="$PROJECT_DIR$/.idea/modules/good-death-messages/pw.tmpim.mygoodmods.my-good-mods.good-death-messages.test.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/good-farming/pw.tmpim.mygoodmods.my-good-mods.good-farming.main.iml" filepath="$PROJECT_DIR$/.idea/modules/good-farming/pw.tmpim.mygoodmods.my-good-mods.good-farming.main.iml" />
@@ -67,6 +72,8 @@
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/good-sign-editing/pw.tmpim.mygoodmods.my-good-mods.good-sign-editing.test.iml" filepath="$PROJECT_DIR$/.idea/modules/good-sign-editing/pw.tmpim.mygoodmods.my-good-mods.good-sign-editing.test.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/good-sounds/pw.tmpim.mygoodmods.my-good-mods.good-sounds.main.iml" filepath="$PROJECT_DIR$/.idea/modules/good-sounds/pw.tmpim.mygoodmods.my-good-mods.good-sounds.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/good-sounds/pw.tmpim.mygoodmods.my-good-mods.good-sounds.test.iml" filepath="$PROJECT_DIR$/.idea/modules/good-sounds/pw.tmpim.mygoodmods.my-good-mods.good-sounds.test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/good-stacks/pw.tmpim.mygoodmods.my-good-mods.good-stacks.main.iml" filepath="$PROJECT_DIR$/.idea/modules/good-stacks/pw.tmpim.mygoodmods.my-good-mods.good-stacks.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/good-stacks/pw.tmpim.mygoodmods.my-good-mods.good-stacks.test.iml" filepath="$PROJECT_DIR$/.idea/modules/good-stacks/pw.tmpim.mygoodmods.my-good-mods.good-stacks.test.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/good-utils/pw.tmpim.mygoodmods.my-good-mods.good-utils.main.iml" filepath="$PROJECT_DIR$/.idea/modules/good-utils/pw.tmpim.mygoodmods.my-good-mods.good-utils.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/good-utils/pw.tmpim.mygoodmods.my-good-mods.good-utils.test.iml" filepath="$PROJECT_DIR$/.idea/modules/good-utils/pw.tmpim.mygoodmods.my-good-mods.good-utils.test.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/pw.tmpim.mygoodmods.my-good-mods.main.iml" filepath="$PROJECT_DIR$/.idea/modules/pw.tmpim.mygoodmods.my-good-mods.main.iml" />
