@@ -11,7 +11,7 @@
 Beta 1.7.3 mod to make signs editable by right-clicking. Also allows exiting the sign screen by pressing Escape. Works
 in singleplayer and multiplayer (if the server also has the mod).
 
-![Screenshot of Minecraft 1.7.3 with the player editing a sign.](/images/demo.png)
+![Screenshot of Minecraft 1.7.3 with the player editing a sign.](images/demo.png)
 
 ## Requirements
 

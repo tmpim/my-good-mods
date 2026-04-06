@@ -11,7 +11,7 @@
 Beta 1.7.3 mod that adds death messages faithful to newer versions of Minecraft. Works in both singleplayer and
 multiplayer.
 
-![Screenshot of Minecraft Beta 1.7.3 with a dead player, showing "Player was blown up by Creeper" in the chat.](/images/demo.png)
+![Screenshot of Minecraft Beta 1.7.3 with a dead player, showing "Player was blown up by Creeper" in the chat.](images/demo.png)
 
 Adds the following death messages:
 - `<player> died`

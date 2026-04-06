@@ -12,13 +12,13 @@ Adds additional food to Minecraft Beta 1.7.3.
 
 Currently only adds bagels, but more foods are planned.
 
-![Screenshot of Minecraft Beta 1.7.3 showing a wheat farm and a player holding an inventory full of bagels.](/images/demo.png)
+![Screenshot of Minecraft Beta 1.7.3 showing a wheat farm and a player holding an inventory full of bagels.](images/demo.png)
 
 ## Items
 
 #### Bagel
 
-![Recipe for the Bagel, which requires 8 wheat in a square pattern, and crafts 2 bagels.](/images/recipe-bagel.png)
+![Recipe for the Bagel, which requires 8 wheat in a square pattern, and crafts 2 bagels.](images/recipe-bagel.png)
 
 8x Wheat → 2x Bagel. Heals 2.5 hearts. Stacks to 8x.
 

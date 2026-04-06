@@ -13,7 +13,7 @@ Beta 1.7.3 to merge nearby dropped items together. By default, item entities wit
 
 ![Screenshot of Minecraft Beta 1.7.3 with a side-by-side of a pile of many Diamond Blocks dropped on the ground,
 compared to a single stack of Diamond Blocks dropped on the ground. The text reads 'Merge nearby items! and 
-'Reduce lag!'.](/images/demo.png)
+'Reduce lag!'.](images/demo.png)
 
 ## Requirements
 

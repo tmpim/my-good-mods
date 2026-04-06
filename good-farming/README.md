@@ -18,25 +18,25 @@ Also nerfs crop trampling, replicating the behaviour of modern versions where yo
 the crops instead.
 
 ![Screenshot of Minecraft Beta 1.7.3 farm. The text reads 'Plant many items at once!', 'Seeds', 'Bone Meal', and 'Walk 
-without trampling crops!'](/images/demo.png)
+without trampling crops!'](images/demo.png)
 
 ## Items
 
 #### Seed Bag
 
-![Recipe for the Seed Bag, which requires 1 string on top of 1 leather, and crafts 1 Seed Bag.](/images/recipe-seed-bag.png)
+![Recipe for the Seed Bag, which requires 1 string on top of 1 leather, and crafts 1 Seed Bag.](images/recipe-seed-bag.png)
 
 1x String + 1x Leather (shaped) → 1x Seed bag. Holds 512 seeds.
 
 #### Seed Bag + Seeds
 
-![Recipe for filling the Seed Bag with Seeds. Combine the Seed Bag shapelessly with any amount of Seeds to fill the Seed Bag.](/images/recipe-seed-bag-wheat-seeds.png)
+![Recipe for filling the Seed Bag with Seeds. Combine the Seed Bag shapelessly with any amount of Seeds to fill the Seed Bag.](images/recipe-seed-bag-wheat-seeds.png)
 
 1x Seed Bag + any amount of Seeds (shapeless) to fill the Seed Bag. Up to 512 Seeds.
 
 #### Seed Bag + Bone Meal
 
-![Recipe for filling the Seed Bag with Bone Meal. Combine the Seed Bag shapelessly with any amount of Bone Meal to fill the Seed Bag.](/images/recipe-seed-bag-bone-meal.png)
+![Recipe for filling the Seed Bag with Bone Meal. Combine the Seed Bag shapelessly with any amount of Bone Meal to fill the Seed Bag.](images/recipe-seed-bag-bone-meal.png)
 
 1x Seed Bag + any amount of Bone Meal (shapeless) to fill the Seed Bag. Up to 512 Bone Meal.
 

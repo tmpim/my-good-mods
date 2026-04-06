@@ -10,7 +10,7 @@
 
 Beta 1.7.3 mod to make boats drop boats instead of sticks and planks when broken.
 
-![Screenshot of Minecraft 1.7.3 with a boat, and a broken boat with the boat item dropped.](/images/demo.png)
+![Screenshot of Minecraft 1.7.3 with a boat, and a broken boat with the boat item dropped.](images/demo.png)
 
 ## Compatibility
 

@@ -15,7 +15,7 @@ Currently only supports clientside assets (not datapacks).
 
 ![Screenshot of code registering assets from Minecraft 1.12.2 with the `GoodAssetFetcherRegistryEvent`, and Minecraft 
 Beta 1.7.3 with Stone Bricks, Hay Bale, Coal Block, and Redstone Block textures from Minecraft 1.12.2 
-visible.](/images/demo.png)
+visible.](images/demo.png)
 
 ## Requirements
 

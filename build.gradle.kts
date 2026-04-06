@@ -338,7 +338,7 @@ subprojects {
             // replace links to (./LICENSE) to the project's root license file
             .replace(Regex("""\([\.\/]+LICENSE\)"""), "(https://github.com/${gitRepo}/blob/HEAD/LICENSE)")
             // replace relative image URLs
-            .replace(Regex("""\((?!https?://)(/images/.+?\.png)\)""")) { match ->
+            .replace(Regex("""\((?!https?://)(/?images/.+?\.png)\)""")) { match ->
               val imagePath = match.groupValues[1].trimStart('/')
               "(https://raw.githubusercontent.com/${gitRepo}/HEAD/${readmeDir}${imagePath})"
             }

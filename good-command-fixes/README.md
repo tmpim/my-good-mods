@@ -14,7 +14,7 @@ Beta 1.7.3 server mod to provide simple command fixes:
 - Show /tell feedback to the sender
 
 ![Screenshot of Minecraft Beta 1.7.3 with Good Command Fixes installed on the server. The player runs `/tell` and their 
-message is visible in the chat.](/images/demo.png)
+message is visible in the chat.](images/demo.png)
 
 ## Compatibility
 
