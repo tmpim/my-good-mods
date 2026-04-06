@@ -1,7 +1,6 @@
 package pw.tmpim.goodcompression
 
 import net.fabricmc.api.ModInitializer
-import net.fabricmc.loader.api.FabricLoader
 import net.glasslauncher.mods.gcapi3.api.ConfigRoot
 import net.mine_diver.unsafeevents.listener.EventListener
 import net.minecraft.block.Block
@@ -19,7 +18,6 @@ import pw.tmpim.goodcompression.block.RedstoneBlock
 object GoodCompression : ModInitializer {
   const val MOD_ID = "good-compression"
   const val MOD_NAME = "Good Compression"
-  val MOD_VERSION = FabricLoader.getInstance().getModContainer(MOD_ID).get().metadata.version.toString()
 
   val namespace: Namespace = Namespace.resolve()
 
@@ -27,7 +25,7 @@ object GoodCompression : ModInitializer {
 
   @JvmStatic
   @ConfigRoot(value = MOD_ID, visibleName = MOD_NAME, nameKey = "$CONFIG_KEY.name")
-  val config = GoodModConfig()
+  val config = GoodCompressionConfig()
 
   // blocks
   lateinit var redstoneBlock: Block

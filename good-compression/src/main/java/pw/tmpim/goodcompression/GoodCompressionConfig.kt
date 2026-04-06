@@ -6,7 +6,7 @@ import pw.tmpim.goodcompression.GoodCompression.MOD_ID
 internal const val CONFIG_KEY = "gui.${MOD_ID}.config"
 private const val C = CONFIG_KEY
 
-class GoodModConfig {
+class GoodCompressionConfig {
   @JvmField
   @ConfigEntry(
     name = "Redstone dust on top of blocks",
