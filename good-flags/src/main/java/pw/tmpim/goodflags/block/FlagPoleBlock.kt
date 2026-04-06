@@ -7,10 +7,11 @@ import net.minecraft.world.World
 import net.modificationstation.stationapi.api.template.block.TemplateBlock
 import pw.tmpim.goodflags.GoodFlags
 import pw.tmpim.goodflags.GoodFlags.namespace
-import java.util.Random
+import java.util.*
 
 class FlagPoleBlock : TemplateBlock(namespace.id("flagpole"), Material.WOOD) {
   init {
+    setTranslationKey(namespace, "flagpole")
     FlagBlock.applyBoundingBox(this)
   }
 

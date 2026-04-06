@@ -21,6 +21,7 @@ class GoodFlagsLanguageProvider(ctx: DataGenContext) : LanguageProvider(ctx) {
     LangBuilder()
       .add("$C.name", MOD_NAME)
       .add(GoodFlags.flagBlock, "Flag")
+      .add(GoodFlags.flagPoleBlock, "Flag Pole")
       .addColors()
       .save("en_US", this, ctx)
   }

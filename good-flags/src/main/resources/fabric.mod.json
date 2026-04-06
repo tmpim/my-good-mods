@@ -41,6 +41,12 @@
         "adapter": "kotlin",
         "value": "pw.tmpim.goodflags.data.GoodFlagsData"
       }
+    ],
+    "alwaysmoreitems:plugin": [
+      {
+        "adapter": "kotlin",
+        "value": "pw.tmpim.goodflags.compat.ami.GoodFlagsAMIPlugin"
+      }
     ]
   },
 
