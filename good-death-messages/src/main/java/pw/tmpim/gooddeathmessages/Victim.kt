@@ -5,7 +5,6 @@ import pw.tmpim.gooddeathmessages.ExplosionTracker.BlastSource
 
 @Suppress("PropertyName")
 interface Victim {
-
   val `gooddms$victim`: Data
 
   data class Data(
@@ -27,6 +26,5 @@ interface Victim {
     var killCommand: Boolean = false,
     // Projectile (ex. snowball)
     var projectile: Boolean = false
-  ) {
-  }
+  )
 }

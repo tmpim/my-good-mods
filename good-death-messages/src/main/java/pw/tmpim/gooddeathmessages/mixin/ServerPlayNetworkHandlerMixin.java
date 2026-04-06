@@ -7,7 +7,9 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import pw.tmpim.gooddeathmessages.Victim;
 
+@SuppressWarnings("RedundantCast") // compileJava mixin compilation doesn't know about classtweaker
 @Mixin(ServerPlayNetworkHandler.class)
 public class ServerPlayNetworkHandlerMixin {
   @Shadow
@@ -21,7 +23,7 @@ public class ServerPlayNetworkHandlerMixin {
     )
   )
   private void handleCommandBefore(String message, CallbackInfo ci) {
-    player.getGooddms$victim().setKillCommand(true);
+    ((Victim) player).getGooddms$victim().setKillCommand(true);
   }
 
   @Inject(
@@ -33,6 +35,6 @@ public class ServerPlayNetworkHandlerMixin {
     )
   )
   private void handleCommandAfter(String message, CallbackInfo ci) {
-    player.getGooddms$victim().setKillCommand(false);
+    ((Victim) player).getGooddms$victim().setKillCommand(false);
   }
 }
