@@ -14,7 +14,7 @@ import net.modificationstation.stationapi.api.util.math.Vec3d
 import pw.tmpim.gooddeath.GoodDeath.namespace
 import java.util.*
 
-class TombstoneBlock: TemplateBlockWithEntity(namespace.id("tombstone"), Material.STONE) {
+class TombstoneBlock: TemplateBlockWithEntity(namespace.id("tombstone"), MATERIAL) {
   companion object {
     val FACINGS: List<Direction> = listOfNotNull(Direction.NORTH, Direction.EAST, Direction.SOUTH, Direction.WEST)
     val FACING: DirectionProperty = DirectionProperty.of(
@@ -22,7 +22,8 @@ class TombstoneBlock: TemplateBlockWithEntity(namespace.id("tombstone"), Materia
       FACINGS
     )
 
-    val LUMINANCE: Float = 1.0f
+    val MATERIAL: Material = TombstoneMaterial()
+    const val LUMINANCE: Float = 1.0f
 
     val PARTICLE_POSITIONS: Array<Vec3d> = arrayOf(
       // candle1
