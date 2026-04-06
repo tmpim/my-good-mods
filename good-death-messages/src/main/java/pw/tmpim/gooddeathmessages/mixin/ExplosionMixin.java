@@ -34,9 +34,9 @@ public class ExplosionMixin {
     @Local Entity entity,
     @Share("blast") LocalRef<ExplosionTracker.BlastSource> blastSource
   ) {
-    ExplosionTracker.BlastSource source = blastSource.get();
+    var source = blastSource.get();
     if (entity instanceof Victim victim && source != null) {
-      victim.goodmod_setBlastSource(source);
+      victim.getGooddms$victim().setBlastSource(source);
     }
   }
 
@@ -52,9 +52,9 @@ public class ExplosionMixin {
     @Local Entity entity,
     @Share("blast") LocalRef<ExplosionTracker.BlastSource> blastSource
   ) {
-    ExplosionTracker.BlastSource source = blastSource.get();
+    var source = blastSource.get();
     if (entity instanceof Victim victim && source != null) {
-      victim.goodmod_resetBlastSource();
+      victim.getGooddms$victim().setBlastSource(null);
     }
   }
 }

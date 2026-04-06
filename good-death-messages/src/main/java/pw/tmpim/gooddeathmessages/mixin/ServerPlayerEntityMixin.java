@@ -10,7 +10,7 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import pw.tmpim.gooddeathmessages.PlayerEntityDeathHandler;
+import pw.tmpim.gooddeathmessages.DeathRegistry;
 
 @Mixin(ServerPlayerEntity.class)
 public abstract class ServerPlayerEntityMixin extends PlayerEntity {
@@ -23,7 +23,9 @@ public abstract class ServerPlayerEntityMixin extends PlayerEntity {
 
   @Inject(method = "onKilledBy", at = @At("TAIL"))
   private void onKilledBy(Entity killer, CallbackInfo ci) {
-    String message = PlayerEntityDeathHandler.createMessage(this, killer);
+    var message = DeathRegistry.createMessage(this, killer);
+    if (message == null) return;
+
     server.sendMessage(message);
     server.playerManager.broadcast(message);
   }

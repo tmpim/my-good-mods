@@ -18,14 +18,31 @@
 
   "environment": "*",
   "entrypoints": {
-    "stationapi:event_bus": [],
-    "stationapi:event_bus_client": [],
-    "stationapi:event_bus_server": []
+    "stationapi:event_bus": [
+      {
+        "adapter": "kotlin",
+        "value": "pw.tmpim.gooddeathmessages.GoodDeathMessages"
+      }
+    ],
+    "gcapi3": [
+      {
+        "adapter": "kotlin",
+        "value": "pw.tmpim.gooddeathmessages.GoodDeathMessages"
+      }
+    ],
+    "data": [
+      {
+        "adapter": "kotlin",
+        "value": "pw.tmpim.gooddeathmessages.data.GoodDeathMessagesData"
+      }
+    ]
   },
 
   "mixins": [
     "good-death-messages.mixins.json"
   ],
+
+  "accessWidener": "good-death-messages.classtweaker",
 
   "depends": {
     "minecraft": "1.0.0-beta.7.3",
@@ -33,5 +50,8 @@
     "stationapi": ">=${stationApiMin}",
     "fabricloader": ">=${fabricLoaderMin}",
     "fabric-language-kotlin": "*"
+  },
+  "suggests": {
+    "modmenu": "*"
   }
 }

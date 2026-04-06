@@ -17,21 +17,26 @@ Adds the following death messages:
 - `<player> died`
 - `<player> fell out of the world`
 - `<player> hit the ground too hard`
+- `<player> fell from a high place`
+- `<player> fell off a ladder`
 - `<player> was slain by <entity>`
 - `<player> was shot by <player>`
-- `<player> was shot by <player>'s Wolf`
-- `<player> was shot by a Dispenser`
+- `<player> was pummeled by <entity>`
 - `<player> was blown up by <entity>`
 - `<player> was blew up`
-- `<player> was mauled to bits by <entity>`
 - `<player> was fireballed by <entity>`
 - `<player> was pricked to death`
 - `<player> was struck by lightning`
 - `<player> was killed by [Intentional Game Design]`
 - `<player> drowned`
-- `<player> drowned to a crisp`
-- `<player> burned to a crisp`
+- `<player> burned to death`
 - `<player> suffocated in a wall`
+
+And includes some additional non-standard messages, which can be disabled:
+- `<player> was mauled to bits by <player>'s <wolf>`
+- `<player> was mauled to bits by <wolf>`
+- `<player> belly flopped into a puddle`
+- `<player> drowned to a crisp`
 
 ## Requirements
 
@@ -44,9 +49,23 @@ Adds the following death messages:
 
 - [Mod Menu Babric](<https://modrinth.com/mod/modmenu-babric>) (for in-game configuration)
 
-## Known issues
+## Configuration
 
-Death messages are currently not translatable.
+The mod's configuration can be configured in-game (if [Mod Menu Babric](<https://modrinth.com/mod/modmenu-babric>) is
+installed) or in `.minecraft/config/good-death-messages/good-death-messages.yml`.
+
+```yml
+deathMessagesEnabled: true
+
+# Enables Good Death Messages' own additional death messages. 
+# Does not affect any other mods adding their own death messages.
+customDeathMessagesEnabled: true
+```
+
+## Translations
+
+Currently, messages are only in en_US. If you would like to provide localization for a language, contribute  
+[here](https://github.com/tmpim/my-good-mods/tree/master/good-death-messages/src/main/resources/assets/good-death-messages).
 
 ## License
 

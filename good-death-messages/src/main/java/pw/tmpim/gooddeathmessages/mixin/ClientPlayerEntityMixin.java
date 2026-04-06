@@ -7,7 +7,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
-import pw.tmpim.gooddeathmessages.PlayerEntityDeathHandler;
+import pw.tmpim.gooddeathmessages.DeathRegistry;
 
 @Mixin(ClientPlayerEntity.class)
 public abstract class ClientPlayerEntityMixin extends PlayerEntity {
@@ -20,6 +20,9 @@ public abstract class ClientPlayerEntityMixin extends PlayerEntity {
 
   @Override
   public void onKilledBy(Entity killer) {
-    minecraft.inGameHud.addChatMessage(PlayerEntityDeathHandler.createMessage(this, killer));
+    var message = DeathRegistry.createMessage(this, killer);
+    if (message == null) return;
+    
+    minecraft.inGameHud.addChatMessage(message);
   }
 }
