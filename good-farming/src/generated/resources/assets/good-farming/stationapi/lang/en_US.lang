@@ -1,3 +1,5 @@
+gui.good-farming.config.bonemeal_wastage_fix_enabled=Prevent Bone Meal wastage on Wheat
+gui.good-farming.config.bonemeal_wastage_fix_enabled.desc=Prevents consuming Bone Meal when used on fully grown wheat (doesn't affect modded blocks)
 gui.good-farming.config.name=Good Farming
 gui.good-farming.config.quick_replanting_enabled=Quick replanting enabled
 gui.good-farming.config.quick_replanting_enabled.desc=Allow replanting crops with right-click (if you have the seeds)
@@ -12,5 +14,6 @@ gui.good-farming.config.seed_capacity.desc=The maximum number of seeds the Seed 
 gui.good-farming.config.trampling_nerf_enabled=Trampling nerf enabled
 gui.good-farming.config.trampling_nerf_enabled.desc=If enabled, farmland is only trampled when jumping, not walking
 item.good-farming.seed_bag.name=Seed Bag
-item.good-farming.seed_bag.tooltip.seeds=Contents: %dx %s
+item.good-farming.seed_bag.tooltip.seeds=Contents: %,dx %s
+item.good-farming.seed_bag.tooltip.unknown=Unknown
 

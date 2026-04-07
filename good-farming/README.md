@@ -14,8 +14,12 @@ Adds a Seed Bag, which stores up to 512 Seeds or Bone Meal, and plants on farmla
 it on top of a block. The bag can also be used from further away than regular items (5 blocks). A Seed Bag can only hold 
 one type of item, and cannot be emptied other than by using it.
 
-Also nerfs crop trampling, replicating the behaviour of modern versions where you need to fall from a height to trample
-the crops instead.
+Other tweaks include:
+- Nerfs crop trampling, replicating the behaviour of modern versions where you need to fall from a height to trample
+  the crops instead.
+- Prevents consuming Bone Meal when used on fully grown wheat and saplings that can't grow (doesn't affect modded 
+  blocks)
+- Quick replanting by right-clicking on crops if you have the seeds (TODO)
 
 ![Screenshot of Minecraft Beta 1.7.3 farm. The text reads 'Plant many items at once!', 'Seeds', 'Bone Meal', and 'Walk 
 without trampling crops!'](images/demo.png)
@@ -57,11 +61,15 @@ The mod's configuration can be configured in-game (if [Mod Menu Babric](<https:/
 installed) or in `.minecraft/config/good-farming/good-farming.yml`.
 
 ```yml
-# Allow replanting crops with right-click (if you have the seeds)
-quickReplantingEnabled: true
-
 # If enabled, farmland is only trampled when jumping, not walking
 tramplingNerfEnabled: true
+
+# Prevents consuming Bone Meal when used on fully grown wheat 
+# and saplings that can't grow (doesn't affect modded blocks)
+bonemealWastageFixEnabled: true
+
+# Allow replanting crops with right-click (if you have the seeds)
+quickReplantingEnabled: true
 
 # The lateral radius, in blocks, to plant seeds with the Seed Bag
 seedBagPlantLateralRadius: 3
@@ -74,7 +82,14 @@ seedBagThrowRange: 5.0
 
 # The maximum number of seeds the Seed Bag can store
 seedBagCapacity: 512
+
+# Displays the amount of seeds in the Seed Bag in the hotbar and inventory
+seedBagOverlayEnabled: true
 ```
+
+## Data packs
+
+TODO: Document this
 
 ## License
 

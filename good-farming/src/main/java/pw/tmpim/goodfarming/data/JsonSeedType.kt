@@ -1,6 +1,7 @@
 package pw.tmpim.goodfarming.data
 
 import net.modificationstation.stationapi.api.item.json.JsonItemKey
+import pw.tmpim.goodutils.data.JsonBlockKey
 
 data class JsonSeedType(
   /**
@@ -11,11 +12,11 @@ data class JsonSeedType(
   /**
    * texture to render the bag with when this seed type is inserted. if absent, the bag's base texture will be used
    */
-  val textureName: String? = null,
+  val textureId: String? = null,
 
   /**
    * list of blocks the seed will attempt to be planted on (e.g. farmland). if absent, it will try to plant on all
    * blocks (assuming Item.useOnBlock allows it)
    */
-  val plantOnBlocks: List<JsonItemKey>? = null,
+  val plantOnBlocks: List<JsonBlockKey>? = null,
 )

@@ -16,6 +16,8 @@ class GoodFarmingLanguageProvider(ctx: DataGenContext) : LanguageProvider(ctx) {
       .add("$C.name", MOD_NAME)
       .add("$C.quick_replanting_enabled", "Quick replanting enabled")
       .add("$C.quick_replanting_enabled.desc", "Allow replanting crops with right-click (if you have the seeds)")
+      .add("$C.bonemeal_wastage_fix_enabled", "Prevent Bone Meal wastage on Wheat")
+      .add("$C.bonemeal_wastage_fix_enabled.desc", "Prevents consuming Bone Meal when used on fully grown wheat (doesn't affect modded blocks)")
       .add("$C.trampling_nerf_enabled", "Trampling nerf enabled")
       .add("$C.trampling_nerf_enabled.desc", "If enabled, farmland is only trampled when jumping, not walking")
       .add("$C.seed_bag_plant_lateral_radius", "Seed Bag planting lateral radius")
@@ -27,7 +29,8 @@ class GoodFarmingLanguageProvider(ctx: DataGenContext) : LanguageProvider(ctx) {
       .add("$C.seed_capacity", "Seed Bag capacity")
       .add("$C.seed_capacity.desc", "The maximum number of seeds the Seed Bag can store")
       .add(GoodFarming.seedBag, "Seed Bag")
-      .sub(GoodFarming.seedBag, "tooltip.seeds", "Contents: %dx %s")
+      .sub(GoodFarming.seedBag, "tooltip.seeds", "Contents: %,dx %s")
+      .sub(GoodFarming.seedBag, "tooltip.unknown", "Unknown")
       .save("en_US", this, ctx)
   }
 }

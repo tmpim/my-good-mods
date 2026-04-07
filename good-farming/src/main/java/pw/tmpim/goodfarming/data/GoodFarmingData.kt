@@ -10,10 +10,12 @@ object GoodFarmingData : DataEntrypoint {
   override fun run() {
     val ctx = DataGenContext(namespace)
 
+    ctx.run(GoodFarmingBlockTagProvider(ctx))
     ctx.run(GoodFarmingCraftingRecipeProvider(ctx))
     ctx.run(GoodFarmingItemModelProvider(ctx))
-    ctx.run(GoodFarmingLanguageProvider(ctx))
     ctx.run(GoodFarmingItemTagProvider(ctx))
+    ctx.run(GoodFarmingLanguageProvider(ctx))
+
     ctx.run(GoodFarmingSeedTypeProvider(ctx))
   }
 }

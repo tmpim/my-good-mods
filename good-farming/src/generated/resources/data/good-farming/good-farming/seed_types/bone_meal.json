@@ -1,0 +1,26 @@
+{
+  "item": {
+    "item": "minecraft:dye",
+    "count": 1,
+    "damage": 15
+  },
+  "textureId": "good-farming:item/seed_bag_bone_meal",
+  "plantOnBlocks": [
+    {
+      "block": "minecraft:wheat",
+      "meta": -1
+    },
+    {
+      "block": "minecraft:sapling",
+      "meta": -1
+    },
+    {
+      "meta": -1,
+      "tag": "good-farming:crops"
+    },
+    {
+      "meta": -1,
+      "tag": "good-farming:saplings"
+    }
+  ]
+}

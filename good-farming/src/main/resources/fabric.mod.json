@@ -41,6 +41,12 @@
         "adapter": "kotlin",
         "value": "pw.tmpim.goodfarming.data.GoodFarmingData"
       }
+    ],
+    "alwaysmoreitems:plugin": [
+      {
+        "adapter": "kotlin",
+        "value": "pw.tmpim.goodfarming.compat.ami.GoodFarmingAMIPlugin"
+      }
     ]
   },
 

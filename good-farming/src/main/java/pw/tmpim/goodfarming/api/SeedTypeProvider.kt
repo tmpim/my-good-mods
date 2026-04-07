@@ -3,11 +3,12 @@ package pw.tmpim.goodfarming.api
 import emmathemartian.datagen.AbstractDataProvider
 import emmathemartian.datagen.DataGenContext
 import emmathemartian.datagen.DataTarget
+import pw.tmpim.goodfarming.item.SeedTypeRegistry.registryId
 
 abstract class SeedTypeProvider(
   ctx: DataGenContext
 ) : AbstractDataProvider(
-  "seed-types",
+  "../${registryId.namespace}/${registryId.path}", // get out of /stationapi
   "Seed Types",
   DataTarget.DATA,
   ctx

@@ -5,7 +5,8 @@ import net.minecraft.item.ItemStack
 import net.minecraft.recipe.CraftingRecipe
 import pw.tmpim.goodfarming.GoodFarming.seedBag
 import pw.tmpim.goodfarming.item.SeedBagItem
-import pw.tmpim.goodfarming.item.SeedBagItem.Companion.isSeedValid
+import pw.tmpim.goodfarming.item.SeedTypeRegistry.getSeedType
+import pw.tmpim.goodfarming.item.SeedTypeRegistry.isSeedValid
 import kotlin.math.min
 
 object SeedBagSeedsRecipe : CraftingRecipe {
@@ -63,18 +64,19 @@ object SeedBagSeedsRecipe : CraftingRecipe {
     if (seedStackCount == 0) return null
 
     // refuse to craft if the seed bag's seed type is different
-    val bagSeeds = SeedBagItem.getStackSeeds(bagStack)
-    if (bagSeeds != null && seedStacks.any { !bagSeeds.isItemEqual(it.second) }) {
+    val bagSeedsData = SeedBagItem.getStackSeeds(bagStack)
+    if (bagSeedsData != null && seedStacks.any { !bagSeedsData.first.matches(it.second) }) {
       return null
     }
 
+    // use the bag's existing seed type if present, otherwise figure out the new one
+    val seedType = bagSeedsData?.first ?: getSeedType(seedStacks.first().second)
+
     // the remaining amount of seeds we can actually put in this bag
-    var remainingSeedCount = min(seedStackCount, bagStack.maxDamage - (bagSeeds?.count ?: 0))
+    var remainingSeedCount = min(seedStackCount, bagStack.maxDamage - (bagSeedsData?.second ?: 0))
     if (remainingSeedCount <= 0) return null // bag is full
 
-    // seed instance to put on the output stack. bagSeeds should be a freshly parsed ItemStack instance from
-    // SeedBagItem.getStackSeeds
-    val newBagSeeds = bagSeeds ?: seedStacks.first().second.copy().apply { count = 0 }
+    var finalSeedCount = bagSeedsData?.second ?: 0
 
     // try to consume as many seeds from each stack as possible
     for ((slot, seedStack) in seedStacks) {
@@ -82,7 +84,7 @@ object SeedBagSeedsRecipe : CraftingRecipe {
 
       if (consume) inv.removeStack(slot, amountToRemove)
       remainingSeedCount -= amountToRemove
-      newBagSeeds.count += amountToRemove
+      finalSeedCount += amountToRemove
 
       if (remainingSeedCount <= 0) break
     }
@@ -91,7 +93,7 @@ object SeedBagSeedsRecipe : CraftingRecipe {
 
     // output a new bag stack
     return bagStack.copy().also {
-      SeedBagItem.setStackSeeds(it, newBagSeeds)
+      SeedBagItem.setStackSeeds(it, seedType, finalSeedCount)
     }
   }
 

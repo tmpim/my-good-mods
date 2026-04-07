@@ -6,7 +6,10 @@
   "mixins": [
     "CraftingRecipeManagerMixin",
     "CraftingResultSlotMixin",
+    "CropBlockMixin",
+    "DyeItemMixin",
     "FarmlandBlockMixin",
+    "SaplingBlockMixin",
     "ScreenHandlerMixin"
   ],
   "server": [],

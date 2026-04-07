@@ -30,7 +30,6 @@
         "value": "pw.tmpim.goodflags.GoodFlagsClient"
       }
     ],
-    "stationapi:event_bus_server": [],
     "data": [
       {
         "adapter": "kotlin",
