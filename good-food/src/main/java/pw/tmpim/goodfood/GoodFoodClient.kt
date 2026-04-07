@@ -6,7 +6,6 @@ import pw.tmpim.goodfood.GoodFood.MOD_NAME
 import pw.tmpim.goodfood.GoodFood.log
 
 object GoodFoodClient {
-
   @EventListener
   fun onInit(event: InitEvent) {
     log.info("$MOD_NAME initializing client")

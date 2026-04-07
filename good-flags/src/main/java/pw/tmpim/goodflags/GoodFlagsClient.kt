@@ -10,7 +10,6 @@ import pw.tmpim.goodflags.block.FlagBlockEntity
 import pw.tmpim.goodflags.client.FlagBlockEntityRenderer
 
 object GoodFlagsClient {
-
   @EventListener
   fun onInit(event: InitEvent) {
     log.info("$MOD_NAME initializing client")

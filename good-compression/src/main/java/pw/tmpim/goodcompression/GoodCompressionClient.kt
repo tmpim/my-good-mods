@@ -8,7 +8,6 @@ import pw.tmpim.goodcompression.GoodCompression.log
 import pw.tmpim.goodcompression.GoodCompression.namespace
 
 object GoodCompressionClient {
-
   @EventListener
   fun onInit(event: InitEvent) {
     log.info("$MOD_NAME initializing client")

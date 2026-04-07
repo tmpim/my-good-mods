@@ -6,7 +6,6 @@ import pw.tmpim.goodmodtemplate.GoodModTemplate.MOD_NAME
 import pw.tmpim.goodmodtemplate.GoodModTemplate.log
 
 object GoodModTemplateClient {
-
   @EventListener
   fun onInit(event: InitEvent) {
     log.info("$MOD_NAME initializing client")
