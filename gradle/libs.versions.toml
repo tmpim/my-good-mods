@@ -24,6 +24,9 @@ nbt = "6.2+mcb1.7.3"
 stationapi = "2.0.0-alpha.5.4+tmpim.2"
 stationapi_min = "2.0.0-alpha.5.4" # minimum supported version, used in fabric.mod.json
 glassconfigapi = "3.2.5"
+glassconfigapi_min = "3.2.5" # minimum supported version, used in fabric.mod.json
+glassnetworking = "1.0.7"
+glassnetworking_min = "1.0.7" # minimum supported version, used in fabric.mod.json
 modmenu = "1.1.1"
 datagen = "0.0.2-tmpim.7"
 bhcreative = "0.4.9"
@@ -42,6 +45,7 @@ nbt = { module = "net.querz.nbt:NBT", version.ref = "nbt" }
 
 stationapi = { module = "net.modificationstation:StationAPI", version.ref = "stationapi" }
 glassconfigapi = { module = "net.glasslauncher.mods:GlassConfigAPI", version.ref = "glassconfigapi" }
+glassnetworking = { module = "net.glasslauncher.mods:glass-networking", version.ref = "glassnetworking" }
 modmenu = { module = "net.danygames2014:modmenu", version.ref = "modmenu" }
 datagen = { module = "emmathemartian:stapi-datagen", version.ref = "datagen" }
 bhcreative = { module = "com.github.paulevsGitch:BHCreative", version.ref = "bhcreative" }

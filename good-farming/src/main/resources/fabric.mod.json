@@ -61,7 +61,9 @@
     "java": ">=${javaVersion}",
     "stationapi": ">=${stationApiMin}",
     "fabricloader": ">=${fabricLoaderMin}",
-    "fabric-language-kotlin": "*"
+    "fabric-language-kotlin": "*",
+    "gcapi3": ">=${gcapiMin}",
+    "glassnetworking": ">=${glassNetworkingMin}"
   },
   "suggests": {
     "modmenu": "*"

@@ -29,7 +29,6 @@
         "value": "pw.tmpim.goodutils.GoodUtilsClient"
       }
     ],
-    "stationapi:event_bus_server": [],
     "gcapi3": [
       {
         "adapter": "kotlin",
@@ -55,7 +54,8 @@
     "java": ">=${javaVersion}",
     "stationapi": ">=${stationApiMin}",
     "fabricloader": ">=${fabricLoaderMin}",
-    "fabric-language-kotlin": "*"
+    "fabric-language-kotlin": "*",
+    "gcapi3": ">=${gcapiMin}"
   },
   "suggests": {
     "modmenu": "*"

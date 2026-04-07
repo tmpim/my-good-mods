@@ -19,6 +19,8 @@ This mod has no known compatibility issues. It adds explicit compatibility with
 - [Babric](<https://babric.github.io/use/installer/>)
 - [StationAPI](<https://modrinth.com/mod/stationapi>)
 - [Fabric Language Kotlin](<https://modrinth.com/mod/fabric-language-kotlin>)
+- [Glass Config API](<https://modrinth.com/mod/glass-config-api>)
+- [Glass Networking](<https://modrinth.com/mod/glass-networking>)
 
 ## Recommended
 

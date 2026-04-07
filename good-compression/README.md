@@ -59,6 +59,7 @@ game. See technical notes below for more details.
 - [Babric](<https://babric.github.io/use/installer/>)
 - [StationAPI](<https://modrinth.com/mod/stationapi>)
 - [Fabric Language Kotlin](<https://modrinth.com/mod/fabric-language-kotlin>)
+- [Glass Config API](<https://modrinth.com/mod/glass-config-api>)
 - [Good Asset Fetcher](<https://modrinth.com/mod/good-asset-fetcher>)
 
 ## Recommended

@@ -14,6 +14,7 @@
 - [Babric](<https://babric.github.io/use/installer/>)
 - [StationAPI](<https://modrinth.com/mod/stationapi>)
 - [Fabric Language Kotlin](<https://modrinth.com/mod/fabric-language-kotlin>)
+- [Glass Config API](<https://modrinth.com/mod/glass-config-api>)
 
 ## Recommended
 

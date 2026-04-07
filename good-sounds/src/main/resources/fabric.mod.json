@@ -29,7 +29,6 @@
         "value": "pw.tmpim.goodsounds.GoodSoundsClient"
       }
     ],
-    "stationapi:event_bus_server": [],
     "gcapi3": [
       {
         "adapter": "kotlin",
@@ -54,7 +53,8 @@
     "minecraft": "1.0.0-beta.7.3",
     "stationapi": ">=${stationApiMin}",
     "fabricloader": ">=${fabricLoaderMin}",
-    "fabric-language-kotlin": "*"
+    "fabric-language-kotlin": "*",
+    "gcapi3": ">=${gcapiMin}"
   },
   "suggests": {
     "modmenu": "*"

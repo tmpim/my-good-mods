@@ -65,7 +65,8 @@ allprojects {
       name = "Glass Maven (Releases)"
       content {
         includeGroupAndSubgroups("net.modificationstation") // StationAPI
-        includeGroupAndSubgroups("net.glasslauncher") // Biny (remapper), Glass Config, Always More Items
+        includeGroupAndSubgroups("net.glasslauncher") // Biny (remapper), Glass Config API, Glass Networking,
+                                                      // Always More Items
         includeGroupAndSubgroups("net.danygames2014") // modmenu, UniTweaks
         includeGroupAndSubgroups("me.carleslc") // Glass Config dependencies
       }
@@ -212,6 +213,8 @@ allprojects {
         "javaVersion" to libs.versions.java.get(),
         "stationApiMin" to libs.versions.stationapi.min.get(),
         "fabricLoaderMin" to libs.versions.fabric.loader.min.get(),
+        "gcapiMin" to libs.versions.glassconfigapi.min.get(),
+        "glassNetworkingMin" to libs.versions.glassnetworking.min.get(),
       )
 
       props.entries.forEach { (name, value) ->

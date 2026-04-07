@@ -30,7 +30,6 @@
         "value": "pw.tmpim.goodcompression.GoodCompressionClient"
       }
     ],
-    "stationapi:event_bus_server": [],
     "gcapi3": [
       {
         "adapter": "kotlin",
@@ -55,7 +54,8 @@
     "stationapi": ">=${stationApiMin}",
     "fabricloader": ">=${fabricLoaderMin}",
     "fabric-language-kotlin": "*",
-    "good-asset-fetcher": "*"
+    "good-asset-fetcher": "*",
+    "gcapi3": ">=${gcapiMin}"
   },
   "suggests": {
     "modmenu": "*"

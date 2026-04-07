@@ -30,7 +30,6 @@
         "value": "pw.tmpim.goodfood.GoodFoodClient"
       }
     ],
-    "stationapi:event_bus_server": [],
     "data": [
       {
         "adapter": "kotlin",

@@ -17,11 +17,6 @@
   "icon": "assets/good-sign-editing/icon.png",
 
   "environment": "*",
-  "entrypoints": {
-    "stationapi:event_bus": [],
-    "stationapi:event_bus_client": [],
-    "stationapi:event_bus_server": []
-  },
 
   "mixins": [
     "good-sign-editing.mixins.json"
