@@ -9,6 +9,7 @@
     "CropBlockMixin",
     "DyeItemMixin",
     "FarmlandBlockMixin",
+    "ItemEntityMixin",
     "SaplingBlockMixin",
     "ScreenHandlerMixin",
     "WorldMixin"
