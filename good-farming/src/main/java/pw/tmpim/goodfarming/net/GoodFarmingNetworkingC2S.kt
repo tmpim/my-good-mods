@@ -1,6 +1,7 @@
 package pw.tmpim.goodfarming.net
 
 import net.glasslauncher.mods.networking.GlassPacket
+import net.minecraft.client.Minecraft
 import net.minecraft.server.network.ServerPlayNetworkHandler
 import pw.tmpim.goodfarming.GoodFarming.log
 import pw.tmpim.goodfarming.GoodFarming.namespace
@@ -25,14 +26,15 @@ object GoodFarmingNetworkingC2S {
   /**
    * Handles the player's configuration sent to the server.
    */
-  fun onPlayerConfiguration(packet: GlassPacket, handler: ServerPlayNetworkHandler) {
+  fun onPlayerConfiguration(packet: GlassPacket, handler: ServerPlayNetworkHandler?) {
+    val player = handler?.player ?: Minecraft.INSTANCE.player
     try {
       PlayerConfigurationRegistry.putPlayerConfiguration(
-        handler.player,
+        player,
         PlayerConfiguration.fromNbt(packet.nbt)
       )
     } catch (e: Exception) {
-      log.error("invalid player configuration packet from ${handler.name}", e)
+      log.error("invalid player configuration packet from ${player.name}", e)
     }
   }
 }

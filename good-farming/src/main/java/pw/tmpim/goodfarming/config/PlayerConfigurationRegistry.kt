@@ -1,7 +1,6 @@
 package pw.tmpim.goodfarming.config
 
 import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.entity.player.ServerPlayerEntity
 import pw.tmpim.goodfarming.GoodFarming
 import pw.tmpim.goodfarming.GoodFarming.log
 import pw.tmpim.goodutils.misc.isServer
@@ -9,7 +8,7 @@ import java.util.*
 
 object PlayerConfigurationRegistry {
   // TODO: ensure this is never accessed off the world thread
-  private val playerConfigurationRegistry = WeakHashMap<ServerPlayerEntity, PlayerConfiguration>()
+  private val playerConfigurationRegistry = WeakHashMap<PlayerEntity, PlayerConfiguration>()
 
   val localConfig
     get() = with (GoodFarming.config) {
@@ -32,7 +31,7 @@ object PlayerConfigurationRegistry {
       localConfig
     }
 
-  fun putPlayerConfiguration(player: ServerPlayerEntity, configuration: PlayerConfiguration) {
+  fun putPlayerConfiguration(player: PlayerEntity, configuration: PlayerConfiguration) {
     log.debug("received configuration from {}", player.name)
     playerConfigurationRegistry[player] = configuration
   }

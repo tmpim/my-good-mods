@@ -41,6 +41,12 @@
         "adapter": "kotlin",
         "value": "pw.tmpim.goodflags.compat.ami.GoodFlagsAMIPlugin"
       }
+    ],
+    "glassnetworking": [
+      {
+        "adapter": "kotlin",
+        "value": "pw.tmpim.goodflags.net.GoodFlagsNetworking"
+      }
     ]
   },
 
@@ -50,6 +56,7 @@
     "minecraft": "1.0.0-beta.7.3",
     "stationapi": ">=${stationApiMin}",
     "fabricloader": ">=${fabricLoaderMin}",
-    "fabric-language-kotlin": "*"
+    "fabric-language-kotlin": "*",
+    "glassnetworking": ">=${glassNetworkingMin}"
   }
 }

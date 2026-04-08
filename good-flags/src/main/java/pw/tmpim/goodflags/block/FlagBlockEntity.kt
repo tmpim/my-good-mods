@@ -47,7 +47,7 @@ class FlagBlockEntity : BlockEntity() {
 
   /**
    * Called by the server when sending chunk data to clients.
-   * Returns a MessagePacket containing the flag's pixel data so the client receives it on login / chunk load.
+   * Returns a Packet containing the flag's pixel data so the client receives it on login / chunk load.
    */
   @Environment(EnvType.SERVER)
   override fun createUpdatePacket() =

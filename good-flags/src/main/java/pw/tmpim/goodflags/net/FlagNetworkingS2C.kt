@@ -1,13 +1,15 @@
 package pw.tmpim.goodflags.net
 
-import net.minecraft.entity.player.ClientPlayerEntity
-import net.minecraft.entity.player.PlayerEntity
-import net.modificationstation.stationapi.api.network.packet.MessagePacket
+import net.glasslauncher.mods.networking.GlassPacket
+import net.minecraft.client.Minecraft
+import net.minecraft.client.network.ClientNetworkHandler
 import pw.tmpim.goodflags.GoodFlags.namespace
 import pw.tmpim.goodflags.block.FlagBlockEntity
 import pw.tmpim.goodflags.block.FlagSpec.FLAG_HEIGHT
 import pw.tmpim.goodflags.block.FlagSpec.FLAG_WIDTH
 import pw.tmpim.goodflags.client.FlagPaintScreen
+import pw.tmpim.goodutils.net.GlassPacket
+
 
 object FlagNetworkingS2C {
   /** Server -> Client: open flag GUI */
@@ -16,63 +18,60 @@ object FlagNetworkingS2C {
   val FLAG_SYNC_ID = namespace.id("flag_sync")
 
   /**
-   * Server -> client packet to request the client opens the flag screen for a given flag.
+   * Server -> client: request the client opens the flag screen for a given flag.
    * Called by FlagBlock.onUse().
    */
-  fun createOpenPacket(x: Int, y: Int, z: Int): MessagePacket {
-    val packet = MessagePacket(FLAG_SCREEN_OPEN_ID)
-    packet.ints = intArrayOf(x, y, z)
-    packet.worldPacket = true
-    return packet
-  }
+  fun createFlagScreenOpenPacket(x: Int, y: Int, z: Int) =
+    GlassPacket(FLAG_SCREEN_OPEN_ID) {
+      putInt("x", x)
+      putInt("y", y)
+      putInt("z", z)
+    }
 
   /**
    * Create a sync packet for server -> client block entity updates.
-   * Called by FlagBlockEntity.createUpdatePacket().
+   * Called by FlagBlockEntity.createUpdatePacket()
    */
-  fun createSyncPacket(x: Int, y: Int, z: Int, pixels: ByteArray): MessagePacket {
-    val packet = MessagePacket(FLAG_SYNC_ID)
-    packet.ints = intArrayOf(x, y, z)
-    packet.bytes = pixels.copyOf()
-    packet.worldPacket = true
-    return packet
-  }
+  fun createSyncPacket(x: Int, y: Int, z: Int, pixels: ByteArray): GlassPacket =
+    GlassPacket(FLAG_SYNC_ID) {
+      putInt("x", x)
+      putInt("y", y)
+      putInt("z", z)
+      putByteArray("pixels", pixels.copyOf())
+    }
 
   /**
    * Handle a flag screen open packet (received on the client when they right-click a flag).
    */
-  fun handleFlagScreenOpen(player: PlayerEntity, packet: MessagePacket) {
-    if (player !is ClientPlayerEntity) return
+  fun onFlagScreenOpen(packet: GlassPacket, handler: ClientNetworkHandler?) {
+    val minecraft = handler?.minecraft ?: Minecraft.INSTANCE
+    val world = handler?.world ?: minecraft.world
+    val nbt = packet.nbt
 
-    val ints = packet.ints ?: return
-    if (ints.size < 3) return
+    val x = nbt.getInt("x")
+    val y = nbt.getInt("y")
+    val z = nbt.getInt("z")
 
-    val x = ints[0]
-    val y = ints[1]
-    val z = ints[2]
-
-    val world = player.world ?: return
     val entity = world.getBlockEntity(x, y, z)
     if (entity !is FlagBlockEntity) return
 
-    player.minecraft.setScreen(FlagPaintScreen(entity))
+    minecraft.setScreen(FlagPaintScreen(entity))
   }
 
   /**
    * Handle a flag sync packet (received on the client from the server on chunk load).
    */
-  fun handleFlagSync(player: PlayerEntity, packet: MessagePacket) {
-    val ints = packet.ints ?: return
-    val bytes = packet.bytes ?: return
+  fun onFlagSync(packet: GlassPacket, handler: ClientNetworkHandler?) {
+    val world = handler?.world ?: Minecraft.INSTANCE.world
+    val nbt = packet.nbt
 
-    if (ints.size < 3) return
+    val x = nbt.getInt("x")
+    val y = nbt.getInt("y")
+    val z = nbt.getInt("z")
+    val bytes = nbt.getByteArray("pixels")
+
     if (bytes.size != FLAG_WIDTH * FLAG_HEIGHT) return
 
-    val x = ints[0]
-    val y = ints[1]
-    val z = ints[2]
-
-    val world = player.world ?: return
     val entity = world.getBlockEntity(x, y, z)
     if (entity !is FlagBlockEntity) return
 

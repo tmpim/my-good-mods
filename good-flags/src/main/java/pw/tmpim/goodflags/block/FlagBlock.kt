@@ -10,11 +10,11 @@ import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.util.math.Box
 import net.minecraft.util.math.MathHelper
 import net.minecraft.world.World
-import net.modificationstation.stationapi.api.network.packet.PacketHelper
 import net.modificationstation.stationapi.api.template.block.TemplateBlockWithEntity
 import pw.tmpim.goodflags.GoodFlags
 import pw.tmpim.goodflags.GoodFlags.namespace
 import pw.tmpim.goodflags.net.FlagNetworkingS2C
+import pw.tmpim.goodutils.net.sendToPlayer
 
 class FlagBlock : TemplateBlockWithEntity(namespace.id("flag"), Material.WOOD) {
   init {
@@ -49,7 +49,7 @@ class FlagBlock : TemplateBlockWithEntity(namespace.id("flag"), Material.WOOD) {
     if (entity is FlagBlockEntity) {
       if (!world.isRemote) {
         // request to open the screen via a packet; will short-circuit in singleplayer
-        PacketHelper.sendTo(player, FlagNetworkingS2C.createOpenPacket(x, y, z))
+        FlagNetworkingS2C.createFlagScreenOpenPacket(x, y, z).sendToPlayer(player)
       }
 
       return true

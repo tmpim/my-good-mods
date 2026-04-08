@@ -109,7 +109,7 @@ class FlagPaintScreen(private val flagEntity: FlagBlockEntity) : Screen() {
       BTN_DONE   -> {
         System.arraycopy(localPixels, 0, flagEntity.pixels, 0, localPixels.size)
         flagEntity.dirty = true
-        FlagNetworkingC2S.sendFlagUpdate(flagEntity.x, flagEntity.y, flagEntity.z, localPixels)
+        FlagNetworkingC2S.createFlagUpdatePacket(flagEntity.x, flagEntity.y, flagEntity.z, localPixels)
       }
       BTN_CANCEL -> {}
     }

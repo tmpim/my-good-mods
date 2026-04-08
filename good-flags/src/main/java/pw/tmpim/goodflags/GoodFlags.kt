@@ -5,15 +5,12 @@ import net.minecraft.block.Block
 import net.modificationstation.stationapi.api.event.block.entity.BlockEntityRegisterEvent
 import net.modificationstation.stationapi.api.event.mod.InitEvent
 import net.modificationstation.stationapi.api.event.registry.BlockRegistryEvent
-import net.modificationstation.stationapi.api.event.registry.MessageListenerRegistryEvent
 import net.modificationstation.stationapi.api.util.Namespace
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import pw.tmpim.goodflags.block.FlagBlock
 import pw.tmpim.goodflags.block.FlagBlockEntity
 import pw.tmpim.goodflags.block.FlagPoleBlock
-import pw.tmpim.goodflags.net.FlagNetworkingC2S
-import pw.tmpim.goodflags.net.FlagNetworkingS2C
 
 object GoodFlags {
   const val MOD_ID = "good-flags"
@@ -41,13 +38,5 @@ object GoodFlags {
   @EventListener
   fun onRegisterBlockEntities(event: BlockEntityRegisterEvent) {
     event.register(FlagBlockEntity::class.java, "$MOD_ID:Flag")
-  }
-
-  @EventListener
-  fun onRegisterMessageListeners(event: MessageListenerRegistryEvent) {
-    event.register(FlagNetworkingS2C.FLAG_SCREEN_OPEN_ID, FlagNetworkingS2C::handleFlagScreenOpen)
-    event.register(FlagNetworkingS2C.FLAG_SYNC_ID, FlagNetworkingS2C::handleFlagSync)
-
-    event.register(FlagNetworkingC2S.FLAG_UPDATE_ID, FlagNetworkingC2S::handleFlagUpdate)
   }
 }

@@ -1,13 +1,14 @@
 package pw.tmpim.goodflags.net
 
-import net.minecraft.entity.player.PlayerEntity
-import net.modificationstation.stationapi.api.network.packet.MessagePacket
-import net.modificationstation.stationapi.api.network.packet.PacketHelper
+import net.glasslauncher.mods.networking.GlassPacket
+import net.minecraft.client.Minecraft
+import net.minecraft.server.network.ServerPlayNetworkHandler
 import pw.tmpim.goodflags.GoodFlags.log
 import pw.tmpim.goodflags.GoodFlags.namespace
 import pw.tmpim.goodflags.block.FlagBlockEntity
 import pw.tmpim.goodflags.block.FlagSpec.FLAG_HEIGHT
 import pw.tmpim.goodflags.block.FlagSpec.FLAG_WIDTH
+import pw.tmpim.goodutils.net.GlassPacket
 
 object FlagNetworkingC2S {
   /** Client -> Server: player edited a flag */
@@ -16,27 +17,27 @@ object FlagNetworkingC2S {
   /**
    * Send flag pixel data from the client to the server.
    */
-  fun sendFlagUpdate(x: Int, y: Int, z: Int, pixels: ByteArray) {
-    val packet = MessagePacket(FLAG_UPDATE_ID)
-    packet.ints = intArrayOf(x, y, z)
-    packet.bytes = pixels.copyOf()
-    packet.worldPacket = true
-    PacketHelper.send(packet)
-  }
+  fun createFlagUpdatePacket(x: Int, y: Int, z: Int, pixels: ByteArray) =
+    GlassPacket(FLAG_UPDATE_ID) {
+      putInt("x", x)
+      putInt("y", y)
+      putInt("z", z)
+      putByteArray("pixels", pixels.copyOf())
+    }
 
   /**
    * Handle a flag update packet (received on the server from a client edit).
    */
-  fun handleFlagUpdate(player: PlayerEntity, packet: MessagePacket) {
-    val ints = packet.ints ?: return
-    val bytes = packet.bytes ?: return
+  fun onFlagUpdate(packet: GlassPacket, handler: ServerPlayNetworkHandler?) {
+    val player = handler?.player ?: Minecraft.INSTANCE.player
+    val nbt = packet.nbt
 
-    if (ints.size < 3) return
+    val x = nbt.getInt("x")
+    val y = nbt.getInt("y")
+    val z = nbt.getInt("z")
+    val bytes = nbt.getByteArray("pixels")
+
     if (bytes.size != FLAG_WIDTH * FLAG_HEIGHT) return
-
-    val x = ints[0]
-    val y = ints[1]
-    val z = ints[2]
 
     // Validate distance (player must be within 8 blocks)
     val dx = player.x - (x + 0.5)

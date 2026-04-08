@@ -13,12 +13,14 @@ import net.modificationstation.stationapi.api.util.Identifier
 /** client --> server (server bound) */
 inline fun GlassPacketListener.registerC2S(
   id: Identifier,
-  crossinline handler: (GlassPacket, ServerPlayNetworkHandler) -> Unit
+  crossinline handler: (GlassPacket, ServerPlayNetworkHandler?) -> Unit
 ) = registerGlassPacket(
   id.toString(),
   { id, unknownHandler ->
-    handler(id, checkNotNull(unknownHandler as? ServerPlayNetworkHandler) {
-      "handler is not a ServerPlayNetworkHandler" // TODO: what about login?
+    handler(id, unknownHandler?.let {
+      checkNotNull(unknownHandler as? ServerPlayNetworkHandler) {
+        "handler is not a ServerPlayNetworkHandler, was ${unknownHandler::class.qualifiedName}" // TODO: what about login?
+      }
     })
   },
   false,
@@ -28,12 +30,14 @@ inline fun GlassPacketListener.registerC2S(
 /** server --> client (client bound) */
 inline fun GlassPacketListener.registerS2C(
   id: Identifier,
-  crossinline handler: (GlassPacket, ClientNetworkHandler) -> Unit
+  crossinline handler: (GlassPacket, ClientNetworkHandler?) -> Unit
 ) = registerGlassPacket(
   id.toString(),
   { id, unknownHandler ->
-    handler(id, checkNotNull(unknownHandler as? ClientNetworkHandler) {
-      "handler is not a ClientNetworkHandler"
+    handler(id, unknownHandler?.let {
+      checkNotNull(unknownHandler as? ClientNetworkHandler) {
+        "handler is not a ClientNetworkHandler, was ${unknownHandler::class.qualifiedName}"
+      }
     })
   },
   true, // client bound
