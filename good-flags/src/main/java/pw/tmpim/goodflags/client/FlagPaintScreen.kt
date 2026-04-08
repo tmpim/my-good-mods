@@ -14,6 +14,7 @@ import pw.tmpim.goodflags.block.FlagSpec.getGLColor
 import pw.tmpim.goodflags.data.TranslationString
 import pw.tmpim.goodflags.net.FlagNetworkingC2S
 import pw.tmpim.goodutils.i18n.i18n
+import pw.tmpim.goodutils.net.sendToServer
 import kotlin.math.abs
 
 private const val TC = TranslationString.COLOR
@@ -110,6 +111,7 @@ class FlagPaintScreen(private val flagEntity: FlagBlockEntity) : Screen() {
         System.arraycopy(localPixels, 0, flagEntity.pixels, 0, localPixels.size)
         flagEntity.dirty = true
         FlagNetworkingC2S.createFlagUpdatePacket(flagEntity.x, flagEntity.y, flagEntity.z, localPixels)
+          .sendToServer()
       }
       BTN_CANCEL -> {}
     }
