@@ -1,4 +1,21 @@
 classTweaker v1 named
 
-inject-interface net/minecraft/nbt/NbtCompound pw/tmpim/goodutils/NbtCompoundExt
+inject-interface net/minecraft/nbt/NbtCompound pw/tmpim/goodutils/nbt/NbtCompoundExtensions
 inject-interface net/minecraft/block/FarmlandBlock pw/tmpim/goodutils/block/FallableBlock
+
+# use a local instance or FabricExt.mcClient instead where possible; this gets initialised very late
+transitive-accessible field net/minecraft/client/Minecraft INSTANCE Lnet/minecraft/client/Minecraft;
+
+transitive-accessible field net/minecraft/nbt/NbtCompound entries Ljava/util/Map;
+
+transitive-accessible field net/minecraft/client/network/ClientNetworkHandler minecraft Lnet/minecraft/client/Minecraft;
+transitive-accessible field net/minecraft/client/network/ClientNetworkHandler world Lnet/minecraft/world/ClientWorld;
+transitive-accessible field net/minecraft/client/network/ClientNetworkHandler connection Lnet/minecraft/network/Connection;
+
+transitive-accessible field net/minecraft/server/network/ServerPlayNetworkHandler server Lnet/minecraft/server/MinecraftServer;
+transitive-accessible field net/minecraft/server/network/ServerPlayNetworkHandler player Lnet/minecraft/entity/player/ServerPlayerEntity;
+
+transitive-accessible field net/minecraft/server/network/ServerLoginNetworkHandler server Lnet/minecraft/server/MinecraftServer;
+transitive-accessible field net/minecraft/server/network/ServerLoginNetworkHandler username Ljava/lang/String;
+transitive-accessible field net/minecraft/server/network/ServerLoginNetworkHandler loginPacket Lnet/minecraft/network/packet/login/LoginHelloPacket;
+transitive-accessible field net/minecraft/server/network/ServerLoginNetworkHandler serverId Ljava/lang/String;

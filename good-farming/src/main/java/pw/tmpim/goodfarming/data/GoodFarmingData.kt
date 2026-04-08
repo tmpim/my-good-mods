@@ -16,6 +16,7 @@ object GoodFarmingData : DataEntrypoint {
     ctx.run(GoodFarmingItemTagProvider(ctx))
     ctx.run(GoodFarmingLanguageProvider(ctx))
 
+    ctx.run(GoodFarmingCropTypeProvider(ctx))
     ctx.run(GoodFarmingSeedTypeProvider(ctx))
   }
 }

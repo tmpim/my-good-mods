@@ -5,43 +5,52 @@ import net.minecraft.block.Block
 import net.modificationstation.stationapi.api.registry.BlockRegistry
 import net.modificationstation.stationapi.api.tag.TagKey
 import net.modificationstation.stationapi.api.util.Identifier
+import pw.tmpim.goodutils.block.BlockOrTag
+import pw.tmpim.goodutils.block.BlockWithMeta
 import kotlin.jvm.optionals.getOrNull
 
-// complement to stapi's JsonItemKey
+// based on stapi's JsonItemKey
 data class JsonBlockKey(
-  val block: String?,
+  val id: String?,
   val meta: Int,
   val tag: String?
 ) {
-  fun getRegisteredBlock(): Pair<Block, Int> =
-    checkNotNull(block) { "block is null" }.let {
-      checkNotNull(BlockRegistry.INSTANCE.get(Identifier.of(it))) { "block not found" } to meta
-    }
+  fun getRegisteredBlock(): BlockWithMeta {
+    val blockId = Identifier.of(checkNotNull(id) { "block is null" })
+
+    return BlockWithMeta(
+      block = checkNotNull(BlockRegistry.INSTANCE.get(blockId)) { "block not found" },
+      meta  = meta
+    )
+  }
 
   fun getRegisteredTag(): TagKey<Block> =
     TagKey.of(BlockRegistry.KEY, Identifier.of(checkNotNull(tag) { "tag is null" }))
 
-  fun get(): Either<Pair<Block, Int>, TagKey<Block>> = when {
-    block != null && tag == null ->
+  fun get(): BlockOrTag = when {
+    id != null && tag == null ->
       Either.left(getRegisteredBlock())
-    block == null && tag != null ->
+
+    id == null && tag != null ->
       Either.right(getRegisteredTag())
-    else -> error("Neither item nor tag, or both are specified in the JsonItemKey!")
+
+    else -> error("Neither id nor tag, or both are specified in the JsonItemKey!")
   }
 }
 
-fun Either<Pair<Block, Int>, TagKey<Block>>.toJsonBlockKey(): JsonBlockKey {
+fun BlockOrTag.toJsonBlockKey(): JsonBlockKey {
   val srcBlock = left()
     .map { (id, meta) ->
       checkNotNull(BlockRegistry.INSTANCE.getId(id)) { "block $id not found in registry" } to meta
     }
     .getOrNull()
   val srcTag = right().getOrNull()
-  check(srcBlock != null || srcTag != null) { "either block or tag must be specified" }
+
+  check(srcBlock != null || srcTag != null) { "either id or tag must be specified" }
 
   return JsonBlockKey(
-    block = srcBlock?.first?.toString(),
-    meta  = srcBlock?.second ?: -1,
-    tag   = srcTag?.id?.toString(),
+    id   = srcBlock?.first?.toString(),
+    meta = srcBlock?.second ?: -1,
+    tag  = srcTag?.id?.toString(),
   )
 }

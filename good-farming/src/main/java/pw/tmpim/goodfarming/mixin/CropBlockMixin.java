@@ -1,13 +1,15 @@
 package pw.tmpim.goodfarming.mixin;
 
 import net.minecraft.block.CropBlock;
+import net.minecraft.item.Item;
 import net.minecraft.world.World;
 import net.modificationstation.stationapi.api.block.BlockState;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import pw.tmpim.goodfarming.GoodFarming;
+import pw.tmpim.goodfarming.config.TweaksConfig;
+import pw.tmpim.goodfarming.item.DyeItemExt;
 
 @Mixin(
   value = CropBlock.class,
@@ -32,7 +34,8 @@ public class CropBlockMixin {
     BlockState state,
     CallbackInfoReturnable<Boolean> cir
   ) {
-    if (Boolean.TRUE.equals(GoodFarming.getConfig().bonemealWastageFixEnabled)) {
+    var user = ((DyeItemExt) Item.DYE).getGoodfarming$usingPlayer().get();
+    if (user != null && TweaksConfig.INSTANCE.isBonemealWastageFixEnabled(user)) {
       if (world.getBlockMeta(x, y, z) == 7) {
         cir.setReturnValue(false);
       }

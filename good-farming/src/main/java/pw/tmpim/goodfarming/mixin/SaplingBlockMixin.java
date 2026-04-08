@@ -3,6 +3,7 @@ package pw.tmpim.goodfarming.mixin;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import net.minecraft.block.SaplingBlock;
+import net.minecraft.item.Item;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.Feature;
 import net.modificationstation.stationapi.api.block.BlockState;
@@ -13,8 +14,9 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import pw.tmpim.goodfarming.GoodFarming;
 import pw.tmpim.goodfarming.block.SaplingBlockExt;
+import pw.tmpim.goodfarming.config.TweaksConfig;
+import pw.tmpim.goodfarming.item.DyeItemExt;
 
 import java.util.Random;
 
@@ -81,7 +83,8 @@ public class SaplingBlockMixin implements SaplingBlockExt {
     BlockState state,
     CallbackInfoReturnable<Boolean> cir
   ) {
-    if (Boolean.TRUE.equals(GoodFarming.getConfig().bonemealWastageFixEnabled)) {
+    var user = ((DyeItemExt) Item.DYE).getGoodfarming$usingPlayer().get();
+    if (user != null && TweaksConfig.INSTANCE.isBonemealWastageFixEnabled(user)) {
       if (!didGenerate.get()) {
         // the sapling didn't generate, don't consume the item
         cir.setReturnValue(false);

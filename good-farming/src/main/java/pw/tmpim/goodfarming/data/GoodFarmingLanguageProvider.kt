@@ -3,9 +3,9 @@ package pw.tmpim.goodfarming.data
 import emmathemartian.datagen.DataGenContext
 import emmathemartian.datagen.builder.LangBuilder
 import emmathemartian.datagen.provider.LanguageProvider
-import pw.tmpim.goodfarming.CONFIG_KEY
 import pw.tmpim.goodfarming.GoodFarming
 import pw.tmpim.goodfarming.GoodFarming.MOD_NAME
+import pw.tmpim.goodfarming.config.CONFIG_KEY
 import pw.tmpim.goodutils.i18n.sub
 
 private const val C = CONFIG_KEY
@@ -28,6 +28,10 @@ class GoodFarmingLanguageProvider(ctx: DataGenContext) : LanguageProvider(ctx) {
       .add("$C.seed_bag_throw_range.desc", "The range, in blocks, that the Seed Bag can be used from")
       .add("$C.seed_capacity", "Seed Bag capacity")
       .add("$C.seed_capacity.desc", "The maximum number of seeds the Seed Bag can store")
+      .add("$C.seed_bag_auto_pickup_enabled", "Seed Bag auto pickup enabled")
+      .add("$C.seed_bag_auto_pickup_enabled.desc", "Automatically put seeds into Seed Bags in your inventory when picked up")
+      .add("$C.seed_bag_overlay_enabled", "Seed Bag count overlay enabled")
+      .add("$C.seed_bag_overlay_enabled.desc", "Displays the amount of seeds in the Seed Bag in the hotbar and inventory")
       .add(GoodFarming.seedBag, "Seed Bag")
       .sub(GoodFarming.seedBag, "tooltip.seeds", "Contents: %,dx %s")
       .sub(GoodFarming.seedBag, "tooltip.unknown", "Unknown")

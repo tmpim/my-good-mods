@@ -1,5 +1,7 @@
 package pw.tmpim.goodfarming.item
 
+import net.fabricmc.api.EnvType
+import net.fabricmc.api.Environment
 import net.glasslauncher.mods.alwaysmoreitems.api.SubItemProvider
 import net.minecraft.client.font.TextRenderer
 import net.minecraft.client.render.item.ItemRenderer
@@ -21,12 +23,13 @@ import org.lwjgl.opengl.GL11.GL_LIGHTING
 import pw.tmpim.goodfarming.GoodFarming
 import pw.tmpim.goodfarming.GoodFarming.MOD_ID
 import pw.tmpim.goodfarming.GoodFarming.namespace
-import pw.tmpim.goodfarming.item.SeedType.Companion.matches
-import pw.tmpim.goodutils.getIdentifier
+import pw.tmpim.goodutils.block.matches
 import pw.tmpim.goodutils.i18n.getItemSubKey
 import pw.tmpim.goodutils.i18n.i18n
-import pw.tmpim.goodutils.putIdentifier
-import pw.tmpim.goodutils.removeTag
+import pw.tmpim.goodutils.item.toFirstItemStack
+import pw.tmpim.goodutils.nbt.getId
+import pw.tmpim.goodutils.nbt.putId
+import pw.tmpim.goodutils.nbt.remove
 import pw.tmpim.goodutils.world.spiral3D
 import kotlin.math.ceil
 import kotlin.math.max
@@ -54,8 +57,8 @@ class SeedBagItem :
     if (side != Direction.UP.id || world.isRemote) return false
 
     val (type, count) = getStackSeeds(stack) ?: return false
-    val seeds = type.firstItem ?: return false
     var remaining = count
+    val seeds = type.item.toFirstItemStack(remaining) ?: return false
 
     // try to plant seeds within the range, Y-major
     val lateralRadius = config.seedBagPlantLateralRadius ?: 3
@@ -68,8 +71,6 @@ class SeedBagItem :
         if (block.isAir) return@forEach
         val meta = world.getBlockMeta(x, y, z)
 
-        seeds.count = 1 // keep the stack updated with a fake count in case useOnBlock mutates it
-
         if (
           // check we can use the seeds on this block
           (type.plantOnBlocks == null || type.plantOnBlocks.any { it.matches(block, meta) })
@@ -78,8 +79,6 @@ class SeedBagItem :
         ) {
           remaining--
         }
-
-        seeds.count = 1
       }
 
     // save the count back to the bag's nbt
@@ -106,15 +105,13 @@ class SeedBagItem :
     originalTooltip: String
   ): Array<out String> {
     val (type, count) = getStackSeeds(stack) ?: return arrayOf(originalTooltip)
-    val item = type.firstItem
+    val item = type.cachedFirstItem
     val itemName = item?.translationKey?.let { "$it.name".i18n() }
+      ?: getItemSubKey(this, "tooltip.unknown").i18n()
 
     return arrayOf(
       originalTooltip,
-      "§7" + getItemSubKey(this, "tooltip.seeds").i18n(
-        count,
-        itemName ?: getItemSubKey(this, "tooltip.unknown").i18n()
-      ),
+      "§7" + getItemSubKey(this, "tooltip.seeds").i18n(count, itemName),
     )
   }
 
@@ -123,6 +120,7 @@ class SeedBagItem :
     return type.texture.index
   }
 
+  @Environment(EnvType.CLIENT)
   override fun renderItemOverlay(
     item: ItemRenderer,
     itemX: Int,
@@ -169,7 +167,7 @@ class SeedBagItem :
       val nbt = bagStack.stationNbt.takeIf { it.contains(SEED_TYPE_KEY) } ?: return null
 
       val count = nbt.getInt(SEED_COUNT_KEY).takeIf { it > 0 } ?: return null
-      val typeId = nbt.getIdentifier(SEED_TYPE_KEY) ?: return null
+      val typeId = nbt.getId(SEED_TYPE_KEY) ?: return null
       val type = SeedTypeRegistry.get(typeId) ?: return null
 
       return type to count
@@ -181,12 +179,12 @@ class SeedBagItem :
       if (seeds == null || count <= 0) {
         // exhaust the bag
         bagStack.damage = 0
-        nbt.removeTag(SEED_TYPE_KEY)
-        nbt.removeTag(SEED_COUNT_KEY)
+        nbt.remove(SEED_TYPE_KEY)
+        nbt.remove(SEED_COUNT_KEY)
       } else {
         // set the stack damage, without affecting the bag's count (i.e. don't use damage() here)
         bagStack.damage = max(0, bagStack.maxDamage - count)
-        nbt.putIdentifier(SEED_TYPE_KEY, seeds.id)
+        nbt.putId(SEED_TYPE_KEY, seeds.id)
         nbt.putInt(SEED_COUNT_KEY, count)
       }
 

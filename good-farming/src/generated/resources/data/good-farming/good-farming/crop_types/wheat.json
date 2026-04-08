@@ -1,0 +1,14 @@
+{
+  "crops": [
+    {
+      "id": "minecraft:wheat",
+      "meta": 7
+    }
+  ],
+  "seeds": [
+    {
+      "id": "minecraft:wheat_seeds",
+      "damage": -1
+    }
+  ]
+}

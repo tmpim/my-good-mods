@@ -10,10 +10,15 @@
     "DyeItemMixin",
     "FarmlandBlockMixin",
     "SaplingBlockMixin",
-    "ScreenHandlerMixin"
+    "ScreenHandlerMixin",
+    "WorldMixin"
   ],
-  "server": [],
-  "client": [],
+  "server": [
+    "ServerPlayerInteractionManagerMixin"
+  ],
+  "client": [
+    "InteractionManagerMixin"
+  ],
   "injectors": {
     "defaultRequire": 1
   },

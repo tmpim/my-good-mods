@@ -19,7 +19,8 @@ Other tweaks include:
   the crops instead.
 - Prevents consuming Bone Meal when used on fully grown wheat and saplings that can't grow (doesn't affect modded 
   blocks)
-- Quick replanting by right-clicking on crops if you have the seeds
+- Quick replanting by right-clicking on crops if you have the seeds. Will automatically use the seeds from the harvested
+  crop, seeds from your inventory, and seeds from Seed Bags in your inventory.
 
 ![Screenshot of Minecraft Beta 1.7.3 farm. The text reads 'Plant many items at once!', 'Seeds', 'Bone Meal', and 'Walk 
 without trampling crops!'](images/demo.png)

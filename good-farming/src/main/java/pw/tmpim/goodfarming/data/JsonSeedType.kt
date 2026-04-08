@@ -1,7 +1,7 @@
 package pw.tmpim.goodfarming.data
 
-import net.modificationstation.stationapi.api.item.json.JsonItemKey
 import pw.tmpim.goodutils.data.JsonBlockKey
+import pw.tmpim.goodutils.data.JsonItemKey
 
 data class JsonSeedType(
   /**

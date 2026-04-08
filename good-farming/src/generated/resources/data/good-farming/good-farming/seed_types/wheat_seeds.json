@@ -1,8 +1,7 @@
 {
   "item": {
-    "item": "minecraft:wheat_seeds",
-    "count": 1,
-    "damage": 0
+    "id": "minecraft:wheat_seeds",
+    "damage": -1
   },
   "textureId": "good-farming:item/seed_bag_wheat_seeds"
 }

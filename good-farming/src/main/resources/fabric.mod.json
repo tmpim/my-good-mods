@@ -36,6 +36,18 @@
         "value": "pw.tmpim.goodfarming.GoodFarming"
       }
     ],
+    "gcapi3:presave": [
+      {
+        "adapter": "kotlin",
+        "value": "pw.tmpim.goodfarming.GoodFarming"
+      }
+    ],
+    "gcapi3:postload": [
+      {
+        "adapter": "kotlin",
+        "value": "pw.tmpim.goodfarming.GoodFarming"
+      }
+    ],
     "data": [
       {
         "adapter": "kotlin",
@@ -46,6 +58,12 @@
       {
         "adapter": "kotlin",
         "value": "pw.tmpim.goodfarming.compat.ami.GoodFarmingAMIPlugin"
+      }
+    ],
+    "glassnetworking": [
+      {
+        "adapter": "kotlin",
+        "value": "pw.tmpim.goodfarming.net.GoodFarmingNetworking"
       }
     ]
   },

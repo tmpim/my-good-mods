@@ -1,4 +1,4 @@
-package pw.tmpim.goodfarming
+package pw.tmpim.goodfarming.config
 
 import net.glasslauncher.mods.gcapi3.api.ConfigEntry
 import pw.tmpim.goodfarming.GoodFarming.MOD_ID
@@ -13,7 +13,6 @@ class GoodFarmingConfig {
     nameKey = "$C.trampling_nerf_enabled",
     description = "If enabled, farmland is only trampled when jumping, not walking",
     descriptionKey = "$C.trampling_nerf_enabled.desc",
-    multiplayerSynced = true,
   )
   var tramplingNerfEnabled: Boolean? = true
 
@@ -23,7 +22,6 @@ class GoodFarmingConfig {
     nameKey = "$C.bonemeal_wastage_fix_enabled",
     description = "Prevents consuming Bone Meal when used on fully grown wheat and saplings that can't grow (doesn't affect modded blocks)",
     descriptionKey = "$C.bonemeal_wastage_fix_enabled.desc",
-    multiplayerSynced = true,
   )
   var bonemealWastageFixEnabled: Boolean? = true
 
@@ -33,7 +31,6 @@ class GoodFarmingConfig {
     nameKey = "$C.quick_replanting_enabled",
     description = "Allow replanting crops with right-click (if you have the seeds)",
     descriptionKey = "$C.quick_replanting_enabled.desc",
-    multiplayerSynced = true,
   )
   var quickReplantingEnabled: Boolean? = true
 
@@ -84,6 +81,15 @@ class GoodFarmingConfig {
      multiplayerSynced = true,
    )
    var seedBagCapacity: Int? = 512
+
+   @JvmField
+   @ConfigEntry(
+     name = "Seed Bag auto pickup enabled",
+     nameKey = "$C.seed_bag_auto_pickup_enabled",
+     description = "Automatically put seeds into Seed Bags in your inventory when picked up",
+     descriptionKey = "$C.seed_bag_auto_pickup_enabled.desc",
+   )
+   var seedBagAutoPickupEnabled: Boolean? = true
 
    @JvmField
    @ConfigEntry(

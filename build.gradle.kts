@@ -162,6 +162,8 @@ allprojects {
     }
 
     loom {
+      enableTransitiveAccessWideners = true
+
       // class tweaker
       val classTweakerPath = file("src/main/resources/$name.classtweaker")
       if (classTweakerPath.exists()) {
