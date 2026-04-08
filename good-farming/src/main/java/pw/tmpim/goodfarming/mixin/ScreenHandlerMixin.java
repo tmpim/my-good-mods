@@ -36,7 +36,6 @@ public abstract class ScreenHandlerMixin {
 
     // fix: call onSlotUpdate on the inventory, too
     var inv = instance.inventory;
-    System.out.println("slot dirty " + instance + " inv: " + inv);
     if (inv != null) onSlotUpdate(inv);
   }
 
@@ -59,7 +58,6 @@ public abstract class ScreenHandlerMixin {
   ) {
     // fix: call onSlotUpdate on the inventory, too
     var inv = slot.inventory;
-    System.out.println("slot dirty " + slot + " inv: " + inv);
     if (inv != null) onSlotUpdate(inv);
   }
 }
