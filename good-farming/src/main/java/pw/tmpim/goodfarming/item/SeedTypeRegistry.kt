@@ -47,6 +47,13 @@ object SeedTypeRegistry : IdentifiableResourceReloadListener {
     prepareExecutor: Executor,
     applyExecutor: Executor
   ): CompletableFuture<Void> {
+    // work around a bug with gson/mixin/unsafeevents classloading where gson disappears from the classpath during
+    // resource loading if we don't pre-initialise the type adapter first
+    // only the first resource loader (CropTypeRegistry) actually needs to do this, but to be safe let's do it in all
+    // of them
+    // TODO: solve and remove this
+    gson.getAdapter(JsonSeedType::class.java)
+
     return reloadSeedTypes(manager, prepareExecutor) // parse json
       .thenCompose(synchronizer::whenPrepared) // wait for other resources
       .thenAcceptAsync({ resources ->

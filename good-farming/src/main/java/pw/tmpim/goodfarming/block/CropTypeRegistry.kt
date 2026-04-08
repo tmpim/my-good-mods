@@ -10,7 +10,7 @@ import net.modificationstation.stationapi.api.util.Identifier
 import net.modificationstation.stationapi.api.util.JsonHelper
 import net.modificationstation.stationapi.api.util.Util
 import net.modificationstation.stationapi.api.util.profiler.Profiler
-import pw.tmpim.goodfarming.GoodFarming
+import pw.tmpim.goodfarming.GoodFarming.log
 import pw.tmpim.goodfarming.GoodFarming.namespace
 import pw.tmpim.goodfarming.data.JsonCropType
 import java.util.concurrent.CompletableFuture
@@ -40,6 +40,11 @@ object CropTypeRegistry : IdentifiableResourceReloadListener {
     prepareExecutor: Executor,
     applyExecutor: Executor
   ): CompletableFuture<Void> {
+    // work around a bug with gson/mixin/unsafeevents classloading where gson disappears from the classpath during
+    // resource loading if we don't pre-initialise the type adapter first
+    // TODO: solve and remove this
+    gson.getAdapter(JsonCropType::class.java)
+
     return reloadCropTypes(manager, prepareExecutor) // parse json
       .thenCompose(synchronizer::whenPrepared) // wait for other resources
       .thenAcceptAsync({ resources ->
@@ -65,7 +70,7 @@ object CropTypeRegistry : IdentifiableResourceReloadListener {
               id to JsonHelper.deserialize(gson, reader, JsonCropType::class.java)!!
             }
           } catch (e: Exception) {
-            GoodFarming.log.error("failed to load crop type {}", id, e)
+            log.error("failed to load crop type {}", id, e)
             null
           }
         }
@@ -89,9 +94,9 @@ object CropTypeRegistry : IdentifiableResourceReloadListener {
     try {
       val cropType = buildCropType(id, json)
       newRegistry[id] = cropType
-      GoodFarming.log.debug("successfully registered crop type {}: {}", id, cropType)
+      log.debug("successfully registered crop type {}: {}", id, cropType)
     } catch (e: Exception) {
-      GoodFarming.log.error("failed to register crop type {}", id, e)
+      log.error("failed to register crop type {}", id, e)
     }
   }
 }

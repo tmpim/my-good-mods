@@ -115,9 +115,10 @@ class SeedBagItem :
     )
   }
 
+  @Environment(EnvType.CLIENT)
   override fun getTextureId(stack: ItemStack): Int {
-    val (type) = getStackSeeds(stack) ?: return SeedType.baseTexture.index
-    return type.texture.index
+    val (type) = getStackSeeds(stack) ?: return SeedBagTextureRegistry.baseTexture.index
+    return SeedBagTextureRegistry.getBagTexture(type).index
   }
 
   @Environment(EnvType.CLIENT)
