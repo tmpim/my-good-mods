@@ -48,6 +48,6 @@
     "stationapi": ">=${stationApiMin}",
     "fabricloader": ">=${fabricLoaderMin}",
     "fabric-language-kotlin": "*",
-    "gcapi3": ">={gcapiMin}"
+    "gcapi3": ">=${gcapiMin}"
   }
 }
