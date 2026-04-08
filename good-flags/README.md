@@ -8,6 +8,26 @@
 [![Download on Modrinth](../images/modrinth.png)](https://modrinth.com/mod/good-flags/)
 <!-- modrinth_exclude.end -->
 
+Beta 1.7.3 mod to add flags to the game. Flags have a 48x32 canvases supporting the 16 colours of wool, and can be
+painted on by players by right-clicking the flag.
+
+![Screenshot of Minecraft Beta 1.7.3 showing two flags painted by a player placed in the world. One flag is the 
+transgender pride flag, and the other is the rainbow pride flag.](images/demo.png)
+![Screenshot of Minecraft Beta 1.7.3 showing the flag painting screen. The player has drawn the text "Good Flags" using
+the pencil tool, and filled each letter with red, orange, yellow, green, and light blue using the fill 
+tool.](images/demo3.png)
+
+## Items
+
+#### Flag
+
+![Recipe for the Flag, which requires three Sticks vertically, and four Wool in a 2x2 square in the top-right.](images/recipe-flag.png)
+
+3x Stick + 4x Wool → 1x Flag. Any wool can be used. 
+
+A flag is approximately 3 blocks tall and 2 blocks wide, and is placed facing towards the player. The flag can be 
+painted on by right-clicking it. The flag's canvas area is 48 by 32 pixels.
+
 ## Compatibility
 
 This mod has no known compatibility issues. It adds explicit compatibility with
