@@ -11,7 +11,11 @@ import java.util.*
 
 class FlagPoleBlock : TemplateBlock(namespace.id("flagpole"), Material.WOOD) {
   init {
+    textureId = LOG.textureId
     setTranslationKey(namespace, "flagpole")
+    setHardness(1.0F)
+    setResistance(1.0F)
+    setSoundGroup(WOOD_SOUND_GROUP)
     FlagBlock.applyBoundingBox(this)
   }
 

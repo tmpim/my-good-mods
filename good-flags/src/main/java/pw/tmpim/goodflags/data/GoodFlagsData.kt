@@ -11,5 +11,6 @@ object GoodFlagsData : DataEntrypoint {
     val ctx = DataGenContext(namespace)
     ctx.run(GoodFlagsCraftingRecipeProvider(ctx))
     ctx.run(GoodFlagsLanguageProvider(ctx))
+    ctx.run(MinecraftTagProvider(DataGenContext(Namespace.MINECRAFT)))
   }
 }

@@ -18,6 +18,7 @@ import pw.tmpim.goodutils.net.sendToPlayer
 
 class FlagBlock : TemplateBlockWithEntity(namespace.id("flag"), Material.WOOD) {
   init {
+    textureId = LOG.textureId
     setTranslationKey(namespace, "flag")
     setHardness(1.0F)
     setResistance(1.0F)
