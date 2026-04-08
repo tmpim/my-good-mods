@@ -65,10 +65,6 @@ class FlagBlock : TemplateBlockWithEntity(namespace.id("flag"), Material.WOOD) {
       && world.getBlockId(x, y + 1, z) == 0
       && world.getBlockId(x, y + 2, z) == 0
 
-  override fun onPlaced(world: World, x: Int, y: Int, z: Int) {
-    super.onPlaced(world, x, y, z)
-  }
-
   override fun onPlaced(world: World, x: Int, y: Int, z: Int, placer: LivingEntity) {
     val rotation = (MathHelper.floor((placer.yaw * 4.0F / 360.0F) + 0.5) and 3)
     world.setBlockMeta(x, y, z, rotation)

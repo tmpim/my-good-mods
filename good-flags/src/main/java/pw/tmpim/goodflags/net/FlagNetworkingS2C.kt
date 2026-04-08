@@ -38,6 +38,9 @@ object FlagNetworkingS2C {
       putInt("y", y)
       putInt("z", z)
       putByteArray("pixels", pixels.copyOf())
+    }.apply {
+      // ensure they are sent *after* chunk data (delayedSendQueue) so that the block entities exist on the client
+      worldPacket = true
     }
 
   /**
