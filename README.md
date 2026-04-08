@@ -42,6 +42,14 @@ dependencies {
 
 Then run `--refresh-dependencies` with any Gradle task, e.g. `./gradlew clean --refresh-dependencies`.
 
+#### Transitive access wideners are missing, e.g. `ServerPlayNetworkHandler.player`, `Minecraft.INSTANCE`
+
+First of all, don't run `genSources` as it can mess with TAWs.
+
+Nuke `.gradle/loom-caches` for the root project, `good-utils`, and the mod you're working on (or all subprojects).
+
+Then run the `build` task on the root project.
+
 # License
 
 All mods, code, and assets in this repository are licensed under the [MIT License](./LICENSE) unless otherwise
