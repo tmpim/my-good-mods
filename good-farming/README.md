@@ -12,7 +12,8 @@ Beta 1.7.3 additions and tweaks to make farming easier.
 
 Adds a Seed Bag, which stores up to 512 Seeds or Bone Meal, and plants on farmland in a 7×5×7 area by right-clicking
 it on top of a block. The bag can also be used from further away than regular items (5 blocks). A Seed Bag can only hold 
-one type of item, and cannot be emptied other than by using it.
+one type of item, and cannot be emptied other than by using it. Seeds picked up will automatically go into Seed Bags in
+your inventory that already contain at least one seed.
 
 Other tweaks include:
 - Nerfs crop trampling, replicating the behaviour of modern versions where you need to fall from a height to trample
@@ -48,7 +49,7 @@ without trampling crops!'](images/demo.png)
 ## Compatibility
 
 This mod has no known major compatibility issues. Functionality on modded blocks by design isn't effective without
-adding datapack entries; see [Data packs](#data-packs). 
+adding datapack entries; see [Datapack format](#datapack-format). 
 
 The mod adds explicit compatibility with [Always More Items](<https://modrinth.com/mod/always-more-items>).
 
@@ -93,11 +94,14 @@ seedBagThrowRange: 5.0
 # The maximum number of seeds the Seed Bag can store
 seedBagCapacity: 512
 
+# Automatically put seeds into Seed Bags in your inventory when picked up
+seedBagAutoPickupEnabled: true
+
 # Displays the amount of seeds in the Seed Bag in the hotbar and inventory
 seedBagOverlayEnabled: true
 ```
 
-## Data packs
+## Datapack format
 
 #### Seed types
 
@@ -136,7 +140,7 @@ namespace. For example, `data/good-farming/good-farming/seed_types/bone_meal.jso
     match all damage values.
 - **textureId**: (optional) The resource ID of the texture to use for the Seed Bag when it contains these seeds. If a
   texture isn't specified, it will fall back to the empty Seed Bag texture.
-- **plantOnBlocks*: (optional) List of blocks that seeds will attempt to be planted on. If not specified, they will
+- **plantOnBlocks**: (optional) List of blocks that seeds will attempt to be planted on. If not specified, they will
   be planted on any block that the item's class can use.
   - **id**: The ID of the block to use. Must be specified if **tag** is not.
   - **tag**: The block tag to use. Must be specified if **id** is not.
@@ -147,29 +151,76 @@ Mods can provide their own seed types by placing the corresponding JSON files in
 Good Farming also provides an API for datagenning seed types with
 [stapi-datagen](<https://github.com/EmmaTheMartian/stapi-datagen>): 
 [SeedTypeProvider](<https://github.com/tmpim/my-good-mods/blob/HEAD/good-farming/src/main/java/pw/tmpim/goodfarming/api/SeedTypeProvider.kt>).
-See [GoodFarmingSeedTypeProvider.kt](<https://github.com/tmpim/my-good-mods/blob/master/good-farming/src/main/java/pw/tmpim/goodfarming/data/GoodFarmingSeedTypeProvider.kt>) for an example.
+See [GoodFarmingSeedTypeProvider.kt](<https://github.com/tmpim/my-good-mods/blob/master/good-farming/src/main/java/pw/tmpim/goodfarming/data/GoodFarmingSeedTypeProvider.kt>) 
+for an example.
+
+#### Crop types
+
+The types of seeds that can be quick-harvested by right-clicking are provided via datapacks in the 
+`good-farming:crop_types` namespace. For example, `data/good-farming/good-farming/crop_types/wheat.json`:
+
+```json
+{
+  "crops": [
+    {
+      "id": "minecraft:wheat",
+      "meta": 7
+    }
+  ],
+  "seeds": [
+    {
+      "id": "minecraft:wheat_seeds",
+      "damage": -1
+    }
+  ]
+}
+```
+
+- **crops**: List of blocks that can be quick-harvested by right-clicking.
+    - **id**: The ID of the block to use. Must be specified if **tag** is not.
+    - **tag**: The block tag to use. Must be specified if **id** is not.
+    - **meta**: (optional) If **id** is specified, the meta value of the block to match. Leave blank or set to -1 to
+      match all meta values.
+- **seeds**: (optional) List of items that can be replanted here when the block is quick-harvested. When the block is
+  broken, its drops will be searched for *one* of these items, and then that item will be replanted in the same spot. If
+  it isn't found, then the player's hand, hotbar, and inventory are searched for matching seeds or a matching Seed Bag
+  containing the seeds; whichever is found first.
+    - **id**: The ID of the item. Must be specified if **tag** is not.
+    - **tag**: The item tag to use. Must be specified if **id** is not.
+    - **damage**: (optional) If **id** is specified, the damage value of the item to match. Leave blank or set to -1 to
+      match all damage values.
+
+Mods can provide their own crop types by placing the corresponding JSON files in `data/$modId/good-farming/crop_types`.
+Good Farming also provides an API for datagenning crop types with
+[stapi-datagen](<https://github.com/EmmaTheMartian/stapi-datagen>):
+[CropTypeProvider](<https://github.com/tmpim/my-good-mods/blob/HEAD/good-farming/src/main/java/pw/tmpim/goodfarming/api/CropTypeProvider.kt>).
+See [GoodFarmingCropTypeProvider.kt](<https://github.com/tmpim/my-good-mods/blob/master/good-farming/src/main/java/pw/tmpim/goodfarming/data/GoodFarmingCropTypeProvider.kt>) 
+for an example.
+
+#### Datapacks in StationAPI
 
 Note that StationAPI currently doesn't support loading datapacks outside of mods. If you as a player or server admin
 would like to modify the built-in seed types, you can do this by wrapping your datapack in a mod:
 
-1. Create a folder for your datapack, e.g. `good-farming-example`.
-2. Place your JSON files in `good-farming-example/data/good-farming-example/good-farming/seed_types`.
+1. Create a folder for your datapack, e.g. `example-pack`.
+2. Place your JSON files in `example-pack/data/example-pack/good-farming/seed_types` or
+   `example-pack/data/example-pack/good-farming/crop_types`.
 3. Place a [`fabric.mod.json`](<https://wiki.fabricmc.net/documentation:fabric_mod_json>) 
    ([spec](<https://wiki.fabricmc.net/documentation:fabric_mod_json_spec>)) file in the root with the following 
    contents:
     ```json
     {
       "schemaVersion": 1,
-      "id": "good-farming-example",
+      "id": "example-pack",
       "version": "1.0.0",
-      "name": "Good Farming Example",
+      "name": "Example Pack for Good Farming",
       "description": "Your own changes to Good Farming's data here!"
     }
     ```
    Note that `name` and `description` are technically optional, but Mod Menu will crash if they're not set.
 4. Zip the *contents* of the datapack's folder. i.e. the root of the zip should contain `fabric.mod.json` and `data`.
-5. Rename the zip to `.jar`, e.g. `good-farming-example.jar`.
-6. Place the jar in your `mods` folder, e.g. `.minecraft/mods/good-farming-example.jar`.
+5. Rename the zip to `.jar`, e.g. `example-pack.jar`.
+6. Place the jar in your `mods` folder, e.g. `.minecraft/mods/example-pack.jar`.
 7. Restart the game.
 
 ## License
