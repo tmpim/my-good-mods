@@ -1,0 +1,4 @@
+gui.good-stacks.config.max_stack_size=Maximum stack size
+gui.good-stacks.config.max_stack_size.desc=Overrides the maximum stack size for any item with the default stack size (64)
+gui.good-stacks.config.name=Good Stacks
+

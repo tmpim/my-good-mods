@@ -38,6 +38,7 @@ include("good-flags")
 include("good-food")
 include("good-sign-editing")
 include("good-sounds")
+include("good-stacks")
 
 // everything else mod/incubator
 include("good-mod")

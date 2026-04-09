@@ -1,0 +1,76 @@
+{
+  "schemaVersion": 1,
+  "id": "good-stacks",
+  "version": "${version}",
+
+  "name": "Good Stacks",
+  "description": "Overrides the maximum stack size for any item with the default stack size (64)",
+  "authors": [
+    "tmpim",
+    "Lemmmy"
+  ],
+  "contact": {
+    "sources": "https://github.com/tmpim/my-good-mods"
+  },
+
+  "license": "MIT",
+  "icon": "assets/good-stacks/icon.png",
+
+  "environment": "*",
+  "entrypoints": {
+    "stationapi:event_bus": [
+      {
+        "adapter": "kotlin",
+        "value": "pw.tmpim.goodstacks.GoodStacks"
+      }
+    ],
+    "stationapi:event_bus_client": [
+      {
+        "adapter": "kotlin",
+        "value": "pw.tmpim.goodstacks.GoodStacksClient"
+      }
+    ],
+    "gcapi3": [
+      {
+        "adapter": "kotlin",
+        "value": "pw.tmpim.goodstacks.GoodStacks"
+      }
+    ],
+    "data": [
+      {
+        "adapter": "kotlin",
+        "value": "pw.tmpim.goodstacks.data.GoodStacksData"
+      }
+    ],
+    "gcapi3:postload": [
+      {
+        "adapter": "kotlin",
+        "value": "pw.tmpim.goodstacks.GoodStacks"
+      }
+    ],
+    "gcapi3:presave": [
+      {
+        "adapter": "kotlin",
+        "value": "pw.tmpim.goodstacks.GoodStacks"
+      }
+    ]
+  },
+
+  "mixins": [
+    "good-stacks.mixins.json"
+  ],
+
+  "accessWidener": "good-stacks.classtweaker",
+
+  "depends": {
+    "minecraft": "1.0.0-beta.7.3",
+    "java": ">=${javaVersion}",
+    "stationapi": ">=${stationApiMin}",
+    "fabricloader": ">=${fabricLoaderMin}",
+    "fabric-language-kotlin": "*",
+    "gcapi3": ">=${gcapiMin}"
+  },
+  "suggests": {
+    "modmenu": "*"
+  }
+}
