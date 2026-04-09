@@ -1,5 +1,7 @@
 package pw.tmpim.gooddeathmessages.mixin;
 
+import net.glasslauncher.mods.networking.GlassNetworking;
+import net.glasslauncher.mods.networking.GlassPacket;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
@@ -23,10 +25,8 @@ public abstract class ServerPlayerEntityMixin extends PlayerEntity {
 
   @Inject(method = "onKilledBy", at = @At("TAIL"))
   private void onKilledBy(Entity killer, CallbackInfo ci) {
-    var message = DeathRegistry.createMessage(this, killer);
-    if (message == null) return;
-
-    server.sendMessage(message);
-    server.playerManager.broadcast(message);
+    GlassPacket packet = DeathRegistry.createPacket(this, killer);
+    if (packet == null) return;
+    for (Object player : server.playerManager.players) GlassNetworking.sendToPlayer((PlayerEntity) player, packet);
   }
 }

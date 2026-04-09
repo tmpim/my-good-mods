@@ -1,10 +1,12 @@
 package pw.tmpim.gooddeathmessages
 
+import net.glasslauncher.mods.networking.GlassPacket
 import net.minecraft.entity.Entity
 import net.minecraft.entity.EntityRegistry
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.projectile.ArrowEntity
 import net.minecraft.entity.projectile.FireballEntity
+import pw.tmpim.goodutils.net.UtilNetworkingS2C
 
 object DeathRegistry {
   // Registering & Resolution
@@ -42,18 +44,32 @@ object DeathRegistry {
   }
 
   @JvmStatic
-  fun createMessage(victim: PlayerEntity, killer: Entity?): String? {
+  fun resolveCause(victim: PlayerEntity, killer: Entity?): DeathHooks.Cause? {
     if (GoodDeathMessages.config.deathMessagesEnabled != true) {
       return null
     }
 
     for (cause in causes) {
       if (cause.test(victim, killer)) {
-        return cause.translate(victim, killer)
+        return cause
       }
     }
 
-    return DeathHooks.GENERIC.translate(victim, killer)
+    return DeathHooks.GENERIC
+  }
+
+  @JvmStatic
+  fun createMessage(victim: PlayerEntity, killer: Entity?): String? {
+    val cause = resolveCause(victim, killer) ?: return null
+    return cause.translate(victim, killer)
+  }
+
+  @JvmStatic
+  fun createPacket(victim: PlayerEntity, killer: Entity?): GlassPacket? {
+    val cause = resolveCause(victim, killer) ?: return null
+    cause.values(victim, killer).apply {
+      return UtilNetworkingS2C.createTranslatableChatMessage(first, second)
+    }
   }
 
   fun getName(e: Entity?): String = when (e) {

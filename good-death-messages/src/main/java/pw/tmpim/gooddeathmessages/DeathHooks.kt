@@ -99,6 +99,9 @@ object DeathHooks {
 
     internal fun translate(victim: PlayerEntity, killer: Entity?): String =
       translationKey.i18n(*populate(victim, killer).toTypedArray())
+
+    internal fun values(victim: PlayerEntity, killer: Entity?): Pair<String, Array<String>> =
+      Pair(translationKey, populate(victim, killer).toTypedArray())
   }
 }
 
@@ -112,7 +115,7 @@ private typealias PopulateFn = (victim: PlayerEntity, killer: Entity?) -> List<S
 private fun cause(
   translationKey: String,
   testFn: TestFn,
-  populateFn: PopulateFn = { v, _ -> listOf(v.name) },
+  populateFn: PopulateFn = { _, _ -> listOf() },
   custom: Boolean = false
 ) = object : Cause("${MOD_ID}.death.$translationKey") {
   override fun test(victim: PlayerEntity, killer: Entity?) =
