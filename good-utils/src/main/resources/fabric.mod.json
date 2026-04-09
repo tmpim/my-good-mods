@@ -40,6 +40,12 @@
         "adapter": "kotlin",
         "value": "pw.tmpim.goodutils.data.GoodUtilsData"
       }
+    ],
+    "glassnetworking": [
+      {
+        "adapter": "kotlin",
+        "value": "pw.tmpim.goodutils.net.GoodUtilsNetworking"
+      }
     ]
   },
 
