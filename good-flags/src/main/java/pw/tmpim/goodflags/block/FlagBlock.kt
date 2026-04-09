@@ -7,22 +7,26 @@ import net.minecraft.block.entity.BlockEntity
 import net.minecraft.block.material.Material
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.item.BlockItem
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.util.math.Box
 import net.minecraft.util.math.MathHelper
 import net.minecraft.world.World
+import net.modificationstation.stationapi.api.block.CustomBlockItemFactoryProvider
 import net.modificationstation.stationapi.api.item.StationItemNbt
 import net.modificationstation.stationapi.api.template.block.TemplateBlockWithEntity
 import net.modificationstation.stationapi.impl.item.StationNBTSetter
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable
 import pw.tmpim.goodflags.GoodFlags
 import pw.tmpim.goodflags.GoodFlags.namespace
+import pw.tmpim.goodflags.client.FlagBlockItem
 import pw.tmpim.goodflags.net.FlagNetworkingS2C
 import pw.tmpim.goodutils.block.OnPlaceItemStack
 import pw.tmpim.goodutils.net.sendToPlayer
+import java.util.function.IntFunction
 
-class FlagBlock : TemplateBlockWithEntity(namespace.id("flag"), Material.WOOD), OnPlaceItemStack {
+class FlagBlock : TemplateBlockWithEntity(namespace.id("flag"), Material.WOOD), OnPlaceItemStack, CustomBlockItemFactoryProvider {
   init {
     textureId = LOG.textureId
     setTranslationKey(namespace, "flag")
@@ -31,6 +35,8 @@ class FlagBlock : TemplateBlockWithEntity(namespace.id("flag"), Material.WOOD), 
     setSoundGroup(WOOD_SOUND_GROUP)
     applyBoundingBox(this)
   }
+
+  override fun getBlockItemFactory(): IntFunction<BlockItem> = IntFunction { id -> FlagBlockItem(id) }
 
   companion object {
     fun applyBoundingBox(block: Block) {
