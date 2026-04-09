@@ -5,6 +5,7 @@ dependencies {
   modImplementation(libs.glassnetworking) // https://github.com/Glass-Series/Glass-Networking
 
   modCompileOnly(libs.alwaysmoreitems) // for AMI compat in GoodFlagsAMIPlugin
+  modCompileOnly("maven.modrinth:entityculling:1.6.3-b1.7.3") // for whitelisting in GoodFlagsEntityCullingPlugin
 }
 
 modrinth {

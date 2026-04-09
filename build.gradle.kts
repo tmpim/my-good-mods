@@ -90,6 +90,13 @@ allprojects {
       }
     }
 
+    maven("https://repo.codemc.io/repository/maven-public/") {
+      name = "CodeMC"
+      content {
+        includeGroupAndSubgroups("com.logisticscraft") // EntityCulling
+      }
+    }
+
     exclusiveContent {
       forRepository {
         maven("https://jitpack.io") {
@@ -155,6 +162,8 @@ allprojects {
       modRuntimeOnly(libs.alwaysmoreitems) { // https://github.com/Glass-Series/Always-More-Items
         exclude("net.modificationstation", "StationAPI")
       }
+      modRuntimeOnly("maven.modrinth:entityculling:1.6.3-b1.7.3") // https://github.com/tr7zw/EntityCulling
+      runtimeOnly("com.logisticscraft:occlusionculling:0.0.8-SNAPSHOT")
 
       modImplementation(libs.fabric.language.kotlin) {
         exclude("net.fabricmc", "fabric-loader")

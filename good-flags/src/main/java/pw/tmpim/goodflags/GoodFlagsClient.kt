@@ -3,11 +3,14 @@ package pw.tmpim.goodflags
 import net.mine_diver.unsafeevents.listener.EventListener
 import net.modificationstation.stationapi.api.client.event.block.entity.BlockEntityRendererRegisterEvent
 import net.modificationstation.stationapi.api.client.event.resource.AssetsReloadEvent
+import net.modificationstation.stationapi.api.event.init.InitFinishedEvent
 import net.modificationstation.stationapi.api.event.mod.InitEvent
 import pw.tmpim.goodflags.GoodFlags.MOD_NAME
 import pw.tmpim.goodflags.GoodFlags.log
 import pw.tmpim.goodflags.block.FlagBlockEntity
 import pw.tmpim.goodflags.client.FlagBlockEntityRenderer
+import pw.tmpim.goodflags.compat.EntityCullingCompat
+import pw.tmpim.goodutils.misc.loader
 
 object GoodFlagsClient {
   @EventListener
@@ -23,5 +26,13 @@ object GoodFlagsClient {
   @EventListener
   fun onAssetsReloaded(event: AssetsReloadEvent) {
     FlagBlockEntityRenderer.clearTextureCache() // TODO: check this actually runs on the render thread
+  }
+
+  @EventListener
+  fun onInitFinished(event: InitFinishedEvent) {
+    if (loader.isModLoaded("entityculling")) {
+      log.info("$MOD_NAME adding compat for EntityCulling")
+      EntityCullingCompat.register()
+    }
   }
 }
