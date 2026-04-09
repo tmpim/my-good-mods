@@ -7,16 +7,22 @@ import net.minecraft.block.entity.BlockEntity
 import net.minecraft.block.material.Material
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.item.ItemStack
+import net.minecraft.nbt.NbtCompound
 import net.minecraft.util.math.Box
 import net.minecraft.util.math.MathHelper
 import net.minecraft.world.World
+import net.modificationstation.stationapi.api.item.StationItemNbt
 import net.modificationstation.stationapi.api.template.block.TemplateBlockWithEntity
+import net.modificationstation.stationapi.impl.item.StationNBTSetter
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable
 import pw.tmpim.goodflags.GoodFlags
 import pw.tmpim.goodflags.GoodFlags.namespace
 import pw.tmpim.goodflags.net.FlagNetworkingS2C
+import pw.tmpim.goodutils.block.OnPlaceItemStack
 import pw.tmpim.goodutils.net.sendToPlayer
 
-class FlagBlock : TemplateBlockWithEntity(namespace.id("flag"), Material.WOOD) {
+class FlagBlock : TemplateBlockWithEntity(namespace.id("flag"), Material.WOOD), OnPlaceItemStack {
   init {
     textureId = LOG.textureId
     setTranslationKey(namespace, "flag")
@@ -108,5 +114,34 @@ class FlagBlock : TemplateBlockWithEntity(namespace.id("flag"), Material.WOOD) {
     }
   }
 
+  override fun dropStacks(world: World, x: Int, y: Int, z: Int, meta: Int, luck: Float) {
+    if (world.isRemote) return
+    val entity = world.getBlockEntity(x, y, z)
+    val stack = ItemStack(this)
+    if (entity is FlagBlockEntity) {
+      val nbt = NbtCompound()
+      nbt.putByteArray("Pixels", entity.pixels)
+      StationNBTSetter.cast(stack).setStationNbt(nbt)
+    }
+    dropStack(world, x, y, z, stack)
+  }
+
   override fun getPistonBehavior() = 2 // unpushable
+
+  override fun onPlaced(
+    world: World,
+    x: Int,
+    y: Int,
+    z: Int,
+    itemStack: ItemStack
+  ) {
+    val stationNbt = itemStack.stationNbt
+    if (stationNbt == null || !stationNbt.contains("Pixels")) return
+
+    val entity = world.getBlockEntity(x, y, z)
+    if (entity is FlagBlockEntity) {
+      val pixels = stationNbt.getByteArray("Pixels")
+      entity.setAllPixels(pixels)
+    }
+  }
 }

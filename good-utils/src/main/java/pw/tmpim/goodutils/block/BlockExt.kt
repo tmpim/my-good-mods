@@ -2,6 +2,8 @@ package pw.tmpim.goodutils.block
 
 import com.mojang.datafixers.util.Either
 import net.minecraft.block.Block
+import net.minecraft.item.ItemStack
+import net.minecraft.world.World
 import net.modificationstation.stationapi.api.block.BlockState
 import net.modificationstation.stationapi.api.tag.TagKey
 
@@ -14,3 +16,7 @@ fun BlockOrTag.matches(otherState: BlockState, otherMeta: Int): Boolean =
     { (block, meta) -> block == otherState.block && (meta == -1 || meta == otherMeta) },
     { tag -> otherState.isIn(tag) }
   )
+
+interface OnPlaceItemStack {
+  fun onPlaced(world: World, x: Int, y: Int, z: Int, itemStack: ItemStack)
+}

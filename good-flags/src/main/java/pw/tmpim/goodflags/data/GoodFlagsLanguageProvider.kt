@@ -51,4 +51,5 @@ class GoodFlagsLanguageProvider(ctx: DataGenContext) : LanguageProvider(ctx) {
     .add("$TT.eraser", "Eraser")
     .add("$TT.line", "Line")
     .add("$TT.rect", "Rect")
+    .add("$TT.circle", "Circle")
 }

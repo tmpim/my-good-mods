@@ -5,6 +5,7 @@ import net.fabricmc.api.Environment
 import net.minecraft.client.gui.screen.Screen
 import net.minecraft.client.gui.widget.ButtonWidget
 import net.minecraft.item.DyeItem
+import org.lwjgl.input.Keyboard
 import org.lwjgl.input.Mouse
 import pw.tmpim.goodflags.GoodFlags.MOD_ID
 import pw.tmpim.goodflags.block.FlagBlockEntity
@@ -16,6 +17,8 @@ import pw.tmpim.goodflags.net.FlagNetworkingC2S
 import pw.tmpim.goodutils.i18n.i18n
 import pw.tmpim.goodutils.net.sendToServer
 import kotlin.math.abs
+import kotlin.math.roundToInt
+import kotlin.math.sqrt
 
 private const val TC = TranslationString.COLOR
 private const val TT = TranslationString.TOOL
@@ -26,6 +29,8 @@ class FlagPaintScreen(private val flagEntity: FlagBlockEntity) : Screen() {
     // Button IDs
     private const val BTN_DONE = 0
     private const val BTN_CANCEL = 1
+
+    private const val MAX_UNDO = 32
   }
 
   private enum class Tool(val labelKey: String) {
@@ -33,7 +38,8 @@ class FlagPaintScreen(private val flagEntity: FlagBlockEntity) : Screen() {
     FILL("$TT.fill"),
     ERASER("$TT.eraser"),
     LINE("$TT.line"),
-    RECT("$TT.rect")
+    RECT("$TT.rect"),
+    CIRCLE("$TT.circle")
   }
 
   private var selectedColor = 0 // Default to black
@@ -41,6 +47,10 @@ class FlagPaintScreen(private val flagEntity: FlagBlockEntity) : Screen() {
   private var brushSize = 1 // 1, 2, 3, or 4
 
   private val localPixels = flagEntity.pixels.copyOf()
+
+  // Undo / redo stacks — each entry is a full copy of localPixels
+  private val undoStack = ArrayDeque<ByteArray>(MAX_UNDO)
+  private val redoStack = ArrayDeque<ByteArray>(MAX_UNDO)
 
   // Canvas layout
   private val pixelScale = 4
@@ -72,9 +82,11 @@ class FlagPaintScreen(private val flagEntity: FlagBlockEntity) : Screen() {
   private var painting = false
   private var lastPx = -1
   private var lastPy = -1
-  // Start point for LINE and RECT tools
+  // Start point for LINE, RECT, and CIRCLE tools
   private var shapeStartX = -1
   private var shapeStartY = -1
+  // Snapshot taken at mouse-down for shape tools (so undo captures the pre-stroke state)
+  private var strokeSnapshot: ByteArray? = null
 
   private val tr by ::textRenderer
 
@@ -120,7 +132,38 @@ class FlagPaintScreen(private val flagEntity: FlagBlockEntity) : Screen() {
   }
 
   override fun keyPressed(character: Char, keyCode: Int) {
-    super.keyPressed(character, keyCode)
+    val ctrl = Keyboard.isKeyDown(Keyboard.KEY_LCONTROL) || Keyboard.isKeyDown(Keyboard.KEY_RCONTROL)
+    val shift = Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_RSHIFT)
+    when {
+      ctrl && keyCode == Keyboard.KEY_Z -> if (shift) redo() else undo()
+      ctrl && keyCode == Keyboard.KEY_Y -> redo()
+      else -> super.keyPressed(character, keyCode)
+    }
+  }
+
+  // ---------------------------------------------------------------------------
+  // Undo / redo
+  // ---------------------------------------------------------------------------
+
+  /** Push current pixels onto the undo stack, clear redo stack. */
+  private fun pushUndo(snapshot: ByteArray = localPixels.copyOf()) {
+    if (undoStack.size >= MAX_UNDO) undoStack.removeFirst()
+    undoStack.addLast(snapshot)
+    redoStack.clear()
+  }
+
+  private fun undo() {
+    if (undoStack.isEmpty()) return
+    redoStack.addLast(localPixels.copyOf())
+    val prev = undoStack.removeLast()
+    System.arraycopy(prev, 0, localPixels, 0, localPixels.size)
+  }
+
+  private fun redo() {
+    if (redoStack.isEmpty()) return
+    undoStack.addLast(localPixels.copyOf())
+    val next = redoStack.removeLast()
+    System.arraycopy(next, 0, localPixels, 0, localPixels.size)
   }
 
   override fun mouseClicked(mouseX: Int, mouseY: Int, button: Int) {
@@ -162,13 +205,18 @@ class FlagPaintScreen(private val flagEntity: FlagBlockEntity) : Screen() {
       val px = (mouseX - canvasX) / pixelScale
       val py = (mouseY - canvasY) / pixelScale
       when (currentTool) {
-        Tool.FILL -> floodFill(px, py, selectedColor)
-        Tool.LINE, Tool.RECT -> {
+        Tool.FILL -> {
+          pushUndo()
+          floodFill(px, py, selectedColor)
+        }
+        Tool.LINE, Tool.RECT, Tool.CIRCLE -> {
+          strokeSnapshot = localPixels.copyOf()
           painting = true
           shapeStartX = px
           shapeStartY = py
         }
         Tool.PENCIL, Tool.ERASER -> {
+          strokeSnapshot = localPixels.copyOf()
           painting = true
           lastPx = px
           lastPy = py
@@ -181,15 +229,31 @@ class FlagPaintScreen(private val flagEntity: FlagBlockEntity) : Screen() {
   override fun mouseReleased(mouseX: Int, mouseY: Int, button: Int) {
     super.mouseReleased(mouseX, mouseY, button)
     if (button == 0) {
-      if (painting && (currentTool == Tool.LINE || currentTool == Tool.RECT)) {
+      if (painting) {
         val px = ((mouseX - canvasX) / pixelScale).coerceIn(0, FLAG_WIDTH - 1)
         val py = ((mouseY - canvasY) / pixelScale).coerceIn(0, FLAG_HEIGHT - 1)
-        if (shapeStartX >= 0 && shapeStartY >= 0) {
-          when (currentTool) {
-            Tool.LINE -> paintStrokeBrushed(shapeStartX, shapeStartY, px, py)
-            Tool.RECT -> paintRect(shapeStartX, shapeStartY, px, py)
-            else -> {}
+        when (currentTool) {
+          Tool.LINE -> if (shapeStartX >= 0 && shapeStartY >= 0) {
+            val snap = strokeSnapshot
+            if (snap != null) pushUndo(snap)
+            paintStrokeBrushed(shapeStartX, shapeStartY, px, py)
           }
+          Tool.RECT -> if (shapeStartX >= 0 && shapeStartY >= 0) {
+            val snap = strokeSnapshot
+            if (snap != null) pushUndo(snap)
+            paintRect(shapeStartX, shapeStartY, px, py)
+          }
+          Tool.CIRCLE -> if (shapeStartX >= 0 && shapeStartY >= 0) {
+            val snap = strokeSnapshot
+            if (snap != null) pushUndo(snap)
+            paintCircle(shapeStartX, shapeStartY, px, py)
+          }
+          Tool.PENCIL, Tool.ERASER -> {
+            // Finish the stroke: push the pre-stroke snapshot
+            val snap = strokeSnapshot
+            if (snap != null) pushUndo(snap)
+          }
+          else -> {}
         }
       }
       painting = false
@@ -197,6 +261,7 @@ class FlagPaintScreen(private val flagEntity: FlagBlockEntity) : Screen() {
       lastPy = -1
       shapeStartX = -1
       shapeStartY = -1
+      strokeSnapshot = null
     }
   }
 
@@ -246,6 +311,46 @@ class FlagPaintScreen(private val flagEntity: FlagBlockEntity) : Screen() {
         if (px in 0 until FLAG_WIDTH && py in 0 until FLAG_HEIGHT) {
           localPixels[py * FLAG_WIDTH + px] = (color and 0xF).toByte()
         }
+      }
+    }
+  }
+
+  /**
+   * Midpoint circle algorithm. Draws a filled circle whose bounding box is defined
+   * by the drag rectangle (start → end). The radius is half the shorter side.
+   */
+  private fun paintCircle(x0: Int, y0: Int, x1: Int, y1: Int) {
+    val color = if (currentTool == Tool.ERASER) 15 else selectedColor
+    val cx = (x0 + x1) / 2.0
+    val cy = (y0 + y1) / 2.0
+    val rx = abs(x1 - x0) / 2.0
+    val ry = abs(y1 - y0) / 2.0
+    val r = minOf(rx, ry)
+    circlePixels(cx, cy, r) { px, py ->
+      if (px in 0 until FLAG_WIDTH && py in 0 until FLAG_HEIGHT) {
+        localPixels[py * FLAG_WIDTH + px] = (color and 0xF).toByte()
+      }
+    }
+  }
+
+  /**
+   * Iterate all pixels inside (inclusive) the circle centered at (cx, cy) with radius r.
+   * Uses a scanline approach for a filled disc.
+   */
+  private inline fun circlePixels(cx: Double, cy: Double, r: Double, plot: (Int, Int) -> Unit) {
+    if (r < 0.5) {
+      plot(cx.roundToInt(), cy.roundToInt())
+      return
+    }
+    val minY = (cy - r).toInt()
+    val maxY = (cy + r).toInt()
+    for (py in minY..maxY) {
+      val dy = py + 0.5 - cy
+      val dx = sqrt(maxOf(0.0, r * r - dy * dy))
+      val minX = (cx - dx).toInt()
+      val maxX = (cx + dx).toInt()
+      for (px in minX..maxX) {
+        plot(px, py)
       }
     }
   }
@@ -323,9 +428,9 @@ class FlagPaintScreen(private val flagEntity: FlagBlockEntity) : Screen() {
     }
     drawGridLines()
 
-    // Line / rect preview overlay (while dragging)
+    // Line / rect / circle preview overlay (while dragging)
     if (painting && Mouse.isButtonDown(0) &&
-        (currentTool == Tool.LINE || currentTool == Tool.RECT) &&
+        (currentTool == Tool.LINE || currentTool == Tool.RECT || currentTool == Tool.CIRCLE) &&
         shapeStartX >= 0 && shapeStartY >= 0) {
       val endPx = ((mouseX - canvasX) / pixelScale).coerceIn(0, FLAG_WIDTH - 1)
       val endPy = ((mouseY - canvasY) / pixelScale).coerceIn(0, FLAG_HEIGHT - 1)
@@ -338,7 +443,7 @@ class FlagPaintScreen(private val flagEntity: FlagBlockEntity) : Screen() {
     if (hoverInCanvas) {
       val hx = (mouseX - canvasX) / pixelScale
       val hy = (mouseY - canvasY) / pixelScale
-      val effectiveBrush = if (currentTool == Tool.FILL || currentTool == Tool.RECT) 1 else brushSize
+      val effectiveBrush = if (currentTool == Tool.FILL || currentTool == Tool.RECT || currentTool == Tool.CIRCLE) 1 else brushSize
       val effectiveColor = if (currentTool == Tool.ERASER) 15 else selectedColor
       val half = effectiveBrush / 2
       val sx = canvasX + (hx - half) * pixelScale
@@ -370,7 +475,7 @@ class FlagPaintScreen(private val flagEntity: FlagBlockEntity) : Screen() {
     drawCenteredTextWithShadow(tr, "$TT.title".i18n(), toolsX + toolBtnW / 2, toolsY - 12, 0xAAAAAA)
 
     // Brush size buttons (right side) — dimmed when Fill is active (fill always uses size 1)
-    val brushDisabled = currentTool == Tool.FILL || currentTool == Tool.RECT
+    val brushDisabled = currentTool == Tool.FILL || currentTool == Tool.RECT || currentTool == Tool.CIRCLE
     drawCenteredTextWithShadow(
       tr,
       "$TT.brush".i18n(),
@@ -453,6 +558,20 @@ class FlagPaintScreen(private val flagEntity: FlagBlockEntity) : Screen() {
         val ex = canvasX + (maxX + 1) * pixelScale
         val ey = canvasY + (maxY + 1) * pixelScale
         fill(sx, sy, ex, ey, color)
+      }
+      Tool.CIRCLE -> {
+        val cx = (x0 + x1) / 2.0
+        val cy = (y0 + y1) / 2.0
+        val rx = abs(x1 - x0) / 2.0
+        val ry = abs(y1 - y0) / 2.0
+        val r = minOf(rx, ry)
+        circlePixels(cx, cy, r) { px, py ->
+          if (px in 0..<FLAG_WIDTH && py in 0..<FLAG_HEIGHT) {
+            val sx = canvasX + px * pixelScale
+            val sy = canvasY + py * pixelScale
+            fill(sx, sy, sx + pixelScale, sy + pixelScale, color)
+          }
+        }
       }
       else -> {}
     }
