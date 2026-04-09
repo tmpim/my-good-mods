@@ -10,6 +10,7 @@
     "ItemMixin",
     "ItemRendererMixin",
     "ItemStackMixin",
+    "ScreenHandlerMixin",
     "SimpleInventoryMixin"
   ],
   "server": [],

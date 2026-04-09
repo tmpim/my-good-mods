@@ -28,6 +28,9 @@ object GoodStacks : PostConfigLoadedListener, PreConfigSavedListener {
   @ConfigRoot(value = MOD_ID, visibleName = MOD_NAME, nameKey = "$CONFIG_KEY.name")
   val config = GoodStacksConfig()
 
+  private val debug
+    get() = config.debug == true
+
   @EventListener
   fun onInit(event: InitEvent) {
     log.info("$MOD_NAME initializing")
@@ -41,25 +44,38 @@ object GoodStacks : PostConfigLoadedListener, PreConfigSavedListener {
   fun updateItemLimits(vanilla: Boolean = false) {
     val configMax = getMaxStack().orElse(null)
 
-    ItemRegistry.INSTANCE.forEach { item ->
+    ItemRegistry.INSTANCE.streamEntries().forEach { entry ->
+      val item = entry.value()
+
       val originalMax = item.`goodstacks$originalMaxCount`
       val newMax = configMax.takeIf { !vanilla && configMax > 0 && originalMax == 64 }
         ?: originalMax
         ?: 64.also { log.warn("max stack size for $item was set to 64 as we don't know what it originally was!") }
 
-      log.debug("{} {} -> {} (original: {})", item, item.maxCount, newMax, originalMax)
+      if (debug) log.debug("{} {} {} -> {} (original: {})", entry.key, item, item.maxCount, newMax, originalMax)
       item.`goodstacks$setMaxCount`(newMax)
     }
   }
 
-  @EventListener(priority = ListenerPriority.HIGHEST)
+  @EventListener(priority = ListenerPriority.LOWEST)
   fun onItemRegister(event: ItemRegistryEvent) {
     // the mixins to Item.<init> and Item.setMaxCount capture the originalMaxCount for basic items, but not for anything
-    // that extends the Item class and sets the protected maxCount field in its constructor... so let's try to capture
-    // those too
-    ItemRegistry.INSTANCE.forEach { item ->
-      if (item.maxCount == 0) return@forEach
-      item.`goodstacks$originalMaxCount` = min(item.`goodstacks$originalMaxCount` ?: 64, item.maxCount)
+    // that extends the Item class and sets the protected maxCount field in its constructor, or override getMaxCount...
+    // so let's try to capture those too
+    log.debug("in onItemRegister")
+
+    ItemRegistry.INSTANCE.streamEntries().forEach { entry ->
+      val item = entry.value()
+
+      if (item.maxCount == 0) {
+        if (debug) log.debug("register {} {} original max is 0, skipping", entry.key, item)
+      } else {
+        if (debug) log.debug(
+          "register {} {} current original: {} maxCount: {}",
+          entry.key, item, item.`goodstacks$originalMaxCount`, item.maxCount
+        )
+        item.`goodstacks$originalMaxCount` = min(item.`goodstacks$originalMaxCount` ?: 64, item.maxCount)
+      }
     }
   }
 
@@ -72,7 +88,11 @@ object GoodStacks : PostConfigLoadedListener, PreConfigSavedListener {
 
       containsOne(source, MODDED_SERVER_JOIN) -> {
         log.info("joining modded server, resetting item stack sizes to server's configuration")
-        updateItemLimits() // config should be synced at this point
+        // the config is supposed to be synced at this point, and it is, but our own config object hasn't been mutated
+        // for some unknown reason (bug in gcapi?) anyway lets try reloading it...
+        // GCAPI.reloadConfig("$MOD_ID:$MOD_ID") // TODO: still doesn't work
+        log.info("new item limit: ${config.maxStackSize}")
+        updateItemLimits()
       }
     }
   }

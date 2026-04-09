@@ -1,4 +1,10 @@
+gui.good-stacks.config.debug=Debug
+gui.good-stacks.config.debug.desc=If enabled, registry values and overrides will be printed to debug.log
 gui.good-stacks.config.max_stack_size=Maximum stack size
 gui.good-stacks.config.max_stack_size.desc=Overrides the maximum stack size for any item with the default stack size (64)
 gui.good-stacks.config.name=Good Stacks
+gui.good-stacks.config.negative_item_counts=Negative item counts
+gui.good-stacks.config.negative_item_counts.desc=Show negative item counts in the GUI (helpful for debugging)
+gui.good-stacks.config.shorten_item_counts=Shorten item counts
+gui.good-stacks.config.shorten_item_counts.desc=Abbreviate item counts above 1000 when displayed in the GUI
 
