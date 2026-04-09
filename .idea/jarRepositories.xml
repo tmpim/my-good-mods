@@ -96,5 +96,10 @@
       <option name="name" value="LoomLocalMinecraft" />
       <option name="url" value="file:$PROJECT_DIR$/.gradle/loom-cache/minecraftMaven/" />
     </remote-repository>
+    <remote-repository>
+      <option name="id" value="CodeMC" />
+      <option name="name" value="CodeMC" />
+      <option name="url" value="https://repo.codemc.io/repository/maven-public/" />
+    </remote-repository>
   </component>
 </project>
