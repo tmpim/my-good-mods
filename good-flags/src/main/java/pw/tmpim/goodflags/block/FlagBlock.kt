@@ -116,15 +116,21 @@ class FlagBlock : TemplateBlockWithEntity(namespace.id("flag"), Material.WOOD), 
   }
 
   override fun dropStacks(world: World, x: Int, y: Int, z: Int, meta: Int, luck: Float) {
+    // Don't drop anything, since we need to set NBT from the BE which is already
+    // removed at this point. Our workaround is to instead drop stacks in onBreak.
+    return
+  }
+
+  override fun onBreak(world: World, x: Int, y: Int, z: Int) {
     if (world.isRemote) return
     val entity = world.getBlockEntity(x, y, z)
     val stack = ItemStack(this)
     if (entity is FlagBlockEntity && entity.isPainted) {
-      val nbt = NbtCompound()
-      nbt.putByteArray("Pixels", entity.pixels)
-      StationNBTSetter.cast(stack).setStationNbt(nbt)
+      stack.stationNbt.putByteArray("Pixels", entity.pixels)
     }
     dropStack(world, x, y, z, stack)
+
+    super.onBreak(world, x, y, z)
   }
 
   override fun getPistonBehavior() = 2 // unpushable

@@ -3,10 +3,8 @@ package pw.tmpim.goodflags.recipe
 import net.minecraft.inventory.CraftingInventory
 import net.minecraft.inventory.Inventory
 import net.minecraft.item.ItemStack
-import net.minecraft.nbt.NbtCompound
 import net.minecraft.recipe.CraftingRecipe
 import net.modificationstation.stationapi.api.item.StationItemNbt
-import net.modificationstation.stationapi.impl.item.StationNBTSetter
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo
 import pw.tmpim.goodflags.GoodFlags
 
@@ -28,9 +26,9 @@ object FlagCraftingRecipe : CraftingRecipe {
     return nbt.contains("Pixels")
   }
 
-  private fun ItemStack.pixelNbt(): NbtCompound? {
+  private fun ItemStack.pixelBytes(): ByteArray? {
     val nbt = (this as? StationItemNbt)?.stationNbt ?: return null
-    return if (nbt.contains("Pixels")) nbt else null
+    return if (nbt.contains("Pixels")) nbt.getByteArray("Pixels") else null
   }
 
   override fun matches(inv: CraftingInventory): Boolean {
@@ -79,8 +77,8 @@ object FlagCraftingRecipe : CraftingRecipe {
       // Copy: return a new painted flag with the same pixels
       blankCount == 1 && paintedCount == 1 -> {
         val out = ItemStack(GoodFlags.flagBlock)
-        val srcNbt = source.pixelNbt()
-        if (srcNbt != null) StationNBTSetter.cast(out).setStationNbt(srcNbt.copy())
+        val srcPixels = source.pixelBytes()
+        if (srcPixels != null) out.stationNbt.putByteArray("Pixels", srcPixels)
         out
       }
       // Clear: return a blank flag
