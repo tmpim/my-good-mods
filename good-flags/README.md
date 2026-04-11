@@ -37,23 +37,23 @@ The flag's canvas is **48 × 32 pixels** using the 16 wool colours as a palette.
 
 ### Tools
 
-| Tool | Description |
-|------|-------------|
-| Pencil | Freehand drawing. Respects brush size. |
-| Eraser | Erases pixels back to white. Respects brush size. |
-| Fill | Flood-fills a contiguous region with the selected colour. |
-| Line | Draws a straight line between two points. Respects brush size. |
-| Rect | Draws a filled rectangle. |
-| Circle | Draws a filled ellipse. |
+| Tool   | Description                                                    |
+|--------|----------------------------------------------------------------|
+| Pencil | Freehand drawing. Respects brush size.                         |
+| Eraser | Erases pixels back to white. Respects brush size.              |
+| Fill   | Flood-fills a contiguous region with the selected colour.      |
+| Line   | Draws a straight line between two points. Respects brush size. |
+| Rect   | Draws a filled rectangle.                                      |
+| Circle | Draws a filled ellipse.                                        |
 
 ### Undo / Redo
 
 The paint screen supports up to **32 levels** of undo/redo history.
 
-| Action | Shortcut |
-|--------|----------|
-| Undo | Ctrl+Z |
-| Redo | Ctrl+Y or Ctrl+Shift+Z |
+| Action | Shortcut               |
+|--------|------------------------|
+| Undo   | Ctrl+Z                 |
+| Redo   | Ctrl+Y or Ctrl+Shift+Z |
 
 ## Flag Item
 
