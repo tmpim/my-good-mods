@@ -3,6 +3,7 @@ package pw.tmpim.goodflags.data
 import emmathemartian.datagen.DataGenContext
 import emmathemartian.datagen.builder.LangBuilder
 import emmathemartian.datagen.provider.LanguageProvider
+import pw.tmpim.goodflags.config.CONFIG_KEY
 import pw.tmpim.goodflags.GoodFlags
 import pw.tmpim.goodflags.GoodFlags.MOD_ID
 
@@ -13,6 +14,7 @@ object TranslationString {
 
 private const val TC = TranslationString.COLOR
 private const val TT = TranslationString.TOOL
+private const val C = CONFIG_KEY
 
 class GoodFlagsLanguageProvider(ctx: DataGenContext) : LanguageProvider(ctx) {
   override fun run(ctx: DataGenContext) {
@@ -22,6 +24,7 @@ class GoodFlagsLanguageProvider(ctx: DataGenContext) : LanguageProvider(ctx) {
       .add("gui.$MOD_ID.title", "Paint Flag")
       .addColors()
       .addTools()
+      .addConfig()
       .save("en_US", this, ctx)
   }
 
@@ -52,4 +55,19 @@ class GoodFlagsLanguageProvider(ctx: DataGenContext) : LanguageProvider(ctx) {
     .add("$TT.line", "Line")
     .add("$TT.rect", "Rect")
     .add("$TT.circle", "Circle")
+
+  private fun LangBuilder.addConfig() = this
+    .add("$C.name", GoodFlags.MOD_NAME)
+    .add("$C.item_renderer_enabled", "Show flag preview on item")
+    .add("$C.item_renderer_enabled.desc", "Draw the flag's painted design on top of the flag item icon in inventory slots")
+    .add("$C.item_texture_resolution", "Item texture base resolution")
+    .add("$C.item_texture_resolution.desc", "Base resolution of the item icon in pixels (default 16 for standard textures; increase for higher-resolution texture packs)")
+    .add("$C.flag_preview_x", "Flag preview X offset")
+    .add("$C.flag_preview_x.desc", "X offset (in item pixels) of the flag preview area within the item icon")
+    .add("$C.flag_preview_y", "Flag preview Y offset")
+    .add("$C.flag_preview_y.desc", "Y offset (in item pixels) of the flag preview area within the item icon")
+    .add("$C.flag_preview_width", "Flag preview width")
+    .add("$C.flag_preview_width.desc", "Width (in item pixels) of the flag preview area within the item icon")
+    .add("$C.flag_preview_height", "Flag preview height")
+    .add("$C.flag_preview_height.desc", "Height (in item pixels) of the flag preview area within the item icon")
 }

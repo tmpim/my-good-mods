@@ -1,4 +1,6 @@
-package pw.tmpim.goodflags.client
+@file:Suppress("DEPRECATION", "OVERRIDE_DEPRECATION", "UnstableApiUsage")
+
+package pw.tmpim.goodflags.item
 
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
@@ -16,15 +18,14 @@ import net.modificationstation.stationapi.api.client.render.RendererAccess
 import net.modificationstation.stationapi.api.client.texture.atlas.Atlases
 import net.modificationstation.stationapi.api.item.StationItemNbt
 import org.lwjgl.opengl.GL11
+import pw.tmpim.goodflags.GoodFlags
 import pw.tmpim.goodflags.block.FlagSpec
-import pw.tmpim.goodflags.block.FlagSpec.FLAG_HEIGHT
-import pw.tmpim.goodflags.block.FlagSpec.FLAG_WIDTH
 
 /**
  * Custom BlockItem for the flag block that renders a downsampled preview of
  * the flag's painted design on top of the item icon in inventory slots.
  *
- * Uses [ItemWithRenderer] to first render the base baked model (the flag item
+ * Uses [net.modificationstation.stationapi.api.client.model.item.ItemWithRenderer] to first render the base baked model (the flag item
  * texture with pole and blank flag area), then composites a downsampled version
  * of the flag's pixel data on top.
  *
@@ -32,46 +33,48 @@ import pw.tmpim.goodflags.block.FlagSpec.FLAG_WIDTH
  * the 16x16 item icon. The 48x32 flag canvas is downsampled to fit this space
  * using mode sampling (most common color per region).
  */
-@Suppress("DEPRECATION")
 class FlagBlockItem(id: Int) : BlockItem(id), ItemWithRenderer {
-
-  @Suppress("OVERRIDE_DEPRECATION", "UnstableApiUsage")
   @Environment(EnvType.CLIENT)
   override fun renderItemOnGui(
-    itemRenderer: ItemRenderer,
-    textRenderer: TextRenderer,
-    textureManager: TextureManager,
-    stack: ItemStack,
-    x: Int,
-    y: Int
+      itemRenderer: ItemRenderer,
+      textRenderer: TextRenderer,
+      textureManager: TextureManager,
+      stack: ItemStack,
+      x: Int,
+      y: Int
   ) {
     // Sample wool texture from Station's Arsenic sprites
     val atlas = Atlases.getTerrain()
-    val woolTextures = (0..<16).map { dyeIndex ->
+      val woolTextures = (0..<16).map { dyeIndex ->
       val woolBlockMeta = WoolBlock.getBlockMeta(dyeIndex)
       val woolTexture = Block.WOOL.getTexture(0, woolBlockMeta)
       atlas.getTexture(woolTexture).sprite.contents
     }
 
     // Render the base baked model (flag item texture)
-    val renderer = RendererAccess.INSTANCE.getRenderer()!!.bakedModelRenderer()
+    val renderer = RendererAccess.INSTANCE.renderer.bakedModelRenderer()
     StationRenderAPI.getBakedModelManager().getAtlas(Atlases.GAME_ATLAS_TEXTURE).bindTexture()
     renderer.renderInGuiWithOverrides(stack, x, y)
 
     // Only render flag preview overlay for painted flags
+    val cfg = GoodFlags.config
+    if (cfg.itemRendererEnabled != true) return
+
     val nbt = (stack as? StationItemNbt)?.stationNbt ?: return
     if (!nbt.contains("Pixels")) return
 
     val pixels = nbt.getByteArray("Pixels")
-    if (pixels.size != FLAG_WIDTH * FLAG_HEIGHT) return
+    if (pixels.size != FlagSpec.FLAG_WIDTH * FlagSpec.FLAG_HEIGHT) return
 
-    // Flag preview area within the 16x16 item icon
-    val flagOffsetX = 4
-    val flagOffsetY = 1
-    val previewW = 9
-    val previewH = 6
+    // Flag preview area within the item icon — driven by config
+    val baseRes     = cfg.itemTextureResolution ?: 16
+    val scale       = 16.0 / baseRes // pixel scale factor relative to standard 16×16
+    val flagOffsetX = cfg.flagPreviewX ?: 3
+    val flagOffsetY = cfg.flagPreviewY ?: 0
+    val previewW    = cfg.flagPreviewWidth ?: 12
+    val previewH    = cfg.flagPreviewHeight ?: 8
 
-    // Downsample the 48x32 canvas into 9x6 using mode sampling.
+    // Downsample the 48x32 canvas into preview size using mode sampling.
     // Each preview pixel covers a rectangular region of the source canvas.
     // We pick the most common color in each region.
     val previewColors = IntArray(previewW * previewH)
@@ -79,16 +82,16 @@ class FlagBlockItem(id: Int) : BlockItem(id), ItemWithRenderer {
     for (py in 0 until previewH) {
       for (px in 0 until previewW) {
         // Source region bounds (integer division maps preview pixels to source regions)
-        val srcX0 = px * FLAG_WIDTH / previewW
-        val srcX1 = (px + 1) * FLAG_WIDTH / previewW
-        val srcY0 = py * FLAG_HEIGHT / previewH
-        val srcY1 = (py + 1) * FLAG_HEIGHT / previewH
+        val srcX0 = px * FlagSpec.FLAG_WIDTH / previewW
+        val srcX1 = (px + 1) * FlagSpec.FLAG_WIDTH / previewW
+        val srcY0 = py * FlagSpec.FLAG_HEIGHT / previewH
+        val srcY1 = (py + 1) * FlagSpec.FLAG_HEIGHT / previewH
 
         // Count occurrences of each color index in this region
         val counts = IntArray(16)
         for (sy in srcY0 until srcY1) {
           for (sx in srcX0 until srcX1) {
-            val colorIndex = pixels[sy * FLAG_WIDTH + sx].toInt() and 0xF
+            val colorIndex = pixels[sy * FlagSpec.FLAG_WIDTH + sx].toInt() and 0xF
             counts[colorIndex]++
           }
         }
@@ -124,10 +127,10 @@ class FlagBlockItem(id: Int) : BlockItem(id), ItemWithRenderer {
         val g = ((color shr 8) and 0xFF) / 255.0f
         val r = (color and 0xFF) / 255.0f
 
-        val x1 = (x + flagOffsetX + px).toDouble()
-        val y1 = (y + flagOffsetY + py).toDouble()
-        val x2 = x1 + 1.0
-        val y2 = y1 + 1.0
+        val x1 = x + (flagOffsetX + px) * scale
+        val y1 = y + (flagOffsetY + py) * scale
+        val x2 = x1 + scale
+        val y2 = y1 + scale
 
         GL11.glColor4f(r, g, b, 1.0f)
         t.startQuads()
@@ -145,21 +148,20 @@ class FlagBlockItem(id: Int) : BlockItem(id), ItemWithRenderer {
     GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f)
   }
 
-  @Suppress("OVERRIDE_DEPRECATION")
   @Environment(EnvType.CLIENT)
   override fun renderItemOnGui(
-    itemRenderer: ItemRenderer,
-    textRenderer: TextRenderer,
-    textureManager: TextureManager,
-    itemId: Int,
-    damage: Int,
-    texture: Int,
-    x: Int,
-    y: Int
+      itemRenderer: ItemRenderer,
+      textRenderer: TextRenderer,
+      textureManager: TextureManager,
+      itemId: Int,
+      damage: Int,
+      texture: Int,
+      x: Int,
+      y: Int
   ) {
     // Fallback for int-based rendering (no ItemStack available, so no NBT).
     // Just render the base baked model.
-    val renderer = RendererAccess.INSTANCE.getRenderer()!!.bakedModelRenderer()
+    val renderer = RendererAccess.INSTANCE.renderer.bakedModelRenderer()
     StationRenderAPI.getBakedModelManager().getAtlas(Atlases.GAME_ATLAS_TEXTURE).bindTexture()
     renderer.renderInGuiWithOverrides(ItemStack(itemId, 1, damage), x, y)
   }

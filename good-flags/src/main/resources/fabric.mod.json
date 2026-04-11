@@ -30,6 +30,12 @@
         "value": "pw.tmpim.goodflags.GoodFlagsClient"
       }
     ],
+    "gcapi3": [
+      {
+        "adapter": "kotlin",
+        "value": "pw.tmpim.goodflags.GoodFlags"
+      }
+    ],
     "data": [
       {
         "adapter": "kotlin",

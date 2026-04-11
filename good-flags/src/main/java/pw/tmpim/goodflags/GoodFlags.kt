@@ -1,5 +1,6 @@
 package pw.tmpim.goodflags
 
+import net.glasslauncher.mods.gcapi3.api.ConfigRoot
 import net.mine_diver.unsafeevents.listener.EventListener
 import net.minecraft.block.Block
 import net.modificationstation.stationapi.api.event.block.entity.BlockEntityRegisterEvent
@@ -11,6 +12,8 @@ import org.slf4j.LoggerFactory
 import pw.tmpim.goodflags.block.FlagBlock
 import pw.tmpim.goodflags.block.FlagBlockEntity
 import pw.tmpim.goodflags.block.FlagPoleBlock
+import pw.tmpim.goodflags.config.CONFIG_KEY
+import pw.tmpim.goodflags.config.GoodFlagsConfig
 
 object GoodFlags {
   const val MOD_ID = "good-flags"
@@ -19,6 +22,10 @@ object GoodFlags {
   val namespace: Namespace = Namespace.resolve()
 
   @JvmField val log: Logger = LoggerFactory.getLogger(MOD_ID)
+
+  @JvmStatic
+  @ConfigRoot(value = MOD_ID, visibleName = MOD_NAME, nameKey = "${CONFIG_KEY}.name")
+  val config = GoodFlagsConfig()
 
   lateinit var flagBlock: Block
   lateinit var flagPoleBlock: Block

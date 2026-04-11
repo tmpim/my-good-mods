@@ -1,11 +1,13 @@
 package pw.tmpim.goodflags.recipe
 
 import net.minecraft.inventory.CraftingInventory
+import net.minecraft.inventory.Inventory
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.recipe.CraftingRecipe
 import net.modificationstation.stationapi.api.item.StationItemNbt
 import net.modificationstation.stationapi.impl.item.StationNBTSetter
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo
 import pw.tmpim.goodflags.GoodFlags
 
 /**
@@ -20,10 +22,9 @@ object FlagCraftingRecipe : CraftingRecipe {
 
   private fun ItemStack.isFlagItem() = itemId == GoodFlags.flagBlock.asItem().id
 
-  /** Public so Java mixins can call it. */
-  fun isPainted(stack: ItemStack): Boolean {
-    if (!stack.isFlagItem()) return false
-    val nbt = (stack as? StationItemNbt)?.stationNbt ?: return false
+  private fun ItemStack.isPainted(): Boolean {
+    if (!this.isFlagItem()) return false
+    val nbt = (this as? StationItemNbt)?.stationNbt ?: return false
     return nbt.contains("Pixels")
   }
 
@@ -41,9 +42,9 @@ object FlagCraftingRecipe : CraftingRecipe {
       val stack = inv.getStack(i) ?: continue
       if (stack.count <= 0) continue
       when {
-        isPainted(stack)                            -> paintedCount++
-        stack.isFlagItem() && !isPainted(stack)     -> blankCount++
-        else                                        -> otherCount++
+        stack.isPainted()                        -> paintedCount++
+        stack.isFlagItem() && !stack.isPainted() -> blankCount++
+        else                                     -> otherCount++
       }
     }
 
@@ -67,8 +68,8 @@ object FlagCraftingRecipe : CraftingRecipe {
       val stack = inv.getStack(i) ?: continue
       if (stack.count <= 0) continue
       when {
-        isPainted(stack)                        -> { paintedCount++; paintedStack = stack }
-        stack.isFlagItem() && !isPainted(stack) -> blankCount++
+        stack.isPainted()                        -> { paintedCount++; paintedStack = stack }
+        stack.isFlagItem() && !stack.isPainted() -> blankCount++
       }
     }
 
@@ -91,4 +92,43 @@ object FlagCraftingRecipe : CraftingRecipe {
   override fun getSize(): Int = 2
 
   override fun getOutput(): ItemStack = ItemStack(GoodFlags.flagBlock)
+
+  fun handleTakeItem(input: Inventory, stack: ItemStack?, ci: CallbackInfo) {
+    if (stack?.isFlagItem() != true) return
+    if (input !is CraftingInventory) return
+    if (!matches(input)) return
+
+    // Determine if this is a Copy recipe (blank + painted) or Clear recipe (painted only).
+    var blankCount = 0
+    var paintedCount = 0
+    var paintedSlot = -1
+
+    for (i in 0..<input.size()) {
+      val s: ItemStack? = input.getStack(i)
+      if (s?.isFlagItem() != true) continue
+      if (s.isPainted()) {
+        paintedCount++
+        paintedSlot = i
+      } else {
+        blankCount++
+      }
+    }
+
+    if (blankCount == 1 && paintedCount == 1) {
+      // Copy recipe: consume the blank flag, leave the painted flag in place.
+      for (i in 0..<input.size()) {
+        val s: ItemStack? = input.getStack(i)
+        if (s?.isFlagItem() == true && !s.isPainted()) {
+          input.removeStack(i, 1)
+          break
+        }
+      }
+      // Painted flag stays in its slot — do NOT remove it.
+      ci.cancel()
+    } else if (blankCount == 0 && paintedCount == 1) {
+      // Clear recipe: consume the painted flag normally.
+      if (paintedSlot >= 0) input.removeStack(paintedSlot, 1)
+      ci.cancel()
+    }
+  }
 }
