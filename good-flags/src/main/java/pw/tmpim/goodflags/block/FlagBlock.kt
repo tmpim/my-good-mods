@@ -8,13 +8,11 @@ import net.minecraft.block.material.Material
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
-import net.minecraft.nbt.NbtCompound
 import net.minecraft.util.math.Box
 import net.minecraft.util.math.MathHelper
 import net.minecraft.world.World
 import net.modificationstation.stationapi.api.block.HasCustomBlockItemFactory
 import net.modificationstation.stationapi.api.template.block.TemplateBlockWithEntity
-import net.modificationstation.stationapi.impl.item.StationNBTSetter
 import pw.tmpim.goodflags.GoodFlags
 import pw.tmpim.goodflags.GoodFlags.namespace
 import pw.tmpim.goodflags.item.FlagBlockItem
