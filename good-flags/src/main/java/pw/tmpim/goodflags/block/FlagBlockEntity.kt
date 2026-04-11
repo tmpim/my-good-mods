@@ -16,6 +16,9 @@ class FlagBlockEntity : BlockEntity() {
   @Transient
   var dirty = true
 
+  /** True if any pixel differs from the default white (index 15). */
+  val isPainted: Boolean get() = pixels.any { it != 15.toByte() }
+
   fun getPixel(x: Int, y: Int): Int {
     if (x !in 0..<FLAG_WIDTH || y !in 0..<FLAG_HEIGHT) return 0
     return pixels[y * FLAG_WIDTH + x].toInt() and 0xFF
@@ -31,7 +34,9 @@ class FlagBlockEntity : BlockEntity() {
 
   override fun writeNbt(nbt: NbtCompound) {
     super.writeNbt(nbt)
-    nbt.putByteArray("Pixels", pixels)
+    if (isPainted) {
+      nbt.putByteArray("Pixels", pixels)
+    }
   }
 
   override fun readNbt(nbt: NbtCompound) {

@@ -124,7 +124,7 @@ class FlagBlock : TemplateBlockWithEntity(namespace.id("flag"), Material.WOOD), 
     if (world.isRemote) return
     val entity = world.getBlockEntity(x, y, z)
     val stack = ItemStack(this)
-    if (entity is FlagBlockEntity) {
+    if (entity is FlagBlockEntity && entity.isPainted) {
       val nbt = NbtCompound()
       nbt.putByteArray("Pixels", entity.pixels)
       StationNBTSetter.cast(stack).setStationNbt(nbt)
