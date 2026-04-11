@@ -7,8 +7,8 @@ import pw.tmpim.goodflags.GoodFlags
 import pw.tmpim.goodflags.GoodFlags.MOD_ID
 
 object TranslationString {
-  internal const val COLOR = "gui.$MOD_ID.color"
-  internal const val TOOL = "gui.$MOD_ID.tool"
+  const val COLOR = "gui.$MOD_ID.color"
+  const val TOOL = "gui.$MOD_ID.tool"
 }
 
 private const val TC = TranslationString.COLOR
