@@ -1,6 +1,7 @@
-package pw.tmpim.goodstacks
+package pw.tmpim.goodstacks.config
 
 import net.glasslauncher.mods.gcapi3.api.ConfigEntry
+import net.glasslauncher.mods.gcapi3.api.ValueOnVanillaServer
 import pw.tmpim.goodstacks.GoodStacks.MOD_ID
 
 internal const val CONFIG_KEY = "gui.${MOD_ID}.config"
@@ -17,6 +18,7 @@ class GoodStacksConfig {
     maxValue = Int.MAX_VALUE.toDouble(),
     multiplayerSynced = true
   )
+  @ValueOnVanillaServer(integerValue = 64)
   var maxStackSize: Int? = 999
 
   @JvmField
@@ -27,6 +29,15 @@ class GoodStacksConfig {
     descriptionKey = "$C.shorten_item_counts.desc",
   )
   var shortenItemCounts: Boolean? = true
+
+  @JvmField
+  @ConfigEntry(
+    name = "Display item count tooltips",
+    nameKey = "$C.item_count_tooltips",
+    description = "Display exact item counts in an item's tooltip",
+    descriptionKey = "$C.item_count_tooltips.desc",
+  )
+  var itemCountTooltips: ItemCountTooltip = ItemCountTooltip.IF_ABBREVIATED
 
   @JvmField
   @ConfigEntry(

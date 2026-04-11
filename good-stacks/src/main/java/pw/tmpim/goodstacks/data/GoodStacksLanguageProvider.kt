@@ -3,8 +3,8 @@ package pw.tmpim.goodstacks.data
 import emmathemartian.datagen.DataGenContext
 import emmathemartian.datagen.builder.LangBuilder
 import emmathemartian.datagen.provider.LanguageProvider
-import pw.tmpim.goodstacks.CONFIG_KEY
 import pw.tmpim.goodstacks.GoodStacks.MOD_NAME
+import pw.tmpim.goodstacks.config.CONFIG_KEY
 
 private const val C = CONFIG_KEY
 
@@ -16,6 +16,11 @@ class GoodStacksLanguageProvider(ctx: DataGenContext) : LanguageProvider(ctx) {
       .add("$C.max_stack_size.desc", "Overrides the maximum stack size for any item with the default stack size (64)")
       .add("$C.shorten_item_counts", "Shorten item counts")
       .add("$C.shorten_item_counts.desc", "Abbreviate item counts above 1000 when displayed in the GUI")
+      .add("$C.item_count_tooltips", "Display item count tooltips")
+      .add("$C.item_count_tooltips.desc", "Display exact item counts in an item's tooltip")
+      .add("$C.item_count_tooltips.never", "Never")
+      .add("$C.item_count_tooltips.if_abbreviated", "If count is abbreviated")
+      .add("$C.item_count_tooltips.always", "Always")
       .add("$C.negative_item_counts", "Negative item counts")
       .add("$C.negative_item_counts.desc", "Show negative item counts in the GUI (helpful for debugging)")
       .add("$C.debug", "Debug")

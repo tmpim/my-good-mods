@@ -30,16 +30,22 @@
         "value": "pw.tmpim.goodstacks.GoodStacksClient"
       }
     ],
+    "data": [
+      {
+        "adapter": "kotlin",
+        "value": "pw.tmpim.goodstacks.data.GoodStacksData"
+      }
+    ],
     "gcapi3": [
       {
         "adapter": "kotlin",
         "value": "pw.tmpim.goodstacks.GoodStacks"
       }
     ],
-    "data": [
+    "gcapi3:factory_provider": [
       {
         "adapter": "kotlin",
-        "value": "pw.tmpim.goodstacks.data.GoodStacksData"
+        "value": "pw.tmpim.goodstacks.config.GoodStacksConfigFactories"
       }
     ],
     "gcapi3:postload": [

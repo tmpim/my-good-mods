@@ -13,6 +13,8 @@ import net.modificationstation.stationapi.api.registry.ItemRegistry
 import net.modificationstation.stationapi.api.util.Namespace
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import pw.tmpim.goodstacks.config.CONFIG_KEY
+import pw.tmpim.goodstacks.config.GoodStacksConfig
 import java.util.*
 import kotlin.math.min
 
@@ -25,7 +27,7 @@ object GoodStacks : PostConfigLoadedListener, PreConfigSavedListener {
   @JvmField val log: Logger = LoggerFactory.getLogger(MOD_ID)
 
   @JvmStatic
-  @ConfigRoot(value = MOD_ID, visibleName = MOD_NAME, nameKey = "$CONFIG_KEY.name")
+  @ConfigRoot(value = MOD_ID, visibleName = MOD_NAME, nameKey = "${CONFIG_KEY}.name")
   val config = GoodStacksConfig()
 
   private val debug

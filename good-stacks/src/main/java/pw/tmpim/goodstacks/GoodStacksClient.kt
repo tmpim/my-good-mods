@@ -1,15 +1,22 @@
 package pw.tmpim.goodstacks
 
 import net.mine_diver.unsafeevents.listener.EventListener
+import net.modificationstation.stationapi.api.client.event.gui.screen.container.TooltipBuildEvent
 import net.modificationstation.stationapi.api.event.mod.InitEvent
 import pw.tmpim.goodstacks.GoodStacks.MOD_NAME
 import pw.tmpim.goodstacks.GoodStacks.log
 import pw.tmpim.goodstacks.GoodStacks.updateItemLimits
+import pw.tmpim.goodstacks.ItemCount.renderItemCountTooltip
 
 object GoodStacksClient {
   @EventListener
   fun onInit(event: InitEvent) {
     log.info("$MOD_NAME initializing client")
+  }
+
+  @EventListener
+  fun onItemTooltip(event: TooltipBuildEvent) {
+    renderItemCountTooltip(event.itemStack)?.let { event.tooltip.add(it) }
   }
 
   @JvmStatic

@@ -1,5 +1,10 @@
 gui.good-stacks.config.debug=Debug
 gui.good-stacks.config.debug.desc=If enabled, registry values and overrides will be printed to debug.log
+gui.good-stacks.config.item_count_tooltips=Display item count tooltips
+gui.good-stacks.config.item_count_tooltips.always=Always
+gui.good-stacks.config.item_count_tooltips.desc=Display exact item counts in an item's tooltip
+gui.good-stacks.config.item_count_tooltips.if_abbreviated=If count is abbreviated
+gui.good-stacks.config.item_count_tooltips.never=Never
 gui.good-stacks.config.max_stack_size=Maximum stack size
 gui.good-stacks.config.max_stack_size.desc=Overrides the maximum stack size for any item with the default stack size (64)
 gui.good-stacks.config.name=Good Stacks
