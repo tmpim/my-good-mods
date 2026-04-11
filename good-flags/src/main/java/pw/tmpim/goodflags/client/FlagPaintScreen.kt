@@ -17,8 +17,6 @@ import pw.tmpim.goodflags.net.FlagNetworkingC2S
 import pw.tmpim.goodutils.i18n.i18n
 import pw.tmpim.goodutils.net.sendToServer
 import kotlin.math.abs
-import kotlin.math.roundToInt
-import kotlin.math.sqrt
 
 private const val TC = TranslationString.COLOR
 private const val TT = TranslationString.TOOL
@@ -230,8 +228,8 @@ class FlagPaintScreen(private val flagEntity: FlagBlockEntity) : Screen() {
     super.mouseReleased(mouseX, mouseY, button)
     if (button == 0) {
       if (painting) {
-        val px = ((mouseX - canvasX) / pixelScale).coerceIn(0, FLAG_WIDTH - 1)
-        val py = ((mouseY - canvasY) / pixelScale).coerceIn(0, FLAG_HEIGHT - 1)
+        val px = (mouseX - canvasX) / pixelScale
+        val py = (mouseY - canvasY) / pixelScale
         when (currentTool) {
           Tool.LINE -> if (shapeStartX >= 0 && shapeStartY >= 0) {
             val snap = strokeSnapshot
@@ -316,17 +314,16 @@ class FlagPaintScreen(private val flagEntity: FlagBlockEntity) : Screen() {
   }
 
   /**
-   * Midpoint circle algorithm. Draws a filled circle whose bounding box is defined
-   * by the drag rectangle (start → end). The radius is half the shorter side.
+   * Draws a filled ellipse whose bounding box is defined by the drag rectangle (start → end).
    */
   private fun paintCircle(x0: Int, y0: Int, x1: Int, y1: Int) {
     val color = if (currentTool == Tool.ERASER) 15 else selectedColor
-    val cx = (x0 + x1) / 2.0
-    val cy = (y0 + y1) / 2.0
-    val rx = abs(x1 - x0) / 2.0
-    val ry = abs(y1 - y0) / 2.0
-    val r = minOf(rx, ry)
-    circlePixels(cx, cy, r) { px, py ->
+    ellipsePixels(
+      minOf(x0, x1),
+      minOf(y0, y1),
+      maxOf(x0, x1),
+      maxOf(y0, y1)
+    ) { px, py ->
       if (px in 0 until FLAG_WIDTH && py in 0 until FLAG_HEIGHT) {
         localPixels[py * FLAG_WIDTH + px] = (color and 0xF).toByte()
       }
@@ -334,28 +331,76 @@ class FlagPaintScreen(private val flagEntity: FlagBlockEntity) : Screen() {
   }
 
   /**
-   * Iterate all pixels inside (inclusive) the circle centered at (cx, cy) with radius r.
-   * Uses a scanline approach for a filled disc.
+   * Filled ellipse ported from Aseprite's algo_ellipsefill / adjust_ellipse_args.
    */
-  private inline fun circlePixels(cx: Double, cy: Double, r: Double, plot: (Int, Int) -> Unit) {
-    if (r < 0.5) {
-      plot(cx.roundToInt(), cy.roundToInt())
-      return
+  private inline fun ellipsePixels(x0i: Int, y0i: Int, x1i: Int, y1i: Int, plot: (Int, Int) -> Unit) {
+    var x0 = x0i; var y0 = y0i; var x1 = x1i; var y1 = y1i
+    var hPixels = 0; var vPixels = 0
+
+    // --- adjust_ellipse_args ---
+    hPixels = maxOf(hPixels, 0)
+    vPixels = maxOf(vPixels, 0)
+    if (x0 > x1) { val t = x0; x0 = x1; x1 = t }
+    if (y0 > y1) { val t = y0; y0 = y1; y1 = t }
+    val w = x1 - x0 + 1
+    val h = y1 - y0 + 1
+    val hDiameter = w - hPixels
+    val vDiameter = h - vPixels
+    if (w == 8 || w == 12 || w == 22) hPixels++
+    if (h == 8 || h == 12 || h == 22) vPixels++
+    hPixels = if (hDiameter > 5) hPixels else 0
+    vPixels = if (vDiameter > 5) vPixels else 0
+    if (hDiameter % 2 == 0 && hDiameter > 5) hPixels--
+    if (vDiameter % 2 == 0 && vDiameter > 5) vPixels--
+    x1 -= hPixels
+    y1 -= vPixels
+    // --- end adjust_ellipse_args ---
+
+    val a = abs(x1 - x0).toLong()
+    val b = abs(y1 - y0).toLong()
+    val b1 = b and 1L
+    var dx = 4.0 * (1.0 - a) * b * b
+    var dy = 4.0 * (b1 + 1) * a * a
+    var err = dx + dy + b1 * a * a
+    var e2: Double
+
+    y0 += ((b + 1) / 2).toInt()
+    y1 = y0 - b1.toInt()
+    val aMul = 8 * a * a
+    val b1Mul = 8 * b * b
+
+    val initialY0 = y0
+    val initialY1 = y1
+    val initialX0 = x0
+    val initialX1 = x1 + hPixels
+
+    do {
+      for (px in x0..x1 + hPixels) {
+        plot(px, y0 + vPixels)
+        plot(px, y1)
+      }
+      e2 = 2 * err
+      if (e2 <= dy) { y0++; y1--; dy += aMul; err += dy }
+      if (e2 >= dx || 2 * err > dy) { x0++; x1--; dx += b1Mul; err += dx }
+    } while (x0 <= x1)
+
+    // Too-early stop for flat ellipses (a == 1): finish tips
+    while (y0 + vPixels - y1 + 1 <= h) {
+      plot(x0 - 1, y0 + vPixels)
+      plot(x1 + 1 + hPixels, y0++ + vPixels)
+      plot(x0 - 1, y1)
+      plot(x1 + 1 + hPixels, y1--)
     }
-    val minY = (cy - r).toInt()
-    val maxY = (cy + r).toInt()
-    for (py in minY..maxY) {
-      val dy = py + 0.5 - cy
-      val dx = sqrt(maxOf(0.0, r * r - dy * dy))
-      val minX = (cx - dx).toInt()
-      val maxX = (cx + dx).toInt()
-      for (px in minX..maxX) {
-        plot(px, py)
+
+    // Fill vertical middle band when vPixels > 0
+    if (vPixels > 0) {
+      for (i in initialY1 + 1 until initialY0 + vPixels) {
+        for (px in initialX0..initialX1) plot(px, i)
       }
     }
   }
 
-  private inline fun bresenham(x0: Int, y0: Int, x1: Int, y1: Int, plot: (Int, Int) -> Unit) {
+  private fun bresenham(x0: Int, y0: Int, x1: Int, y1: Int, plot: (Int, Int) -> Unit) {
     val dx = abs(x1 - x0)
     val dy = abs(y1 - y0)
     val sx = if (x0 < x1) 1 else -1
@@ -432,8 +477,8 @@ class FlagPaintScreen(private val flagEntity: FlagBlockEntity) : Screen() {
     if (painting && Mouse.isButtonDown(0) &&
         (currentTool == Tool.LINE || currentTool == Tool.RECT || currentTool == Tool.CIRCLE) &&
         shapeStartX >= 0 && shapeStartY >= 0) {
-      val endPx = ((mouseX - canvasX) / pixelScale).coerceIn(0, FLAG_WIDTH - 1)
-      val endPy = ((mouseY - canvasY) / pixelScale).coerceIn(0, FLAG_HEIGHT - 1)
+      val endPx = (mouseX - canvasX) / pixelScale
+      val endPy = (mouseY - canvasY) / pixelScale
       drawShapePreview(shapeStartX, shapeStartY, endPx, endPy)
     }
 
@@ -549,10 +594,10 @@ class FlagPaintScreen(private val flagEntity: FlagBlockEntity) : Screen() {
         }
       }
       Tool.RECT -> {
-        val minX = minOf(x0, x1)
-        val maxX = maxOf(x0, x1)
-        val minY = minOf(y0, y1)
-        val maxY = maxOf(y0, y1)
+        val minX = minOf(x0, x1).coerceIn(0..<FLAG_WIDTH)
+        val maxX = maxOf(x0, x1).coerceIn(0..<FLAG_WIDTH)
+        val minY = minOf(y0, y1).coerceIn(0..<FLAG_HEIGHT)
+        val maxY = maxOf(y0, y1).coerceIn(0..<FLAG_HEIGHT)
         val sx = canvasX + minX * pixelScale
         val sy = canvasY + minY * pixelScale
         val ex = canvasX + (maxX + 1) * pixelScale
@@ -560,17 +605,18 @@ class FlagPaintScreen(private val flagEntity: FlagBlockEntity) : Screen() {
         fill(sx, sy, ex, ey, color)
       }
       Tool.CIRCLE -> {
-        val cx = (x0 + x1) / 2.0
-        val cy = (y0 + y1) / 2.0
-        val rx = abs(x1 - x0) / 2.0
-        val ry = abs(y1 - y0) / 2.0
-        val r = minOf(rx, ry)
-        circlePixels(cx, cy, r) { px, py ->
-          if (px in 0..<FLAG_WIDTH && py in 0..<FLAG_HEIGHT) {
-            val sx = canvasX + px * pixelScale
-            val sy = canvasY + py * pixelScale
-            fill(sx, sy, sx + pixelScale, sy + pixelScale, color)
-          }
+        val pixels = mutableSetOf<Long>()
+        ellipsePixels(minOf(x0, x1), minOf(y0, y1), maxOf(x0, x1), maxOf(y0, y1)) { x, y ->
+          if (x in 0..<FLAG_WIDTH && y in 0..<FLAG_HEIGHT)
+            pixels.add((x.toLong() shl 32) or y.toLong())
+        }
+
+        for (key in pixels) {
+          val px = (key shr 32).toInt()
+          val py = key.toInt()
+          val sx = canvasX + px * pixelScale
+          val sy = canvasY + py * pixelScale
+          fill(sx, sy, sx + pixelScale, sy + pixelScale, color)
         }
       }
       else -> {}

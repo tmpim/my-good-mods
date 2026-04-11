@@ -16,6 +16,7 @@ gui.good-flags.color.white=White
 gui.good-flags.color.yellow=Yellow
 gui.good-flags.title=Paint Flag
 gui.good-flags.tool.brush=Brush
+gui.good-flags.tool.circle=Circle
 gui.good-flags.tool.eraser=Eraser
 gui.good-flags.tool.fill=Fill
 gui.good-flags.tool.line=Line
