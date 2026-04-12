@@ -4,6 +4,7 @@ package pw.tmpim.goodflags.item
 
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
+import net.fabricmc.api.EnvironmentInterface
 import net.minecraft.block.Block
 import net.minecraft.block.WoolBlock
 import net.minecraft.client.font.TextRenderer
@@ -33,6 +34,10 @@ import pw.tmpim.goodflags.block.FlagSpec
  * the 16x16 item icon. The 48x32 flag canvas is downsampled to fit this space
  * using mode sampling (most common color per region).
  */
+@EnvironmentInterface(
+  value = EnvType.CLIENT,
+  itf = ItemWithRenderer::class,
+)
 class FlagBlockItem(id: Int) : BlockItem(id), ItemWithRenderer {
   @Environment(EnvType.CLIENT)
   override fun renderItemOnGui(
