@@ -5,5 +5,6 @@ dependencies {
 modrinth {
   dependencies {
     required.project("glass-config-api")
+    required.project("good-asset-fetcher")
   }
 }
