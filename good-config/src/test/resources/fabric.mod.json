@@ -1,0 +1,44 @@
+{
+  "schemaVersion": 1,
+  "id": "good-config-test",
+  "version": "1.0.0",
+
+  "name": "Good Config Test Mod",
+  "description": "Wonderful configuration",
+  "authors": [
+    "tmpim",
+    "Lemmmy"
+  ],
+  "contact": {
+    "sources": "https://github.com/tmpim/my-good-mods"
+  },
+
+  "license": "MIT",
+
+  "environment": "*",
+  "entrypoints": {
+    "good-config": [
+      {
+        "adapter": "kotlin",
+        "value": "pw.tmpim.goodconfig.testmod.TestConfigs"
+      }
+    ],
+    "main": [
+      {
+        "adapter": "kotlin",
+        "value": "pw.tmpim.goodconfig.testmod.GoodConfigTestMod"
+      }
+    ]
+  },
+
+  "depends": {
+    "minecraft": "1.0.0-beta.7.3",
+    "java": ">=${javaVersion}",
+    "stationapi": ">=${stationApiMin}",
+    "fabricloader": ">=${fabricLoaderMin}",
+    "fabric-language-kotlin": "*"
+  },
+  "suggests": {
+    "modmenu": "*"
+  }
+}

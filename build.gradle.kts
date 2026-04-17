@@ -97,6 +97,13 @@ allprojects {
       }
     }
 
+    maven("https://libraries.minecraft.net") {
+      name = "Mojang"
+      content {
+        includeModule("com.mojang", "datafixerupper") // https://github.com/Mojang/DataFixerUpper
+      }
+    }
+
     exclusiveContent {
       forRepository {
         maven("https://jitpack.io") {
@@ -134,7 +141,6 @@ allprojects {
           srcDir("src/main/java")
         }
         resources {
-          srcDir("src/test/resources")
           srcDir("src/generated/resources")
         }
       }
@@ -219,6 +225,8 @@ allprojects {
 
     // provide property substitutions
     tasks.withType<ProcessResources> {
+      duplicatesStrategy = DuplicatesStrategy.INCLUDE
+
       val props = mapOf(
         "version" to project.properties["version"],
         "javaVersion" to libs.versions.java.get(),

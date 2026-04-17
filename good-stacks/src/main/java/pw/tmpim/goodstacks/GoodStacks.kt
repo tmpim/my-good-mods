@@ -16,6 +16,7 @@ import org.slf4j.LoggerFactory
 import pw.tmpim.goodstacks.config.CONFIG_KEY
 import pw.tmpim.goodstacks.config.GoodStacksConfig
 import java.util.*
+import kotlin.jvm.optionals.getOrNull
 import kotlin.math.min
 
 object GoodStacks : PostConfigLoadedListener, PreConfigSavedListener {
@@ -44,7 +45,7 @@ object GoodStacks : PostConfigLoadedListener, PreConfigSavedListener {
 
   /** updates the limits for every registered item if they were the default 64 */
   fun updateItemLimits(vanilla: Boolean = false) {
-    val configMax = getMaxStack().orElse(null)
+    val configMax = getMaxStack().getOrNull()
 
     ItemRegistry.INSTANCE.streamEntries().forEach { entry ->
       val item = entry.value()
