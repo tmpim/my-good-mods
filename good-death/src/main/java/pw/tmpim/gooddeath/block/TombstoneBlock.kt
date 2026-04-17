@@ -65,6 +65,16 @@ class TombstoneBlock: TemplateBlockWithEntity(namespace.id("tombstone"), MATERIA
   override fun getPlacementState(context: ItemPlacementContext?): BlockState? =
     defaultState?.with(FACING, context?.horizontalPlayerFacing?.opposite ?: Direction.NORTH)
 
+  override fun onBreak(world: World?, x: Int, y: Int, z: Int) {
+    val blockEntity = world?.getBlockEntity(x, y, z)
+
+    if (blockEntity is TombstoneBlockEntity) {
+      blockEntity.dropInventory(world, x, y, z)
+    }
+
+    super.onBreak(world, x, y, z)
+  }
+
   override fun randomDisplayTick(world: World?, x: Int, y: Int, z: Int, random: Random?) {
     if (world != null) {
       val blockState = world.getBlockState(x, y, z)
@@ -86,7 +96,6 @@ class TombstoneBlock: TemplateBlockWithEntity(namespace.id("tombstone"), MATERIA
         )
       }
     }
-
   }
 
   override fun getPistonBehavior(): Int = 2
