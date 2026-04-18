@@ -51,7 +51,7 @@ object GoodStacks : PostConfigLoadedListener, PreConfigSavedListener {
       val item = entry.value()
 
       val originalMax = item.`goodstacks$originalMaxCount`
-      val newMax = configMax.takeIf { !vanilla && configMax > 0 && originalMax == 64 }
+      val newMax = configMax?.takeIf { !vanilla && it > 0 && originalMax == 64 }
         ?: originalMax
         ?: 64.also { log.warn("max stack size for $item was set to 64 as we don't know what it originally was!") }
 
