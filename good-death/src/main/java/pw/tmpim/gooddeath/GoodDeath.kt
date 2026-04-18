@@ -35,10 +35,9 @@ object GoodDeath : ModInitializer {
 
   @JvmStatic
   fun spawnTombstone(playerEntity: PlayerEntity) {
-    log.info("SOMEONE FUCKING HAS DIED")
     val tombInventory = TombstoneInventory(playerEntity.inventory)
     val deathX = playerEntity.x.toInt()
-    val deathY = playerEntity.y.toInt() - 1
+    val deathY = (playerEntity.y - playerEntity.standingEyeHeight + 0.1f).toInt() // thats what beds do
     val deathZ = playerEntity.z.toInt()
 
     val world = playerEntity.world

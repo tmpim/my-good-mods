@@ -20,6 +20,8 @@ public abstract class ClientPlayerEntityMixin extends PlayerEntity {
 
   @Override
   public void onKilledBy(Entity killer) {
+    super.onKilledBy(killer);
+
     var message = DeathRegistry.createMessage(this, killer);
     if (message == null) return;
     
