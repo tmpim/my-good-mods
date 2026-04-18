@@ -1,8 +1,8 @@
 package pw.tmpim.gooddeath.block
 
 import net.minecraft.block.entity.BlockEntity
+import net.minecraft.entity.player.PlayerInventory
 import net.minecraft.nbt.NbtCompound
-import net.minecraft.nbt.NbtList
 import net.minecraft.world.World
 
 class TombstoneBlockEntity(owner: String?): BlockEntity() {
@@ -22,13 +22,18 @@ class TombstoneBlockEntity(owner: String?): BlockEntity() {
 
   var inventory: TombstoneInventory? = null
 
-  fun storeInventory(inventory: TombstoneInventory) {
-    this.inventory = inventory
+  val hasInventory: Boolean
+    get() = this.inventory != null
+
+  fun storePlayerInventory(inventory: PlayerInventory) {
+    this.inventory = TombstoneInventory(inventory)
   }
+
+
 
   fun dropInventory(world: World, x: Int, y: Int, z: Int) {
     inventory?.let {
-      for (slot in (0 until it.size())) {
+      for (slot in 0 until it.size()) {
         it.dropStack(world, x, y, z, slot)
       }
     }
@@ -70,7 +75,7 @@ class TombstoneBlockEntity(owner: String?): BlockEntity() {
       nbt?.putBoolean("HasOwner", false)
     }
 
-    if (inventory != null) {
+    if (hasInventory) {
       nbt?.putBoolean("HasInventory", true)
 
       val invList = inventory!!.writeNbt()

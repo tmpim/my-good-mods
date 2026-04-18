@@ -14,7 +14,6 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import pw.tmpim.gooddeath.block.TombstoneBlock
 import pw.tmpim.gooddeath.block.TombstoneBlockEntity
-import pw.tmpim.gooddeath.block.TombstoneInventory
 
 object GoodDeath : ModInitializer {
   const val MOD_ID = "good-death"
@@ -35,17 +34,16 @@ object GoodDeath : ModInitializer {
 
   @JvmStatic
   fun spawnTombstone(playerEntity: PlayerEntity) {
-    val tombInventory = TombstoneInventory(playerEntity.inventory)
     val deathX = playerEntity.x.toInt()
     val deathY = (playerEntity.y - playerEntity.standingEyeHeight + 0.1f).toInt() // thats what beds do
     val deathZ = playerEntity.z.toInt()
 
     val world = playerEntity.world
-    world.setBlock(deathX, deathY, deathZ, tombstoneBlock.id)
+    world.setBlock(deathX, deathY, deathZ, tombstoneBlock.id, 1)
 
     val blockEntity = world.getBlockEntity(deathX, deathY, deathZ)
     if (blockEntity is TombstoneBlockEntity) {
-      blockEntity.storeInventory(tombInventory)
+      blockEntity.storePlayerInventory(playerEntity.inventory)
     }
   }
 

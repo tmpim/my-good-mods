@@ -3,6 +3,7 @@ package pw.tmpim.gooddeath.block
 import net.minecraft.block.Block
 import net.minecraft.block.entity.BlockEntity
 import net.minecraft.block.material.Material
+import net.minecraft.item.ItemStack
 import net.minecraft.world.World
 import net.modificationstation.stationapi.api.block.BlockState
 import net.modificationstation.stationapi.api.item.ItemPlacementContext
@@ -73,6 +74,17 @@ class TombstoneBlock: TemplateBlockWithEntity(namespace.id("tombstone"), MATERIA
     }
 
     super.onBreak(world, x, y, z)
+  }
+
+  override fun getDroppedItemMeta(blockMeta: Int): Int = 0
+
+  override fun getDropList(world: World?, x: Int, y: Int, z: Int, state: BlockState?, meta: Int): List<ItemStack?>? {
+    if (meta == 1) {
+      // do not drop the block if we are dropping a player inventory
+      return emptyList()
+    }
+
+    return super.getDropList(world, x, y, z, state, meta)
   }
 
   override fun randomDisplayTick(world: World?, x: Int, y: Int, z: Int, random: Random?) {

@@ -7,7 +7,6 @@ import net.minecraft.inventory.Inventory
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.nbt.NbtList
-import net.minecraft.util.math.Vec3d
 import net.minecraft.world.World
 
 class TombstoneInventory(val items: Array<ItemStack?>) : Inventory {
@@ -41,15 +40,13 @@ class TombstoneInventory(val items: Array<ItemStack?>) : Inventory {
     val stack = getStack(slot)
     if (stack != null) {
       val rand = world.random
-      val spawnPos = Vec3d.createCached(x + 0.5, y + 0.5, z + 0.5)
-        // vanilla chest behavior
-        .add(
-          rand.nextDouble() * 0.8 + 0.1,
-          rand.nextDouble() * 0.8 + 0.1,
-          rand.nextDouble() * 0.8 + 0.1
-        )
 
-      val itemEntity = ItemEntity(world, spawnPos.x, spawnPos.y, spawnPos.z, stack)
+      // vanilla chest behaviour
+      val spawnX = x + 0.5 + rand.nextDouble() * 0.8 + 0.1
+      val spawnY = y + 0.5 + rand.nextDouble() * 0.8 + 0.1
+      val spawnZ = z + 0.5 + rand.nextDouble() * 0.8 + 0.1
+
+      val itemEntity = ItemEntity(world, spawnX, spawnY, spawnZ, stack)
       // also vanilla chest behavior
       itemEntity.velocityX = rand.nextGaussian() * 0.05
       itemEntity.velocityY = rand.nextGaussian() * 0.05 + 0.2
