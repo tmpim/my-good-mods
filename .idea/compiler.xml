@@ -1,6 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="CompilerConfiguration">
-    <bytecodeTargetLevel target="17" />
+    <bytecodeTargetLevel target="17">
+      <module name="my-good-mods.good-config" target="21" />
+      <module name="my-good-mods.good-flags.main" target="21" />
+      <module name="my-good-mods.good-flags.test" target="21" />
+      <module name="my-good-mods.tool-nbt-upgrader.test" target="21" />
+      <module name="pw.tmpim.mygoodmods.my-good-mods.good-asset-fetcher.main" target="21" />
+      <module name="pw.tmpim.mygoodmods.my-good-mods.good-asset-fetcher.test" target="21" />
+      <module name="pw.tmpim.mygoodmods.my-good-mods.good-boat-fix.main" target="21" />
+      <module name="pw.tmpim.mygoodmods.my-good-mods.good-boat-fix.test" target="21" />
+      <module name="pw.tmpim.mygoodmods.my-good-mods.good-clumps.main" target="21" />
+      <module name="pw.tmpim.mygoodmods.my-good-mods.good-clumps.test" target="21" />
+      <module name="pw.tmpim.mygoodmods.my-good-mods.good-command-fixes.main" target="21" />
+      <module name="pw.tmpim.mygoodmods.my-good-mods.good-command-fixes.test" target="21" />
+      <module name="pw.tmpim.mygoodmods.my-good-mods.good-compression.main" target="21" />
+      <module name="pw.tmpim.mygoodmods.my-good-mods.good-compression.test" target="21" />
+      <module name="pw.tmpim.mygoodmods.my-good-mods.good-config.main" target="21" />
+      <module name="pw.tmpim.mygoodmods.my-good-mods.good-config.test" target="21" />
+      <module name="pw.tmpim.mygoodmods.my-good-mods.good-death-messages.main" target="21" />
+      <module name="pw.tmpim.mygoodmods.my-good-mods.good-death-messages.test" target="21" />
+      <module name="pw.tmpim.mygoodmods.my-good-mods.good-farming.main" target="21" />
+      <module name="pw.tmpim.mygoodmods.my-good-mods.good-farming.test" target="21" />
+      <module name="pw.tmpim.mygoodmods.my-good-mods.good-food.main" target="21" />
+      <module name="pw.tmpim.mygoodmods.my-good-mods.good-food.test" target="21" />
+      <module name="pw.tmpim.mygoodmods.my-good-mods.good-mod-template.main" target="21" />
+      <module name="pw.tmpim.mygoodmods.my-good-mods.good-mod-template.test" target="21" />
+      <module name="pw.tmpim.mygoodmods.my-good-mods.good-mod.main" target="21" />
+      <module name="pw.tmpim.mygoodmods.my-good-mods.good-mod.test" target="21" />
+      <module name="pw.tmpim.mygoodmods.my-good-mods.good-sign-editing.main" target="21" />
+      <module name="pw.tmpim.mygoodmods.my-good-mods.good-sign-editing.test" target="21" />
+      <module name="pw.tmpim.mygoodmods.my-good-mods.good-sounds.main" target="21" />
+      <module name="pw.tmpim.mygoodmods.my-good-mods.good-sounds.test" target="21" />
+      <module name="pw.tmpim.mygoodmods.my-good-mods.good-utils.main" target="21" />
+      <module name="pw.tmpim.mygoodmods.my-good-mods.good-utils.test" target="21" />
+      <module name="pw.tmpim.mygoodmods.my-good-mods.tool-nbt-upgrader.main" target="21" />
+    </bytecodeTargetLevel>
   </component>
 </project>

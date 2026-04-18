@@ -5,6 +5,7 @@ import net.fabricmc.loader.api.FabricLoader
 import net.glasslauncher.mods.gcapi3.api.ConfigRoot
 import net.mine_diver.unsafeevents.listener.EventListener
 import net.minecraft.block.Block
+import net.minecraft.entity.player.PlayerEntity
 import net.modificationstation.stationapi.api.event.block.entity.BlockEntityRegisterEvent
 import net.modificationstation.stationapi.api.event.mod.InitEvent
 import net.modificationstation.stationapi.api.event.registry.BlockRegistryEvent
@@ -13,6 +14,7 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import pw.tmpim.gooddeath.block.TombstoneBlock
 import pw.tmpim.gooddeath.block.TombstoneBlockEntity
+import pw.tmpim.gooddeath.block.TombstoneInventory
 
 object GoodDeath : ModInitializer {
   const val MOD_ID = "good-death"
@@ -30,6 +32,23 @@ object GoodDeath : ModInitializer {
   val config = GoodDeathConfig()
 
   override fun onInitialize() {}
+
+  @JvmStatic
+  fun spawnTombstone(playerEntity: PlayerEntity) {
+    log.info("SOMEONE FUCKING HAS DIED")
+    val tombInventory = TombstoneInventory(playerEntity.inventory)
+    val deathX = playerEntity.x.toInt()
+    val deathY = playerEntity.y.toInt() - 1
+    val deathZ = playerEntity.z.toInt()
+
+    val world = playerEntity.world
+    world.setBlock(deathX, deathY, deathZ, tombstoneBlock.id)
+
+    val blockEntity = world.getBlockEntity(deathX, deathY, deathZ)
+    if (blockEntity is TombstoneBlockEntity) {
+      blockEntity.storeInventory(tombInventory)
+    }
+  }
 
   @EventListener
   fun onInit(event: InitEvent) {

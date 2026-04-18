@@ -22,9 +22,13 @@ class TombstoneBlockEntity(owner: String?): BlockEntity() {
 
   var inventory: TombstoneInventory? = null
 
+  fun storeInventory(inventory: TombstoneInventory) {
+    this.inventory = inventory
+  }
+
   fun dropInventory(world: World, x: Int, y: Int, z: Int) {
     inventory?.let {
-      for (slot in (0..it.size())) {
+      for (slot in (0 until it.size())) {
         it.dropStack(world, x, y, z, slot)
       }
     }
