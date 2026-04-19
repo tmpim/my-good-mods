@@ -39,21 +39,11 @@ class TombstoneBlockEntity: BlockEntity() {
     super.readNbt(nbt)
 
     if (nbt.contains("Inventory")) {
-      if (nbt.getType("Inventory") != NbtType.LIST) {
-        GoodDeath.log.warn("Tombstone at ({}, {}, {}) has Inventory NBT tag but it is not a list", x, y, z)
-        inventory = null
-      } else {
-        inventory = TombstoneInventory.readFromNbt(nbt.getList("Inventory"))
-      }
+      inventory = TombstoneInventory.readFromNbt(nbt.getList("Inventory"))
     }
 
     if (nbt.contains("Owner")) {
-      if (nbt.getType("Owner") != NbtType.STRING) {
-        GoodDeath.log.warn("Tombstone at ({}, {}, {}) has Owner NBT tag but it is not a string", x, y, z)
-        owner = null
-      } else {
-        owner = nbt.getString("Owner")
-      }
+      owner = nbt.getString("Owner")
     }
   }
 
