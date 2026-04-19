@@ -5,21 +5,7 @@ import net.minecraft.entity.player.PlayerInventory
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.world.World
 
-class TombstoneBlockEntity(owner: String?): BlockEntity() {
-  constructor() : this(null)
-
-  val hasOwner: Boolean
-    get() = this.owner != null
-
-  var owner: String? = owner
-    set(newOwner) {
-      if (newOwner != null && newOwner.isBlank()) {
-        throw IllegalArgumentException("Tombstone owner must not be a blank string. Use null for no owner")
-      }
-
-      field = newOwner
-    }
-
+class TombstoneBlockEntity: BlockEntity() {
   var inventory: TombstoneInventory? = null
 
   val hasInventory: Boolean
@@ -28,7 +14,7 @@ class TombstoneBlockEntity(owner: String?): BlockEntity() {
   fun storePlayerInventory(inventory: PlayerInventory) {
     this.inventory = TombstoneInventory(inventory)
   }
-  
+
   fun dropInventory(world: World, x: Int, y: Int, z: Int) {
     inventory?.let {
       for (slot in 0 until it.size()) {
@@ -37,49 +23,30 @@ class TombstoneBlockEntity(owner: String?): BlockEntity() {
     }
   }
 
-  override fun readNbt(nbt: NbtCompound?) {
+  override fun readNbt(nbt: NbtCompound) {
     super.readNbt(nbt)
 
-    if (nbt != null) {
-      val hasOwner = nbt.getBoolean("HasOwner")
+    val hasInventory = nbt.getBoolean("HasInventory")
 
-      if (hasOwner) {
-        if (!nbt.contains("Owner")) {
-          throw IllegalStateException("Tombstone block entity NBT must have Owner if HasOwner is true")
-        }
-
-        owner = nbt.getString("Owner")
+    if (hasInventory) {
+      if (!nbt.contains("Inventory")) {
+        throw IllegalStateException("Tombstone block entity NBT must have Inventory if HasInventory is true")
       }
 
-      val hasInventory = nbt.getBoolean("HasInventory")
-
-      if (hasInventory) {
-        if (!nbt.contains("Inventory")) {
-          throw IllegalStateException("Tombstone block entity NBT must have Inventory if HasInventory is true")
-        }
-
-        inventory = TombstoneInventory.readFromNbt(nbt.getList("Inventory"))
-      }
+      inventory = TombstoneInventory.readFromNbt(nbt.getList("Inventory"))
     }
   }
 
-  override fun writeNbt(nbt: NbtCompound?) {
+  override fun writeNbt(nbt: NbtCompound) {
     super.writeNbt(nbt)
 
-    if (hasOwner) {
-      nbt?.putBoolean("HasOwner", true)
-      nbt?.putString("Owner", owner)
-    } else {
-      nbt?.putBoolean("HasOwner", false)
-    }
-
     if (hasInventory) {
-      nbt?.putBoolean("HasInventory", true)
+      nbt.putBoolean("HasInventory", true)
 
       val invList = inventory!!.writeNbt()
-      nbt?.put("Inventory", invList)
+      nbt.put("Inventory", invList)
     } else {
-      nbt?.putBoolean("HasInventory", false)
+      nbt.putBoolean("HasInventory", false)
     }
   }
 }

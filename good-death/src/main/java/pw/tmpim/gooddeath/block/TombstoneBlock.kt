@@ -3,6 +3,7 @@ package pw.tmpim.gooddeath.block
 import net.minecraft.block.Block
 import net.minecraft.block.entity.BlockEntity
 import net.minecraft.block.material.Material
+import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
 import net.minecraft.world.World
 import net.modificationstation.stationapi.api.block.BlockState
@@ -14,6 +15,7 @@ import net.modificationstation.stationapi.api.template.block.TemplateBlockWithEn
 import net.modificationstation.stationapi.api.util.math.Direction
 import net.modificationstation.stationapi.api.util.math.Vec3d
 import pw.tmpim.gooddeath.GoodDeath.namespace
+import pw.tmpim.gooddeath.GoodDeath.tombstoneBlock
 import java.util.*
 
 class TombstoneBlock: TemplateBlockWithEntity(namespace.id("tombstone"), MATERIAL) {
@@ -46,6 +48,29 @@ class TombstoneBlock: TemplateBlockWithEntity(namespace.id("tombstone"), MATERIA
       val angleY = Math.toRadians(dir.opposite.asRotation().toDouble()).toFloat()
       PARTICLE_POSITIONS_NORM.map { pos -> pos.rotateY(angleY) }.toTypedArray()
     }
+
+    @JvmStatic
+    fun spawnTombstoneForDeadPlayer(playerEntity: PlayerEntity) {
+      val deathX = playerEntity.x.toInt()
+      val deathY = (playerEntity.y - playerEntity.standingEyeHeight + 0.1f).toInt() // thats what beds do
+      val deathZ = playerEntity.z.toInt()
+
+      val facing = Direction.fromRotation(playerEntity.yaw.toDouble())
+
+      val world = playerEntity.world
+      val blockState = tombstoneBlock.defaultState
+        .with(FROM_DEATH, true)
+        .with(FACING, facing)
+
+      // we must notify in case there is a block already placed there
+      world.setBlockStateWithNotify(deathX, deathY, deathZ, blockState)
+
+      val blockEntity = world.getBlockEntity(deathX, deathY, deathZ)
+
+      if (blockEntity is TombstoneBlockEntity) {
+        blockEntity.storePlayerInventory(playerEntity.inventory)
+      }
+    }
   }
 
   init {
@@ -61,27 +86,23 @@ class TombstoneBlock: TemplateBlockWithEntity(namespace.id("tombstone"), MATERIA
   override fun isFullCube(): Boolean = false
   override fun isOpaque(): Boolean = false
 
-  override fun appendProperties(builder: StateManager.Builder<Block?, BlockState?>?) {
-    builder?.add(FACING)?.add(FROM_DEATH)
+  override fun appendProperties(builder: StateManager.Builder<Block, BlockState>) {
+    builder.add(FACING).add(FROM_DEATH)
     super.appendProperties(builder)
   }
 
-  override fun getPlacementState(context: ItemPlacementContext?): BlockState? =
-    defaultState?.with(FACING, context?.horizontalPlayerFacing?.opposite ?: Direction.NORTH)
-      ?.with(FROM_DEATH, false)
+  override fun getPlacementState(context: ItemPlacementContext): BlockState =
+    defaultState.with(FACING, context.horizontalPlayerFacing?.opposite ?: Direction.NORTH)
+      .with(FROM_DEATH, false)
 
-  override fun onBreak(world: World?, x: Int, y: Int, z: Int) {
-    val blockEntity = world?.getBlockEntity(x, y, z)
+  override fun onBreak(world: World, x: Int, y: Int, z: Int) {
+    val blockEntity = world.getBlockEntity(x, y, z)
 
     if (blockEntity is TombstoneBlockEntity) {
       blockEntity.dropInventory(world, x, y, z)
     }
 
     super.onBreak(world, x, y, z)
-  }
-
-  override fun onDestroyedByExplosion(world: World?, x: Int, y: Int, z: Int) {
-    super.onDestroyedByExplosion(world, x, y, z)
   }
 
   override fun getDroppedItemMeta(blockMeta: Int): Int = 0
@@ -91,26 +112,24 @@ class TombstoneBlock: TemplateBlockWithEntity(namespace.id("tombstone"), MATERIA
     return if (fromDeath) emptyList() else listOf(ItemStack(this))
   }
 
-  override fun randomDisplayTick(world: World?, x: Int, y: Int, z: Int, random: Random?) {
-    if (world != null) {
-      val blockState = world.getBlockState(x, y, z)
-      val facing = blockState.get(FACING)
+  override fun randomDisplayTick(world: World, x: Int, y: Int, z: Int, random: Random) {
+    val blockState = world.getBlockState(x, y, z)
+    val facing = blockState.get(FACING)
 
-      if (!PARTICLE_POSITIONS_ROT.contains(facing)) {
-        return
-      }
+    if (!PARTICLE_POSITIONS_ROT.contains(facing)) {
+      return
+    }
 
-      for (pos in PARTICLE_POSITIONS_ROT[facing]!!) {
-        world.addParticle(
-          "flame",
-          pos.x + x + 0.5,
-          pos.y + y + 0.5,
-          pos.z + z + 0.5,
-          0.0,
-          0.0,
-          0.0
-        )
-      }
+    for (pos in PARTICLE_POSITIONS_ROT[facing]!!) {
+      world.addParticle(
+        "flame",
+        pos.x + x + 0.5,
+        pos.y + y + 0.5,
+        pos.z + z + 0.5,
+        0.0,
+        0.0,
+        0.0
+      )
     }
   }
 
