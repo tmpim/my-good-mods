@@ -21,6 +21,6 @@ public class ServerPlayerEntityMixin {
     )
   )
   private void onDropInventoryAfterDeath(PlayerInventory instance, Operation<Void> original) {
-    GoodDeath.spawnTombstone((PlayerEntity) (Object) this);
+    GoodDeath.spawnTombstoneForDeadPlayer((PlayerEntity) (Object) this);
   }
 }

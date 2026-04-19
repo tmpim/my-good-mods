@@ -6,6 +6,7 @@ import net.glasslauncher.mods.gcapi3.api.ConfigRoot
 import net.mine_diver.unsafeevents.listener.EventListener
 import net.minecraft.block.Block
 import net.minecraft.entity.player.PlayerEntity
+import net.modificationstation.stationapi.api.block.BlockState
 import net.modificationstation.stationapi.api.event.block.entity.BlockEntityRegisterEvent
 import net.modificationstation.stationapi.api.event.mod.InitEvent
 import net.modificationstation.stationapi.api.event.registry.BlockRegistryEvent
@@ -13,6 +14,7 @@ import net.modificationstation.stationapi.api.util.Namespace
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import pw.tmpim.gooddeath.block.TombstoneBlock
+import pw.tmpim.gooddeath.block.TombstoneBlock.Companion.FROM_DEATH
 import pw.tmpim.gooddeath.block.TombstoneBlockEntity
 
 object GoodDeath : ModInitializer {
@@ -33,13 +35,14 @@ object GoodDeath : ModInitializer {
   override fun onInitialize() {}
 
   @JvmStatic
-  fun spawnTombstone(playerEntity: PlayerEntity) {
+  fun spawnTombstoneForDeadPlayer(playerEntity: PlayerEntity) {
     val deathX = playerEntity.x.toInt()
     val deathY = (playerEntity.y - playerEntity.standingEyeHeight + 0.1f).toInt() // thats what beds do
     val deathZ = playerEntity.z.toInt()
 
     val world = playerEntity.world
-    world.setBlock(deathX, deathY, deathZ, tombstoneBlock.id, 1)
+    val blockState = tombstoneBlock.defaultState.with(FROM_DEATH, true)
+    world.setBlockState(deathX, deathY, deathZ, blockState)
 
     val blockEntity = world.getBlockEntity(deathX, deathY, deathZ)
     if (blockEntity is TombstoneBlockEntity) {

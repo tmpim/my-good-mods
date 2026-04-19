@@ -28,9 +28,7 @@ class TombstoneBlockEntity(owner: String?): BlockEntity() {
   fun storePlayerInventory(inventory: PlayerInventory) {
     this.inventory = TombstoneInventory(inventory)
   }
-
-
-
+  
   fun dropInventory(world: World, x: Int, y: Int, z: Int) {
     inventory?.let {
       for (slot in 0 until it.size()) {

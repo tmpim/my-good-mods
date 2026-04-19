@@ -11,11 +11,13 @@ import pw.tmpim.gooddeath.GoodDeath
 class GoodDeathCraftingRecipeProvider(ctx: DataGenContext) : CraftingRecipeProvider(ctx) {
   override fun run(ctx: DataGenContext) {
     shaped()
-      .pattern("CCC")
-      .pattern("CBC")
-      .pattern("CCC")
-      .define('C', DataIngredient.of(Block.COBBLESTONE.asItem()))
+      .pattern("SSS")
+      .pattern("SBS")
+      .pattern("T_T")
+      .define('S', DataIngredient.of(Block.STONE.asItem()))
       .define('B', DataIngredient.of(Item.BONE))
+      .define('T', DataIngredient.of(Block.TORCH.asItem()))
+      .define('_', DataIngredient.of(Block.SLAB.asItem()))
       .result(ItemStack(GoodDeath.tombstoneBlock))
       .save("tombstone", this, ctx)
   }

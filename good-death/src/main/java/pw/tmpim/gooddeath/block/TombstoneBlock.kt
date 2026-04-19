@@ -8,6 +8,7 @@ import net.minecraft.world.World
 import net.modificationstation.stationapi.api.block.BlockState
 import net.modificationstation.stationapi.api.item.ItemPlacementContext
 import net.modificationstation.stationapi.api.state.StateManager
+import net.modificationstation.stationapi.api.state.property.BooleanProperty
 import net.modificationstation.stationapi.api.state.property.DirectionProperty
 import net.modificationstation.stationapi.api.template.block.TemplateBlockWithEntity
 import net.modificationstation.stationapi.api.util.math.Direction
@@ -22,6 +23,8 @@ class TombstoneBlock: TemplateBlockWithEntity(namespace.id("tombstone"), MATERIA
       "facing",
       FACINGS
     )
+
+    val FROM_DEATH: BooleanProperty = BooleanProperty.of("from_death")
 
     val MATERIAL: Material = TombstoneMaterial()
     const val LUMINANCE: Float = 1.0f
@@ -59,12 +62,13 @@ class TombstoneBlock: TemplateBlockWithEntity(namespace.id("tombstone"), MATERIA
   override fun isOpaque(): Boolean = false
 
   override fun appendProperties(builder: StateManager.Builder<Block?, BlockState?>?) {
-    builder?.add(FACING)
+    builder?.add(FACING)?.add(FROM_DEATH)
     super.appendProperties(builder)
   }
 
   override fun getPlacementState(context: ItemPlacementContext?): BlockState? =
     defaultState?.with(FACING, context?.horizontalPlayerFacing?.opposite ?: Direction.NORTH)
+      ?.with(FROM_DEATH, false)
 
   override fun onBreak(world: World?, x: Int, y: Int, z: Int) {
     val blockEntity = world?.getBlockEntity(x, y, z)
@@ -76,15 +80,15 @@ class TombstoneBlock: TemplateBlockWithEntity(namespace.id("tombstone"), MATERIA
     super.onBreak(world, x, y, z)
   }
 
+  override fun onDestroyedByExplosion(world: World?, x: Int, y: Int, z: Int) {
+    super.onDestroyedByExplosion(world, x, y, z)
+  }
+
   override fun getDroppedItemMeta(blockMeta: Int): Int = 0
 
-  override fun getDropList(world: World?, x: Int, y: Int, z: Int, state: BlockState?, meta: Int): List<ItemStack?>? {
-    if (meta == 1) {
-      // do not drop the block if we are dropping a player inventory
-      return emptyList()
-    }
-
-    return super.getDropList(world, x, y, z, state, meta)
+  override fun getDropList(world: World, x: Int, y: Int, z: Int, state: BlockState, meta: Int): List<ItemStack>? {
+    val fromDeath = state.get(FROM_DEATH)
+    return if (fromDeath) emptyList() else listOf(ItemStack(this))
   }
 
   override fun randomDisplayTick(world: World?, x: Int, y: Int, z: Int, random: Random?) {

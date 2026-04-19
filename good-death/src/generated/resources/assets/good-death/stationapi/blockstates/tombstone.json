@@ -1,1 +1,19 @@
-{"variants":{"facing\u003deast":{"model":"good-death:block/tombstone"},"facing\u003dsouth":{"model":"good-death:block/tombstone","y":90},"facing\u003dnorth":{"model":"good-death:block/tombstone","y":270},"facing\u003dwest":{"model":"good-death:block/tombstone","y":180}}}
+{
+  "variants": {
+    "facing\u003deast": {
+      "model": "good-death:block/tombstone"
+    },
+    "facing\u003dsouth": {
+      "model": "good-death:block/tombstone",
+      "y": 90
+    },
+    "facing\u003dnorth": {
+      "model": "good-death:block/tombstone",
+      "y": 270
+    },
+    "facing\u003dwest": {
+      "model": "good-death:block/tombstone",
+      "y": 180
+    }
+  }
+}
