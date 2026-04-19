@@ -5,6 +5,7 @@ import net.minecraft.block.entity.BlockEntity
 import net.minecraft.block.material.Material
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
+import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
 import net.modificationstation.stationapi.api.block.BlockState
 import net.modificationstation.stationapi.api.item.ItemPlacementContext
@@ -17,6 +18,12 @@ import net.modificationstation.stationapi.api.util.math.Vec3d
 import pw.tmpim.gooddeath.GoodDeath
 import pw.tmpim.gooddeath.GoodDeath.namespace
 import pw.tmpim.gooddeath.GoodDeath.tombstoneBlock
+import pw.tmpim.goodutils.block.BFS
+import pw.tmpim.goodutils.block.BFS.distanceTo
+import pw.tmpim.goodutils.block.BFS.toBlockPos
+import pw.tmpim.goodutils.block.BFS.x
+import pw.tmpim.goodutils.block.BFS.y
+import pw.tmpim.goodutils.block.BFS.z
 import java.util.*
 
 class TombstoneBlock: TemplateBlockWithEntity(namespace.id("tombstone"), MATERIAL) {
@@ -50,30 +57,74 @@ class TombstoneBlock: TemplateBlockWithEntity(namespace.id("tombstone"), MATERIA
       PARTICLE_POSITIONS_NORM.map { pos -> pos.rotateY(angleY) }.toTypedArray()
     }
 
+    const val SPAWN_RADIUS: Int = 16
+
     @JvmStatic
-    fun spawnTombstoneForDeadPlayer(playerEntity: PlayerEntity) {
-      val deathX = playerEntity.x.toInt()
-      val deathY = (playerEntity.y - playerEntity.standingEyeHeight + 0.1f).toInt() // thats what beds do
-      val deathZ = playerEntity.z.toInt()
+    fun findSpawnLocation(playerEntity: PlayerEntity, radius: Int = SPAWN_RADIUS): BlockPos? {
+      val world = playerEntity.world
+
+      val deathX: Double = playerEntity.x
+      val deathY: Double = playerEntity.y
+      val deathZ: Double = playerEntity.z
+
+      val sourceX = deathX.toInt()
+      val sourceY = deathY.toInt()
+      val sourceZ = deathZ.toInt()
+      val source = BFS.Pos(sourceX, sourceY, sourceZ)
+
+      return BFS.breadthFirstSearch(
+        source,
+        { pos -> pos.y >= sourceY && pos.distanceTo(source) <= radius.toDouble() },
+      )
+        .filter { (pos, _) -> world.isAir(pos.x, pos.y, pos.z) }
+        .minByOrNull { (pos, distance) ->
+          if (pos.y - 1 <= world.bottomY) {
+            // Try not to spawn tombs above the void
+            Int.MAX_VALUE
+          } else {
+            val groundState = world.getBlockState(pos.x, pos.y - 1, pos.z)
+            val airScore = if (groundState.isAir) radius else 0
+            val fluidScore = if (groundState.material.isFluid) radius / 2 else 0
+            airScore + fluidScore + distance
+          }
+        }?.pos?.toBlockPos()
+    }
+
+    @JvmStatic
+    fun spawnForDeadPlayer(playerEntity: PlayerEntity): Boolean {
+      val world = playerEntity.world
+      val spawnPos = findSpawnLocation(playerEntity)
+
+      if (spawnPos == null) {
+        playerEntity.inventory.dropInventory()
+        GoodDeath.log.warn(
+          "Could not spawn a tombstone for player {}, who died at ({}, {}, {})",
+          playerEntity.name, playerEntity.x, playerEntity.y, playerEntity.z
+        )
+        return false
+      }
 
       val facing = Direction.fromRotation(playerEntity.yaw.toDouble())
-
-      val world = playerEntity.world
       val blockState = tombstoneBlock.defaultState
         .with(FROM_DEATH, true)
         .with(FACING, facing)
 
       // we must notify in case there is a block already placed there
-      world.setBlockStateWithNotify(deathX, deathY, deathZ, blockState)
+      world.setBlockStateWithNotify(spawnPos, blockState)
 
-      val blockEntity = world.getBlockEntity(deathX, deathY, deathZ)
-      GoodDeath.log.info("Tombstone spawned for player {} at ({}, {}, {})", playerEntity.name, deathX, deathY, deathZ)
+      val blockEntity = world.getBlockEntity(spawnPos.x, spawnPos.y, spawnPos.z)
+      GoodDeath.log.info(
+        "Tombstone spawned for player {} at ({}, {}, {})",
+        playerEntity.name, spawnPos.x, spawnPos.y, spawnPos.z
+      )
 
       if (blockEntity is TombstoneBlockEntity) {
         blockEntity.bury(playerEntity)
       } else {
         GoodDeath.log.warn("Could not store player inventory in tombstone because no block entity was created?!")
       }
+
+      return true
     }
   }
 

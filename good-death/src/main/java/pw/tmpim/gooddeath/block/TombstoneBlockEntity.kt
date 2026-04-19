@@ -6,7 +6,6 @@ import net.minecraft.nbt.NbtCompound
 import net.minecraft.world.World
 import pw.tmpim.gooddeath.GoodDeath
 import pw.tmpim.goodutils.nbt.NbtType
-import pw.tmpim.goodutils.nbt.contains
 import pw.tmpim.goodutils.nbt.getType
 
 class TombstoneBlockEntity: BlockEntity() {

@@ -7,7 +7,6 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
-import pw.tmpim.gooddeath.GoodDeath;
 import pw.tmpim.gooddeath.block.TombstoneBlock;
 
 @Mixin(ServerPlayerEntity.class)
@@ -22,6 +21,6 @@ public class ServerPlayerEntityMixin {
     )
   )
   private void onDropInventoryAfterDeath(PlayerInventory instance, Operation<Void> original) {
-    TombstoneBlock.spawnTombstoneForDeadPlayer((PlayerEntity) (Object) this);
+    TombstoneBlock.spawnForDeadPlayer((PlayerEntity) (Object) this);
   }
 }
