@@ -1,52 +1,67 @@
 package pw.tmpim.gooddeath.block
 
 import net.minecraft.block.entity.BlockEntity
-import net.minecraft.entity.player.PlayerInventory
+import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.world.World
+import pw.tmpim.gooddeath.GoodDeath
+import pw.tmpim.goodutils.nbt.NbtType
+import pw.tmpim.goodutils.nbt.contains
+import pw.tmpim.goodutils.nbt.getType
 
 class TombstoneBlockEntity: BlockEntity() {
-  var inventory: TombstoneInventory? = null
+  private var inventory: TombstoneInventory? = null
+  private var owner: String? = null
 
   val hasInventory: Boolean
     get() = this.inventory != null
 
-  fun storePlayerInventory(inventory: PlayerInventory) {
-    this.inventory = TombstoneInventory(inventory)
+  val hasOwner: Boolean
+    get() = this.owner != null
+
+  fun bury(playerEntity: PlayerEntity) {
+    this.inventory = TombstoneInventory(playerEntity.inventory)
+    this.owner = playerEntity.name
   }
 
-  fun dropInventory(world: World, x: Int, y: Int, z: Int) {
+  fun dropInventory(world: World, x: Int, y: Int, z: Int): Boolean {
     inventory?.let {
       for (slot in 0 until it.size()) {
         it.dropStack(world, x, y, z, slot)
       }
+
+      return true
     }
+
+    return false
   }
 
   override fun readNbt(nbt: NbtCompound) {
     super.readNbt(nbt)
 
-    val hasInventory = nbt.getBoolean("HasInventory")
-
-    if (hasInventory) {
-      if (!nbt.contains("Inventory")) {
-        throw IllegalStateException("Tombstone block entity NBT must have Inventory if HasInventory is true")
+    if (nbt.contains("Inventory")) {
+      if (nbt.getType("Inventory") != NbtType.LIST) {
+        GoodDeath.log.warn("Tombstone at ({}, {}, {}) has Inventory NBT tag but it is not a list", x, y, z)
+        inventory = null
+      } else {
+        inventory = TombstoneInventory.readFromNbt(nbt.getList("Inventory"))
       }
+    }
 
-      inventory = TombstoneInventory.readFromNbt(nbt.getList("Inventory"))
+    if (nbt.contains("Owner")) {
+      if (nbt.getType("Owner") != NbtType.STRING) {
+        GoodDeath.log.warn("Tombstone at ({}, {}, {}) has Owner NBT tag but it is not a string", x, y, z)
+        owner = null
+      } else {
+        owner = nbt.getString("Owner")
+      }
     }
   }
 
   override fun writeNbt(nbt: NbtCompound) {
     super.writeNbt(nbt)
 
-    if (hasInventory) {
-      nbt.putBoolean("HasInventory", true)
-
-      val invList = inventory!!.writeNbt()
-      nbt.put("Inventory", invList)
-    } else {
-      nbt.putBoolean("HasInventory", false)
-    }
+    inventory?.let { nbt.put("Inventory", it.writeNbt()) }
+    owner?.let { nbt.putString("Owner", it) }
   }
 }

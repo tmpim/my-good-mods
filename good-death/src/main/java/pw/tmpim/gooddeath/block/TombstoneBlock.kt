@@ -14,6 +14,7 @@ import net.modificationstation.stationapi.api.state.property.DirectionProperty
 import net.modificationstation.stationapi.api.template.block.TemplateBlockWithEntity
 import net.modificationstation.stationapi.api.util.math.Direction
 import net.modificationstation.stationapi.api.util.math.Vec3d
+import pw.tmpim.gooddeath.GoodDeath
 import pw.tmpim.gooddeath.GoodDeath.namespace
 import pw.tmpim.gooddeath.GoodDeath.tombstoneBlock
 import java.util.*
@@ -66,9 +67,12 @@ class TombstoneBlock: TemplateBlockWithEntity(namespace.id("tombstone"), MATERIA
       world.setBlockStateWithNotify(deathX, deathY, deathZ, blockState)
 
       val blockEntity = world.getBlockEntity(deathX, deathY, deathZ)
+      GoodDeath.log.info("Tombstone spawned for player {} at ({}, {}, {})", playerEntity.name, deathX, deathY, deathZ)
 
       if (blockEntity is TombstoneBlockEntity) {
-        blockEntity.storePlayerInventory(playerEntity.inventory)
+        blockEntity.bury(playerEntity)
+      } else {
+        GoodDeath.log.warn("Could not store player inventory in tombstone because no block entity was created?!")
       }
     }
   }
