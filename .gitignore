@@ -16,6 +16,11 @@ classes/
 *.iws
 .kotlin
 
+# high-churn idea files. shouldn't have to ignore these but alas
+.idea/modules.xml
+.idea/go.imports.xml
+.idea/compiler.xml
+
 # vscode
 
 .settings/
