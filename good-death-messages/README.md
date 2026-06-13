@@ -1,11 +1,11 @@
 # Good Death Messages
 
 ![Minecraft Beta 1.7.3](https://img.shields.io/badge/minecraft-beta_1.7.3-70B237)
-[![Modrinth Downloads](https://img.shields.io/modrinth/dt/good-mod-template?logo=modrinth)](https://modrinth.com/mod/good-mod-template/)
-![Maven Version](https://img.shields.io/maven-metadata/v?metadataUrl=https%3A%2F%2Frepo.lem.sh%2Freleases%2Fpw%2Ftmpim%2Fmygoodmods%2Fgood-mod-template%2Fmaven-metadata.xml)
+[![Modrinth Downloads](https://img.shields.io/modrinth/dt/good-death-messages?logo=modrinth)](https://modrinth.com/mod/good-death-messages/)
+![Maven Version](https://img.shields.io/maven-metadata/v?metadataUrl=https%3A%2F%2Frepo.lem.sh%2Freleases%2Fpw%2Ftmpim%2Fmygoodmods%2Fgood-death-messages%2Fmaven-metadata.xml)
 
 <!-- modrinth_exclude.start -->
-[![Download on Modrinth](../images/modrinth.png)](https://modrinth.com/mod/good-mod-template/)
+[![Download on Modrinth](../images/modrinth.png)](https://modrinth.com/mod/good-death-messages/)
 <!-- modrinth_exclude.end -->
 
 Beta 1.7.3 mod that adds death messages faithful to newer versions of Minecraft. Works in both singleplayer and
@@ -37,6 +37,11 @@ And includes some additional non-standard messages, which can be disabled:
 - `<player> was mauled to bits by <wolf>`
 - `<player> belly flopped into a puddle`
 - `<player> drowned to a crisp`
+
+## Compatibility
+
+[MoreChatMessages](<https://modrinth.com/mod/morechatmessages>) v1.4 and higher will automatically disable its own death 
+messages feature if Good Death Messages is installed, regardless of either mod's config.
 
 ## Requirements
 
