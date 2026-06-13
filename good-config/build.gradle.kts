@@ -4,9 +4,6 @@ dependencies {
 
   modImplementation(libs.glassnetworking) // https://github.com/Glass-Series/Glass-Networking
 
-  // implementation(libs.datafixerupper)
-  // include(libs.datafixerupper)
-
   implementation(libs.jtoml)
   include(libs.jtoml)
 }
@@ -19,19 +16,19 @@ modrinth {
 
 sourceSets {
   test {
-    // compileClasspath += sourceSets["main"].compileClasspath + sourceSets["main"].output
-    // runtimeClasspath += sourceSets["main"].runtimeClasspath + sourceSets["main"].output
+    compileClasspath += sourceSets["main"].compileClasspath + sourceSets["main"].output
+    runtimeClasspath += sourceSets["main"].runtimeClasspath + sourceSets["main"].output
   }
 }
 
 loom {
   runs {
-    register("runTestmodClient") {
+    register("testmodClient") {
       source("test")
       client()
     }
 
-    register("runTestmodServer") {
+    register("testmodServer") {
       source("test")
       server()
     }

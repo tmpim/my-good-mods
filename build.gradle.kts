@@ -97,13 +97,6 @@ allprojects {
       }
     }
 
-    maven("https://libraries.minecraft.net") {
-      name = "Mojang"
-      content {
-        includeModule("com.mojang", "datafixerupper") // https://github.com/Mojang/DataFixerUpper
-      }
-    }
-
     exclusiveContent {
       forRepository {
         maven("https://jitpack.io") {
@@ -441,9 +434,11 @@ afterEvaluate {
   val extraResourceDirs = subprojects
     .filter { !it.name.startsWith("tool-") }
     .flatMap { sub ->
-      sub.sourceSets.flatMap { ss ->
-        ss.resources.srcDirs.filter { it.exists() }
-      }
+      sub.sourceSets
+        .filter { it.name == "main" } // exclude test mods
+        .flatMap { ss ->
+          ss.resources.srcDirs.filter { it.exists() }
+        }
     }
 
   // root runClient
