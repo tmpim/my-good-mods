@@ -25,7 +25,7 @@ rootProject.name = "my-good-mods"
 
 // library mods
 include("good-utils")
-include("good-config")
+// include("good-config") bad config >:(
 include("good-asset-fetcher")
 
 // standalone mods
@@ -33,6 +33,7 @@ include("good-boat-fix")
 include("good-clumps")
 include("good-command-fixes")
 include("good-compression")
+include("good-death")
 include("good-death-messages")
 include("good-farming")
 include("good-flags")

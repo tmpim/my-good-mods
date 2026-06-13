@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "SSS",
+    "SBS",
+    "T_T"
+  ],
+  "key": {
+    "B": {
+      "item": "minecraft:bone"
+    },
+    "S": {
+      "item": "minecraft:stone"
+    },
+    "T": {
+      "item": "minecraft:torch"
+    },
+    "_": {
+      "item": "minecraft:slab"
+    }
+  },
+  "result": {
+    "item": "good-death:tombstone"
+  }
+}
