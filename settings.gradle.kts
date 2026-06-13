@@ -41,9 +41,6 @@ include("good-sign-editing")
 include("good-sounds")
 include("good-stacks")
 
-// everything else mod/incubator
-include("good-mod")
-include("good-mod-template")
-
 // non-mods
+include("good-mod-template")
 include("tool-nbt-upgrader")
