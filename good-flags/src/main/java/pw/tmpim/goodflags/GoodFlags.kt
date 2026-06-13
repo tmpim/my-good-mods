@@ -44,6 +44,6 @@ object GoodFlags {
 
   @EventListener
   fun onRegisterBlockEntities(event: BlockEntityRegisterEvent) {
-    event.register(FlagBlockEntity::class.java, "$MOD_ID:Flag")
+    event.register("$MOD_ID:Flag", FlagBlockEntity::class.java)
   }
 }

@@ -37,24 +37,12 @@ abstract class SchemaDelegate<T : Any>(
 
   var value: T = default
     set(v) {
-      /*
-        TODO: DFU v9
-
-        codec.encodeStart(NbtOps.INSTANCE, v).getOrThrow {
-          IllegalArgumentException("failed to validate `$fullPath` with NbtOps: $it")
-        }
-
-        codec.encodeStart(TomlOps, v).getOrThrow {
-          IllegalArgumentException("failed to validate `$fullPath` with TomlOps: $it")
-        }
-       */
-
-      // attempt to serialise it to perform validation
-      codec.encodeStart(NbtOps.INSTANCE, v).getOrThrow(true) {
-        log.error("failed to validate `$fullPath` with NbtOps: $it")
+      codec.encodeStart(NbtOps.INSTANCE, v).getOrThrow {
+        IllegalArgumentException("failed to validate `$fullPath` with NbtOps: $it")
       }
-      codec.encodeStart(TomlOps, v).getOrThrow(true) {
-        log.error("failed to validate `$fullPath` with TomlOps: $it")
+
+      codec.encodeStart(TomlOps, v).getOrThrow {
+        IllegalArgumentException("failed to validate `$fullPath` with TomlOps: $it")
       }
 
       field = v
