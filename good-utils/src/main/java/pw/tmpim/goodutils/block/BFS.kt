@@ -51,6 +51,9 @@ object BFS {
     isGoal: (Pos) -> Boolean,
     maxNodes: Int? = null
   ): Sequence<BFSNode> = sequence {
+    // always yield the source as a candidate
+    yield(BFSNode(source, 0))
+
     val queue = ArrayDeque<Pos>()
     queue.addFirst(source)
 
