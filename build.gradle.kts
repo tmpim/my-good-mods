@@ -86,6 +86,7 @@ allprojects {
         includeGroupAndSubgroups("pw.tmpim")
         includeModule("net.querz.nbt", "NBT")
         includeModule("emmathemartian", "stapi-datagen") // (temporary, hopefully)
+        includeModule("ralf2oo2.betterf3", "betterf3-stapi") // (temporary, hopefully)
         includeGroupAndSubgroups("net.modificationstation") // StationAPI (temporary, hopefully)
       }
     }
@@ -107,6 +108,7 @@ allprojects {
         includeModule("com.github.mineLdiver", "UnsafeEvents") // StationAPI dependency
         includeModule("com.github.emmathemartian", "stapi-datagen")
         includeModule("com.github.paulevsGitch", "BHCreative")
+        includeModule("com.github.ralf2oo2", "betterf3-stapi")
       }
     }
 
@@ -159,6 +161,9 @@ allprojects {
         exclude("net.modificationstation", "StationAPI")
       }
       modRuntimeOnly(libs.alwaysmoreitems) { // https://github.com/Glass-Series/Always-More-Items
+        exclude("net.modificationstation", "StationAPI")
+      }
+      modRuntimeOnly(libs.betterf3) { // https://github.com/ralf2oo2/betterf3-stapi
         exclude("net.modificationstation", "StationAPI")
       }
       modRuntimeOnly("maven.modrinth:entityculling:1.6.3-b1.7.3") // https://github.com/tr7zw/EntityCulling

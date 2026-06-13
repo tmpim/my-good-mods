@@ -12,10 +12,11 @@ import net.modificationstation.stationapi.api.item.ItemPlacementContext
 import net.modificationstation.stationapi.api.state.StateManager
 import net.modificationstation.stationapi.api.state.property.BooleanProperty
 import net.modificationstation.stationapi.api.state.property.DirectionProperty
+import net.modificationstation.stationapi.api.state.property.Properties.HORIZONTAL_FACING
 import net.modificationstation.stationapi.api.template.block.TemplateBlockWithEntity
 import net.modificationstation.stationapi.api.util.math.Direction
 import net.modificationstation.stationapi.api.util.math.Vec3d
-import pw.tmpim.gooddeath.GoodDeath
+import pw.tmpim.gooddeath.GoodDeath.log
 import pw.tmpim.gooddeath.GoodDeath.namespace
 import pw.tmpim.gooddeath.GoodDeath.tombstoneBlock
 import pw.tmpim.goodutils.block.BFS
@@ -28,11 +29,7 @@ import java.util.*
 
 class TombstoneBlock: TemplateBlockWithEntity(namespace.id("tombstone"), MATERIAL) {
   companion object {
-    val FACINGS: List<Direction> = listOfNotNull(Direction.NORTH, Direction.EAST, Direction.SOUTH, Direction.WEST)
-    val FACING: DirectionProperty = DirectionProperty.of(
-      "facing",
-      FACINGS
-    )
+    val FACING: DirectionProperty = HORIZONTAL_FACING
 
     val FROM_DEATH: BooleanProperty = BooleanProperty.of("from_death")
 
@@ -52,7 +49,7 @@ class TombstoneBlock: TemplateBlockWithEntity(namespace.id("tombstone"), MATERIA
       PARTICLE_POSITIONS.map { pos -> pos.subtract(8.0, 8.0, 8.0).multiply(1.0 / 16.0) }
         .toTypedArray()
 
-    val PARTICLE_POSITIONS_ROT: Map<Direction, Array<Vec3d>> = FACINGS.associateWith { dir ->
+    val PARTICLE_POSITIONS_ROT: Map<Direction, Array<Vec3d>> = Direction.Type.HORIZONTAL.associateWith { dir ->
       val angleY = Math.toRadians(dir.opposite.asRotation().toDouble()).toFloat()
       PARTICLE_POSITIONS_NORM.map { pos -> pos.rotateY(angleY) }.toTypedArray()
     }
@@ -97,7 +94,7 @@ class TombstoneBlock: TemplateBlockWithEntity(namespace.id("tombstone"), MATERIA
 
       if (spawnPos == null) {
         playerEntity.inventory.dropInventory()
-        GoodDeath.log.warn(
+        log.warn(
           "Could not spawn a tombstone for player {}, who died at ({}, {}, {})",
           playerEntity.name, playerEntity.x, playerEntity.y, playerEntity.z
         )
@@ -110,18 +107,20 @@ class TombstoneBlock: TemplateBlockWithEntity(namespace.id("tombstone"), MATERIA
         .with(FACING, facing)
 
       // we must notify in case there is a block already placed there
-      world.setBlockStateWithNotify(spawnPos, blockState)
+      world.setBlockState(spawnPos, blockState)
 
       val blockEntity = world.getBlockEntity(spawnPos.x, spawnPos.y, spawnPos.z)
-      GoodDeath.log.info(
-        "Tombstone spawned for player {} at ({}, {}, {})",
-        playerEntity.name, spawnPos.x, spawnPos.y, spawnPos.z
+      log.info(
+        "Tombstone spawned for player {} at ({}, {}, {}), who died at ({}, {}, {})",
+        playerEntity.name,
+        spawnPos.x, spawnPos.y, spawnPos.z,
+        playerEntity.x, playerEntity.y, playerEntity.z
       )
 
       if (blockEntity is TombstoneBlockEntity) {
         blockEntity.bury(playerEntity)
       } else {
-        GoodDeath.log.warn("Could not store player inventory in tombstone because no block entity was created?!")
+        log.warn("Could not store player inventory in tombstone because no block entity was created?!")
       }
 
       return true

@@ -34,6 +34,8 @@ datagen = "0.0.2-tmpim.7"
 bhcreative = "0.4.9"
 alwaysmoreitems = "1.9.0"
 unitweaks = "0.27.0"
+# betterf3 = "89c7137c38" # not building on jitpack
+betterf3 = "0.6.1+tmpim.1"
 
 [libraries]
 fabric-loader = { module = "net.fabricmc:fabric-loader", version.ref = "fabric_loader" }
@@ -55,6 +57,8 @@ datagen = { module = "emmathemartian:stapi-datagen", version.ref = "datagen" }
 bhcreative = { module = "com.github.paulevsGitch:BHCreative", version.ref = "bhcreative" }
 alwaysmoreitems = { module = "net.glasslauncher.mods:AlwaysMoreItems", version.ref = "alwaysmoreitems" }
 unitweaks = { module = "net.danygames2014:UniTweaks", version.ref = "unitweaks" }
+# betterf3 = { module = "com.github.ralf2oo2:betterf3-stapi", version.ref = "betterf3" }
+betterf3 = { module = "ralf2oo2.betterf3:betterf3-stapi", version.ref = "betterf3" }
 
 [plugins]
 fabric-loom = { id = "fabric-loom", version.ref = "loom" }

@@ -25,7 +25,7 @@ rootProject.name = "my-good-mods"
 
 // library mods
 include("good-utils")
-// include("good-config") bad config >:(
+include("good-config")
 include("good-asset-fetcher")
 
 // standalone mods
