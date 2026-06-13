@@ -11,10 +11,10 @@ class GoodDeathBlockStateProvider(ctx: DataGenContext) : BlockStateProvider(ctx)
   override fun run(ctx: DataGenContext?) {
     val model = namespace.id("block/tombstone")
     variant()
-      .variant(FACING, EAST, Variant(model, 0, 0, false, 0))
-      .variant(FACING, SOUTH, Variant(model, 0, 90, false, 0))
-      .variant(FACING, WEST, Variant(model, 0, 180, false, 0))
-      .variant(FACING, NORTH, Variant(model, 0, 270, false, 0))
+      .variant(FACING, SOUTH, Variant(model, 0, 0, false, 0))
+      .variant(FACING, WEST, Variant(model, 0, 90, false, 0))
+      .variant(FACING, NORTH, Variant(model, 0, 180, false, 0))
+      .variant(FACING, EAST, Variant(model, 0, 270, false, 0))
       .save("tombstone", this, ctx)
   }
 }

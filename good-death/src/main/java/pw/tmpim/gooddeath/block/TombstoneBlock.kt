@@ -1,8 +1,6 @@
 package pw.tmpim.gooddeath.block
 
 import net.minecraft.block.Block
-import net.minecraft.block.entity.BlockEntity
-import net.minecraft.block.material.Material
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
 import net.minecraft.util.math.BlockPos
@@ -26,6 +24,7 @@ import pw.tmpim.goodutils.block.BFS.x
 import pw.tmpim.goodutils.block.BFS.y
 import pw.tmpim.goodutils.block.BFS.z
 import java.util.*
+import kotlin.math.floor
 
 class TombstoneBlock: TemplateBlockWithEntity(namespace.id("tombstone"), MATERIAL) {
   companion object {
@@ -33,10 +32,10 @@ class TombstoneBlock: TemplateBlockWithEntity(namespace.id("tombstone"), MATERIA
 
     val FROM_DEATH: BooleanProperty = BooleanProperty.of("from_death")
 
-    val MATERIAL: Material = TombstoneMaterial()
-    const val LUMINANCE: Float = 1.0f
+    val MATERIAL = TombstoneMaterial()
+    const val LUMINANCE = 1.0f
 
-    val PARTICLE_POSITIONS: Array<Vec3d> = arrayOf(
+    val PARTICLE_POSITIONS = arrayOf(
       // candle1
       Vec3d(14.0, 6.0, 8.0),
       // candle2
@@ -45,11 +44,11 @@ class TombstoneBlock: TemplateBlockWithEntity(namespace.id("tombstone"), MATERIA
       Vec3d(15.0, 8.0, 9.0)
     )
 
-    val PARTICLE_POSITIONS_NORM: Array<Vec3d> =
+    val PARTICLE_POSITIONS_NORM =
       PARTICLE_POSITIONS.map { pos -> pos.subtract(8.0, 8.0, 8.0).multiply(1.0 / 16.0) }
         .toTypedArray()
 
-    val PARTICLE_POSITIONS_ROT: Map<Direction, Array<Vec3d>> = Direction.Type.HORIZONTAL.associateWith { dir ->
+    val PARTICLE_POSITIONS_ROT = Direction.Type.HORIZONTAL.associateWith { dir ->
       val angleY = Math.toRadians(dir.opposite.asRotation().toDouble()).toFloat()
       PARTICLE_POSITIONS_NORM.map { pos -> pos.rotateY(angleY) }.toTypedArray()
     }
@@ -60,9 +59,9 @@ class TombstoneBlock: TemplateBlockWithEntity(namespace.id("tombstone"), MATERIA
     fun findSpawnLocation(playerEntity: PlayerEntity, radius: Int = SPAWN_RADIUS): BlockPos? {
       val world = playerEntity.world
 
-      val deathX: Double = playerEntity.x
-      val deathY: Double = playerEntity.y
-      val deathZ: Double = playerEntity.z
+      val deathX = floor(playerEntity.x)
+      val deathY = floor(playerEntity.boundingBox.minY)
+      val deathZ = floor(playerEntity.z)
 
       val sourceX = deathX.toInt()
       val sourceY = deathY.toInt()
@@ -135,10 +134,10 @@ class TombstoneBlock: TemplateBlockWithEntity(namespace.id("tombstone"), MATERIA
     setLuminance(LUMINANCE)
   }
 
-  override fun createBlockEntity(): BlockEntity = TombstoneBlockEntity()
+  override fun createBlockEntity() = TombstoneBlockEntity()
 
-  override fun isFullCube(): Boolean = false
-  override fun isOpaque(): Boolean = false
+  override fun isFullCube() = false
+  override fun isOpaque() = false
 
   override fun appendProperties(builder: StateManager.Builder<Block, BlockState>) {
     builder.add(FACING).add(FROM_DEATH)
@@ -159,7 +158,7 @@ class TombstoneBlock: TemplateBlockWithEntity(namespace.id("tombstone"), MATERIA
     super.onBreak(world, x, y, z)
   }
 
-  override fun getDroppedItemMeta(blockMeta: Int): Int = 0
+  override fun getDroppedItemMeta(blockMeta: Int) = 0
 
   override fun getDropList(world: World, x: Int, y: Int, z: Int, state: BlockState, meta: Int): List<ItemStack>? {
     val fromDeath = state.get(FROM_DEATH)
@@ -187,5 +186,5 @@ class TombstoneBlock: TemplateBlockWithEntity(namespace.id("tombstone"), MATERIA
     }
   }
 
-  override fun getPistonBehavior(): Int = 2
+  override fun getPistonBehavior() = 2
 }
